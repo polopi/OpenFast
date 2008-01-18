@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openfast</groupId>
     <artifactId>openfast</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <version>0.9.7-SNAPSHOT</version>
 	
     <organization>
@@ -14,6 +14,11 @@
 	<name>OpenFAST</name>
 
     <description>OpenFAST is a 100% Java implementation of the FAST Protocol.</description>
+	
+	<modules>
+		<module>core</module>
+		<module>ext</module>
+	</modules>
 	
 	<developers>
 		<developer>
@@ -94,70 +99,6 @@
     		<post>openfast-announce@lists.sourceforge.net</post>
     	</mailingList>
     </mailingLists>
-	
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<resource>
-				<directory>src/test/resources</directory>
-			</resource>
-		</resources>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh</artifactId>
-                <version>1.0-beta-2</version>
-            </extension>
-        </extensions>
-		
-		<plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.4</source>
-                    <target>1.4</target>
-                </configuration>
-            </plugin>
-            <plugin>
-            	<artifactId>maven-release-plugin</artifactId>
-            	<configuration>
-            		<tagBase>https://openfast.svn.sourceforge.net/svnroot/openfast/tags</tagBase>
-            	</configuration>
-            </plugin>
-	      	<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-javadoc-plugin</artifactId>
-		        <executions>
-		          <execution>
-		          	<id>javadoc</id>
-            		<phase>process-classes</phase>
-		            <goals>
-		              <goal>javadoc</goal>
-		            </goals>
-		          </execution>
-		        </executions>
-	      	</plugin>
-            <plugin>
-            	<artifactId>maven-assembly-plugin</artifactId>
-            	<configuration>
-            		<descriptors>
-            			<descriptor>src/assembly/source.xml</descriptor>
-            		</descriptors>
-            	</configuration>
-       	        <executions>
-		          <execution>
-		          	<id>make-assembly</id>
-		          	<phase>package</phase>
-		            <goals>
-		              <goal>attached</goal>
-		            </goals>
-		          </execution>
-		        </executions>
-            </plugin>
-	    </plugins>
-	</build>
 	
 	<dependencies>
 		<dependency>
