@@ -1,5 +1,7 @@
 package org.openfast.debug;
 
+import java.io.PrintWriter;
+
 import org.openfast.ByteUtil;
 import org.openfast.FieldValue;
 import org.openfast.template.Field;
@@ -7,6 +9,7 @@ import org.openfast.template.Group;
 
 public class BasicDecodeTrace implements Trace {
 	private String indent = "";
+	private PrintWriter out;// = new PrintWriter(System.out);
 
 	public void groupStart(Group group) {
 		print(group);
@@ -22,8 +25,8 @@ public class BasicDecodeTrace implements Trace {
 	}
 
 	private void print(Object object) {
-		System.out.print(indent);
-		System.out.println(object);
+		out.print(indent);
+		out.println(object);
 	}
 
 	public void groupEnd() {
@@ -40,5 +43,9 @@ public class BasicDecodeTrace implements Trace {
 
 	public void pmap(byte[] bytes) {
 		print("PMAP: " + ByteUtil.convertByteArrayToBitString(bytes));
+	}
+
+	public void setWriter(PrintWriter writer) {
+		this.out = writer;
 	}
 }

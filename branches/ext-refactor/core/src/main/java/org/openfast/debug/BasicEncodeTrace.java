@@ -1,5 +1,6 @@
 package org.openfast.debug;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -12,6 +13,7 @@ import org.openfast.template.Group;
 public class BasicEncodeTrace implements Trace {
 
 	private Stack stack = new Stack();
+	private PrintWriter out = new PrintWriter(System.out);
 
 	public void groupStart(Group group) {
 		TraceGroup traceGroup = new TraceGroup(group);
@@ -27,7 +29,7 @@ public class BasicEncodeTrace implements Trace {
 	public void groupEnd() {
 		TraceGroup group = (TraceGroup) stack.pop();
 		if (stack.isEmpty()) {
-			System.out.println(group);
+			out.println(group);
 		}
 	}
 
@@ -111,5 +113,9 @@ public class BasicEncodeTrace implements Trace {
 		for (int i=0; i<indent; i++)
 			tab += " ";
 		return tab;
+	}
+
+	public void setWriter(PrintWriter writer) {
+		this.out = writer;
 	}
 }

@@ -14,6 +14,11 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>org.openfast</groupId>
+			<artifactId>openfast-core</artifactId>
+			<version>${version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.mina</groupId>
 			<artifactId>mina-core</artifactId>
 			<version>1.1.5</version>

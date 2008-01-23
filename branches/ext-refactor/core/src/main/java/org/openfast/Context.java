@@ -28,7 +28,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.openfast.debug.BasicDecodeTrace;
 import org.openfast.debug.BasicEncodeTrace;
 import org.openfast.debug.Trace;
 import org.openfast.error.ErrorHandler;
@@ -141,8 +140,8 @@ public class Context {
 	}
 
 	public void startTrace() {
-		setEncodeTrace(new BasicEncodeTrace());
-		setDecodeTrace(new BasicDecodeTrace());
+//		setEncodeTrace(new BasicEncodeTrace());
+//		setDecodeTrace(new BasicDecodeTrace());
 	}
 
 	public void setTraceEnabled(boolean enabled) {

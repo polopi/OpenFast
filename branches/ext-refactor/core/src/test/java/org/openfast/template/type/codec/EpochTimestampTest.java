@@ -1,6 +1,6 @@
 package org.openfast.template.type.codec;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import org.openfast.DateValue;
 import org.openfast.test.OpenFastTestCase;
@@ -8,9 +8,7 @@ import org.openfast.test.OpenFastTestCase;
 public class EpochTimestampTest extends OpenFastTestCase {
 
 	public void testEncodeDecode() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(2007, 7, 7, 12, 0, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		assertEncodeDecode(new DateValue(cal.getTime()), "00100010 01000100 00001000 00110111 00110000 10000000", TypeCodec.EPOCH_TIMESTAMP);
+		Date date = new Date(1201025733046L);
+		assertEncodeDecode(new DateValue(date), "00100010 01111010 00010101 01011001 00100011 10110110", TypeCodec.EPOCH_TIMESTAMP);
 	}
 }
