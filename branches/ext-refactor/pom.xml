@@ -71,9 +71,9 @@
     </issueManagement>
 	
     <scm>
-        <connection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/tags/openfast-0.9.5</connection>
-        <developerConnection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/tags/openfast-0.9.5</developerConnection>
-        <url>http://openfast.svn.sourceforge.net/viewvc/openfast/tags/openfast-0.9.5</url>
+        <connection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/branches/ext-refactor</connection>
+        <developerConnection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/tags/ext-refactor</developerConnection>
+        <url>scm:svn:https://openfast.svn.sourceforge.net/viewvc/openfast/tags/ext-refactor</url>
     </scm>
     
     <mailingLists>
