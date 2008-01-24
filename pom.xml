@@ -22,7 +22,9 @@
 	
 	<developers>
 		<developer>
+			<id>jacob_northey</id>
 			<name>Jacob Northey</name>
+			<email>jacob_northey@users.sourceforge.net</email>
 			<organization>Lasalletech</organization>
 			<organizationUrl>http://www.lasalletech.com/</organizationUrl>
 			<roles>
@@ -32,7 +34,9 @@
 			<timezone>-5</timezone>
 		</developer>
 		<developer>
+			<id>littleodie914</id>
 			<name>Craig Otis</name>
+			<email>littleodie914@users.sourceforge.net</email>
 			<organization>Lasalletech</organization>
 			<organizationUrl>http://www.lasalletech.com/</organizationUrl>
 			<roles>
