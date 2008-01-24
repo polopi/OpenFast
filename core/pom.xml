@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<parent>
-	    <groupId>org.openfast</groupId>
-	    <artifactId>openfast</artifactId>
-	    <version>0.9.7-SNAPSHOT</version>
-	</parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.openfast</groupId>
+        <artifactId>openfast</artifactId>
+        <version>0.9.7-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openfast</groupId>
     <artifactId>openfast-core</artifactId>
     <packaging>jar</packaging>
-	
-	<name>OpenFAST Core</name>
-	
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<resource>
-				<directory>src/test/resources</directory>
-			</resource>
-		</resources>
+
+    <name>OpenFAST Core</name>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/test/resources</directory>
+            </resource>
+        </resources>
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
@@ -28,8 +30,8 @@
                 <version>1.0-beta-2</version>
             </extension>
         </extensions>
-		
-		<plugins>
+
+        <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -38,41 +40,43 @@
                 </configuration>
             </plugin>
             <plugin>
-            	<artifactId>maven-release-plugin</artifactId>
-            	<configuration>
-            		<tagBase>https://openfast.svn.sourceforge.net/svnroot/openfast/tags</tagBase>
-            	</configuration>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <tagBase>
+                        https://openfast.svn.sourceforge.net/svnroot/openfast/tags
+                    </tagBase>
+                </configuration>
             </plugin>
-	      	<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-javadoc-plugin</artifactId>
-		        <executions>
-		          <execution>
-		          	<id>javadoc</id>
-            		<phase>process-classes</phase>
-		            <goals>
-		              <goal>javadoc</goal>
-		            </goals>
-		          </execution>
-		        </executions>
-	      	</plugin>
             <plugin>
-            	<artifactId>maven-assembly-plugin</artifactId>
-            	<configuration>
-            		<descriptors>
-            			<descriptor>src/assembly/source.xml</descriptor>
-            		</descriptors>
-            	</configuration>
-       	        <executions>
-		          <execution>
-		          	<id>make-assembly</id>
-		          	<phase>package</phase>
-		            <goals>
-		              <goal>attached</goal>
-		            </goals>
-		          </execution>
-		        </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>javadoc</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
-	    </plugins>
-	</build>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/source.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

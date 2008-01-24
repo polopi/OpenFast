@@ -69,11 +69,24 @@
         <system>sourceforge</system>
         <url>http://sourceforge.net/tracker/?group_id=198357</url>
     </issueManagement>
+
+    <ciManagement>
+        <system>continuum</system>
+        <url>http://continuum.lasalletech.net/continuum</url>
+        <notifiers>
+            <notifier>
+                <sendOnError>true</sendOnError>
+                <sendOnFailure>true</sendOnFailure>
+                <sendOnWarning>true</sendOnWarning>
+                <sendOnSuccess>true</sendOnSuccess>
+            </notifier>
+        </notifiers>
+    </ciManagement>
 	
     <scm>
         <connection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/branches/ext-refactor</connection>
-        <developerConnection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/tags/ext-refactor</developerConnection>
-        <url>scm:svn:https://openfast.svn.sourceforge.net/viewvc/openfast/tags/ext-refactor</url>
+        <developerConnection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/branches/ext-refactor</developerConnection>
+        <url>https://openfast.svn.sourceforge.net/viewvc/openfast/branches/ext-refactor</url>
     </scm>
     
     <mailingLists>
