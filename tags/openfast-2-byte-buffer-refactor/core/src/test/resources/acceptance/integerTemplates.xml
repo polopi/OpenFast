@@ -1,0 +1,5 @@
+<templates>
+    <template name="incrementInteger" id="1">
+        <int32 name="incNoDefault"><increment/></int32>
+    </template>
+</templates>
