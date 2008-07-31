@@ -7,35 +7,21 @@
     <includeBaseDirectory>true</includeBaseDirectory>
     <fileSets>
         <fileSet>
-            <directory>src/main/java</directory>
-            <outputDirectory>/src</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>/</directory>
-            <outputDirectory>/</outputDirectory>
             <includes>
                 <include>license.txt</include>
             </includes>
         </fileSet>
-        <fileSet>
-            <directory>target</directory>
-            <outputDirectory>/</outputDirectory>
-            <includes>
-                <include>*.jar</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>target/apidocs</directory>
-            <outputDirectory>/docs/api</outputDirectory>
-        </fileSet>
     </fileSets>
     <moduleSets>
         <moduleSet>
-            <binaries>
-                <includeDependencies>false</includeDependencies>
-                <unpack>false</unpack>
-                <outputDirectory>/</outputDirectory>
-            </binaries>
+            <sources>
+                <fileSets>
+                    <fileSet>
+                        <directory>src/main/java</directory>
+                        <outputDirectory>src</outputDirectory>
+                    </fileSet>
+                </fileSets>
+            </sources>
         </moduleSet>
     </moduleSets>
 </assembly>

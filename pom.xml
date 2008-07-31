@@ -2,8 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openfast</groupId>
     <artifactId>openfast</artifactId>
-    <packaging>jar</packaging>
-    <version>1.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <version>2.0.0-SNAPSHOT</version>
 
     <organization>
         <name>The LaSalle Technology Group, LLC</name>
@@ -16,6 +16,13 @@
         OpenFAST is a 100% Java implementation of the FAST Protocol.
     </description>
 
+    <modules>
+        <module>core</module>
+        <module>nio</module>
+        <module>util</module>
+        <module>examples</module>
+    </modules>
+    
     <developers>
         <developer>
             <name>Jacob Northey</name>
@@ -71,9 +78,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/trunk</connection>
-        <developerConnection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/trunk</developerConnection>
-        <url>http://openfast.svn.sourceforge.net/viewvc/openfast/trunk</url>
+        <connection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/branches/openfast-2.x</connection>
+        <developerConnection>scm:svn:https://openfast.svn.sourceforge.net/svnroot/openfast/branches/openfast-2.x</developerConnection>
+        <url>http://openfast.svn.sourceforge.net/viewvc/openfast/tags/branches/openfast-2.x</url>
     </scm>
 
     <mailingLists>
@@ -151,24 +158,13 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
+                        <id>javadoc</id>
+                        <phase>site</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>javadoc</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -181,15 +177,6 @@
                         <descriptor>src/assembly/binary.xml</descriptor>
                     </descriptors>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>attached</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
