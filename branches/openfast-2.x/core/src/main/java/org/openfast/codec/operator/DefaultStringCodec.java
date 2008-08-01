@@ -33,16 +33,15 @@ public class DefaultStringCodec extends SinglePresenceMapEntryFieldCodec impleme
             object.set(index, operator.getDefaultValue());
     }
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, Context context) {
         if (object.isDefined(index)) {
             if (operator.hasDefaultValue() && operator.getDefaultValue().equals(object.getString(index)))
-                return offset;
-            return stringCodec.encode(buffer, offset, object.getString(index));
+                return;
+            stringCodec.encode(buffer, object.getString(index));
         } else {
             if (!operator.hasDefaultValue())
-                return offset;
-            buffer[offset] = Fast.NULL;
-            return offset + 1;
+                return;
+            buffer.put(Fast.NULL);
         }
     }
     

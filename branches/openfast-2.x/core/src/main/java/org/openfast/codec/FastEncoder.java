@@ -1,5 +1,6 @@
 package org.openfast.codec;
 
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import org.openfast.Context;
@@ -30,13 +31,12 @@ public class FastEncoder implements Coder {
         codecFactory = implementation.getCodecFactory();
     }
 
-    public int encode(byte[] buffer, int offset, Message message) {
+    public void encode(ByteBuffer buffer, Message message) {
         MessageCodec encoder = getEncoder(message);
-        int encoded = encoder.encode(buffer, offset, message, context);
+        encoder.encode(buffer, message, context);
         if (handlers.containsKey(message.getTemplate())) {
             handlers.get(message.getTemplate()).handleMessage(message, context, this);
         }
-        return encoded;
     }
     
     public void reset() {

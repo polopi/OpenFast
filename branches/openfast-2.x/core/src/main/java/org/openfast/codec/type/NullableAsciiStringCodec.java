@@ -39,31 +39,24 @@ public class NullableAsciiStringCodec extends StopBitEncodedTypeCodec implements
         }
     }
 
-    public int encode(byte[] buffer, int offset, String value) {
+    public void encode(ByteBuffer buffer, String value) {
         if (value == null) {
-            buffer[offset] = Fast.NULL;
-            return offset + 1;
+            buffer.put(Fast.NULL);
+            return;
         }
         if (value.length() == 0) {
-            buffer[offset] = 0;
-            buffer[offset + 1] = Fast.STOP_BIT;
-            return offset + 2;
+            buffer.put((byte) 0);
+            buffer.put(Fast.STOP_BIT);
+            return;
         }
         if (value.startsWith(Fast.ZERO_TERMINATOR)) {
-            buffer[offset] = 0;
-            buffer[offset+1] = 0;
-            buffer[offset+2] = Fast.STOP_BIT;
-            return offset + 3;
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put(Fast.STOP_BIT);
+            return;
         }
-        ByteBuffer encoded;
-        try {
-            encoded = encoder.encode(CharBuffer.wrap(value));
-        } catch (CharacterCodingException e) {
-            throw new RuntimeException(e);
-        }
-        encoded.get(buffer, offset, encoded.limit());
-        buffer[encoded.limit() - 1 + offset] |= Fast.STOP_BIT;
-        return encoded.limit() + offset;
+        encoder.encode(CharBuffer.wrap(value), buffer, true);
+        buffer.array()[buffer.position()-1] |= Fast.STOP_BIT;
     }
 
     public boolean isNull(ByteBuffer buffer) {

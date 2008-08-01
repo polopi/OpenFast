@@ -38,11 +38,11 @@ public class TailAsciiCodec extends DictionaryOperatorStringCodec implements Fie
     }
 
     @Override
-    public int encode(EObject object, int index, byte[] buffer, int offset, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, Context context) {
         if (!object.isDefined(index)) {
-            buffer[offset] = Fast.NULL;
+            buffer.put(Fast.NULL);
             dictionaryEntry.setNull();
-            return offset+1;
+            return;
         }
         String value = object.getString(index);
         String baseValue = getBaseValue();
@@ -51,14 +51,15 @@ public class TailAsciiCodec extends DictionaryOperatorStringCodec implements Fie
                     + " cannot be encoded by a tail operator with previous value " + baseValue);
         dictionaryEntry.set(value);
         if (value.length() > baseValue.length()) {
-            return stringCodec.encode(buffer, offset, value);
+            stringCodec.encode(buffer, value);
+            return;
         }
         int i = 0;
         while (i < value.length() && value.charAt(i) == baseValue.charAt(i))
             i++;
         if (i == value.length())
-            return offset;
-        return stringCodec.encode(buffer, offset, value.substring(i));
+            return;
+        stringCodec.encode(buffer, value.substring(i));
     }
 
     private String getBaseValue() {

@@ -53,27 +53,27 @@ public class BasicGroupCodec implements GroupCodec {
         return o;
     }
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, BitVectorBuilder pmapBuilder, Context context) {
-        return encode(object.getEObject(index), buffer, offset, context);
+    public void encode(EObject object, int index, ByteBuffer buffer, BitVectorBuilder pmapBuilder, Context context) {
+        encode(object.getEObject(index), buffer, context);
     }
     
-    public int encode(EObject object, byte[] buffer, int offset, Context context) {
-        byte[] temp = context.getTemporaryBuffer();
+    public void encode(EObject object, ByteBuffer buffer, Context context) {
+        ByteBuffer temp = context.getTemporaryBuffer();
         int index = 0;
         int pmapLen = 0;
         try {
             BitVectorBuilder pmapBuilder = new BitVectorBuilder(7); // TODO - calculate size of pmap builder
             for (int i=0; i<fieldCodecs.length; i++) {
-                index = fieldCodecs[i].encode(object, i, temp, index, pmapBuilder, context);
+                fieldCodecs[i].encode(object, i, temp, pmapBuilder, context);
             }
-            pmapLen = bitVectorCodec.encode(buffer, offset, pmapBuilder.getBitVector());
-            System.arraycopy(temp, 0, buffer, offset + pmapLen, index);
+            bitVectorCodec.encode(buffer, pmapBuilder.getBitVector());
+            temp.flip();
+            buffer.put(temp);
         } catch (Throwable t) {
             context.getErrorHandler().error(FastConstants.GENERAL_ERROR, "Error occurred while encoding " + object, t);
         } finally {
             context.discardTemporaryBuffer(temp);
         }
-        return offset + pmapLen + index;
     }
 
     public int getLength(ByteBuffer buffer, BitVectorReader reader) {

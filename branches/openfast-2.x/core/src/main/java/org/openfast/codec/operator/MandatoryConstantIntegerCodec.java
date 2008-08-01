@@ -16,8 +16,7 @@ public class MandatoryConstantIntegerCodec implements FieldCodec {
     public void decode(EObject object, int index, ByteBuffer buffer, BitVectorReader reader, Context context) {
         object.set(index, defaultValue);
     }
-    public int encode(EObject object, int index, byte[] buffer, int offset, BitVectorBuilder pmapBuilder, Context context) {
-        return offset;
+    public void encode(EObject object, int index, ByteBuffer buffer, BitVectorBuilder pmapBuilder, Context context) {
     }
     public int getLength(ByteBuffer buffer, BitVectorReader reader) {
         return 0;

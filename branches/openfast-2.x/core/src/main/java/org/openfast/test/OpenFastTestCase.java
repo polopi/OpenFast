@@ -41,6 +41,13 @@ public abstract class OpenFastTestCase extends TestCase {
         TestUtil.assertBitVectorEquals(bitString, encoding);
     }
     
+    public static void assertEquals(String bitString, ByteBuffer encoding) {
+        encoding.flip();
+        byte[] buffer = new byte[encoding.limit()];
+        encoding.get(buffer);
+        TestUtil.assertBitVectorEquals(bitString, buffer);
+    }
+    
     public static void assertEquals(String bitString, byte[] encoding, int length) {
         TestUtil.assertBitVectorEquals(bitString, encoding, length);
     }

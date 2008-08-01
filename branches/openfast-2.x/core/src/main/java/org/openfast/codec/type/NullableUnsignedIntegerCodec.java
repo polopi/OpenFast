@@ -9,16 +9,16 @@ public class NullableUnsignedIntegerCodec extends StopBitEncodedTypeCodec implem
         return FastTypeCodecs.UNSIGNED_INTEGER.decode(buffer) - 1;
     }
 
-    public int encode(byte[] buffer, int offset, int value) {
+    public void encode(ByteBuffer buffer, int value) {
         if (value == Integer.MAX_VALUE) {
-            buffer[offset] = 8;
-            buffer[offset+1] = 0;
-            buffer[offset+2] = 0;
-            buffer[offset+3] = 0;
-            buffer[offset+4] = Fast.STOP_BIT;
-            return offset + 5;
+            buffer.put((byte) 8);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put(Fast.STOP_BIT);
+            return;
         }
-        return FastTypeCodecs.UNSIGNED_INTEGER.encode(buffer, offset, value + 1);
+        FastTypeCodecs.UNSIGNED_INTEGER.encode(buffer, value + 1);
     }
 
     public boolean isNull(ByteBuffer buffer) {

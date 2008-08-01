@@ -5,5 +5,5 @@ import org.openfast.util.BitVector;
 
 public interface BitVectorCodec extends TypeCodec {
     BitVector decode(ByteBuffer buffer);
-    int encode(byte[] buffer, int offset, BitVector vector);
+    void encode(ByteBuffer buffer, BitVector vector);
 }

@@ -35,16 +35,15 @@ public class DefaultIntegerCodec extends SinglePresenceMapEntryFieldCodec implem
             object.set(index, defaultValue);
     }
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, Context context) {
         if (object.isDefined(index)) {
             if (operator.hasDefaultValue() && object.getInt(index) == defaultValue)
-                return offset;
-            return integerCodec.encode(buffer, offset, object.getInt(index));
+                return;
+            integerCodec.encode(buffer, object.getInt(index));
         } else {
             if (!operator.hasDefaultValue())
-                return offset;
-            buffer[offset] = Fast.NULL;
-            return offset + 1;
+                return;
+            buffer.put(Fast.NULL);
         }
     }
     

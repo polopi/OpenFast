@@ -38,15 +38,15 @@ public class AsciiStringCodec extends StopBitEncodedTypeCodec implements StringC
         }
     }
 
-    public int encode(byte[] buffer, int offset, String value) {
+    public void encode(ByteBuffer buffer, String value) {
         if (value.length() == 0) {
-            buffer[offset] = Fast.NULL;
-            return offset + 1;
+            buffer.put(Fast.NULL);
+            return;
         }
         if (value.startsWith(Fast.ZERO_TERMINATOR)) {
-            buffer[offset] = 0;
-            buffer[offset+1] = Fast.STOP_BIT;
-            return offset + 2;
+            buffer.put((byte) 0);
+            buffer.put(Fast.STOP_BIT);
+            return;
         }
         ByteBuffer encoded;
         try {
@@ -54,9 +54,8 @@ public class AsciiStringCodec extends StopBitEncodedTypeCodec implements StringC
         } catch (CharacterCodingException e) {
             throw new RuntimeException(e);
         }
-        encoded.get(buffer, offset, encoded.limit());
-        buffer[encoded.limit() - 1 + offset] |= Fast.STOP_BIT;
-        return encoded.limit() + offset;
+        buffer.put(encoded);
+        buffer.array()[buffer.position()-1] |= Fast.STOP_BIT;
     }
 
     public boolean isNull(ByteBuffer buffer) {

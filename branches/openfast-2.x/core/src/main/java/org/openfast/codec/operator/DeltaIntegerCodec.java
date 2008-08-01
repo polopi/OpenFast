@@ -43,14 +43,14 @@ public class DeltaIntegerCodec extends DictionaryOperatorIntegerCodec implements
 
     public void decodeEmpty(EObject object, int index, Context context) {}
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, Context context) {
         if (!object.isDefined(index)) {
-            buffer[offset] = NULL;
-            return offset + 1;
+            buffer.put(NULL);
+            return;
         }
         int value = object.getInt(index);
         int previousValue = getPreviousValue(object, context);
         dictionaryEntry.set(value);
-        return integerCodec.encode(buffer, offset, value - previousValue);
+        integerCodec.encode(buffer, value - previousValue);
     }
 }

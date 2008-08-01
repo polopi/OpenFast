@@ -28,15 +28,13 @@ public class NullableUnicodeStringCodec extends LengthEncodedTypeCodec implement
         }
     }
 
-    public int encode(byte[] buffer, int offset, String value) {
+    public void encode(ByteBuffer buffer, String value) {
         try {
             ByteBuffer b = encoder.encode(CharBuffer.wrap(value));
-            offset = NULLABLE_UNSIGNED_INTEGER.encode(buffer, offset, b.limit());
-            b.get(buffer, offset, b.limit());
-            return offset + b.limit();
+            NULLABLE_UNSIGNED_INTEGER.encode(buffer, b.limit());
+            buffer.put(b);
         } catch (CharacterCodingException e) {
             Global.handleError(FastConstants.GENERAL_ERROR, "Unable to decode unicode string.", e);
-            return offset;
         }
     }
 

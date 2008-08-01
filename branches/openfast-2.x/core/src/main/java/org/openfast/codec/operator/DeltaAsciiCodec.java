@@ -51,16 +51,16 @@ public class DeltaAsciiCodec extends DictionaryOperatorStringCodec implements Fi
 
     public void decodeEmpty(EObject object, int index, Context context) {}
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, Context context) {
         if (!object.isDefined(index)){
-            buffer[offset] = Fast.NULL;
-            return offset + 1;
+            buffer.put(Fast.NULL);
+            return;
         }
         String value = object.getString(index);
         StringDelta diff = StringDelta.diff(value, getPreviousValue(object, context));
         int subtractionLength = diff.getSubtractionLength();
-        int newOffset = integerCodec.encode(buffer, offset, subtractionLength);
+        integerCodec.encode(buffer, subtractionLength);
         dictionaryEntry.set(value);
-        return stringCodec.encode(buffer, newOffset, diff.getValue());
+        stringCodec.encode(buffer, diff.getValue());
     }
 }

@@ -23,11 +23,11 @@ public class NoneStringCodec extends AlwaysPresentCodec implements FieldCodec {
         }
     }
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, Context context) {
         if (!object.isDefined(index)) {
-            buffer[offset] = Fast.NULL;
-            return offset + 1;
+            buffer.put(Fast.NULL);
+            return;
         }
-        return stringCodec.encode(buffer, offset, object.getString(index));
+        stringCodec.encode(buffer, object.getString(index));
     }
 }
