@@ -22,13 +22,11 @@ public interface FieldCodec {
      * @param object
      * @param index
      * @param buffer
-     * @param offset
-     * @param field
      * @param pmapBuilder
      * @param context
-     * @return             the new offset in the encoded buffer
+     * @param field
      */
     @SuppressWarnings("unchecked")
-    int encode(EObject object, int index, byte[] buffer, int offset, BitVectorBuilder pmapBuilder, Context context);
+    void encode(EObject object, int index, ByteBuffer buffer, BitVectorBuilder pmapBuilder, Context context);
     int getLength(ByteBuffer buffer, BitVectorReader reader);
 }

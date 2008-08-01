@@ -8,13 +8,13 @@ import org.openfast.util.BitVectorReader;
 
 public abstract class SinglePresenceMapEntryFieldCodec implements FieldCodec {
     
-    public int encode(EObject object, int index, byte[] buffer, int offset, BitVectorBuilder pmapBuilder, Context context) {
-        int newOffset = encode(object, index, buffer, offset, context);
-        if (newOffset == offset)
+    public void encode(EObject object, int index, ByteBuffer buffer, BitVectorBuilder pmapBuilder, Context context) {
+        int position = buffer.position();
+        encode(object, index, buffer, context);
+        if (position == buffer.position())
             pmapBuilder.skip();
         else
             pmapBuilder.set();
-        return newOffset;
     };
     
     public void decode(EObject object, int index, ByteBuffer buffer, BitVectorReader reader, Context context) {
@@ -29,7 +29,7 @@ public abstract class SinglePresenceMapEntryFieldCodec implements FieldCodec {
             return getLength(buffer);
         return 0;
     }
-    public abstract int encode(EObject object, int index, byte[] buffer, int offset, Context context);
+    public abstract void encode(EObject object, int index, ByteBuffer buffer, Context context);
     public abstract void decode(EObject object, int index, ByteBuffer buffer, Context context);
     public abstract void decodeEmpty(EObject object, int index, Context context);
     public abstract int getLength(ByteBuffer buffer);

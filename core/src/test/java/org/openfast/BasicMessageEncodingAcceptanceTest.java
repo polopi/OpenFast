@@ -1,5 +1,6 @@
 package org.openfast;
 
+import java.nio.ByteBuffer;
 import org.openfast.codec.FastEncoder;
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
@@ -13,16 +14,15 @@ public class BasicMessageEncodingAcceptanceTest extends OpenFastTestCase {
         MessageTemplate template = loader.getTemplateRegistry().get("incrementInteger");
         
         FastEncoder encoder = new FastEncoder(loader.getTemplateRegistry());
-        byte[] buffer = new byte[256];
+        ByteBuffer buffer = ByteBuffer.allocate(256);
         Message message = template.newObject();
         message.set(0, 24);
-        int size = encoder.encode(buffer, 0, message);
-        assertEquals("11100000 10000001 10011000", buffer, 3);
-        assertEquals(3, size);
+        encoder.encode(buffer, message);
+        assertEquals("11100000 10000001 10011000", buffer);
         
+        buffer.clear();
         message.set(0, 25);
-        size = encoder.encode(buffer, 0, message);
-        assertEquals("10000000", buffer, 1);
-        assertEquals(1, size);
+        encoder.encode(buffer, message);
+        assertEquals("10000000", buffer);
     }
 }

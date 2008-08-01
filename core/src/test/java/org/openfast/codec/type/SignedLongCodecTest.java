@@ -1,6 +1,6 @@
 package org.openfast.codec.type;
 
-import java.util.Arrays;
+import java.nio.ByteBuffer;
 import org.openfast.Global;
 import org.openfast.codec.LongCodec;
 import org.openfast.error.ErrorHandler;
@@ -10,7 +10,7 @@ import org.openfast.test.OpenFastTestCase;
 
 public class SignedLongCodecTest extends OpenFastTestCase {
     LongCodec codec = new SignedLongCodec();
-    byte[] buffer = new byte[10];
+    ByteBuffer buffer = ByteBuffer.allocate(32);
     public void testOverlong() {
         try {
             decode("00000000 10000001");
@@ -27,8 +27,8 @@ public class SignedLongCodecTest extends OpenFastTestCase {
     }
     
     public void testBoundaries() {
-        assertEquals("01111111 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 10000000", encode(Long.MIN_VALUE), 10);
-        assertEquals("00000000 01111111 01111111 01111111 01111111 01111111 01111111 01111111 01111111 11111111", encode(Long.MAX_VALUE), 10);
+        assertEquals("01111111 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 10000000", encode(Long.MIN_VALUE));
+        assertEquals("00000000 01111111 01111111 01111111 01111111 01111111 01111111 01111111 01111111 11111111", encode(Long.MAX_VALUE));
     }
     
     public void testDecode() {
@@ -46,25 +46,23 @@ public class SignedLongCodecTest extends OpenFastTestCase {
     }
     
     public void testEncode() {
-        byte[] buffer = new byte[4];
-        assertEncode(buffer, "00000000 10111111 00000000 00000000", 63, 2);
-        assertEncode(buffer, "00000000 00000000 11000000 00000000", 64, 3);
-        assertEncode(buffer, "00000000 11111111 00000000 00000000", -1, 2);
-        assertEncode(buffer, "00000000 11111110 00000000 00000000", -2, 2);
-        assertEncode(buffer, "00000000 11000000 00000000 00000000", -64, 2);
-        assertEncode(buffer, "00000000 01111111 10111111 00000000", -65, 3);
-        assertEncode(buffer, "00000000 00000100 11111111 00000000", 639, 3);
-        assertEncode(buffer, "00000000 00111001 01000101 10100011", 942755, 4);
-        assertEncode(buffer, "00000000 01000110 00111010 11011101", -942755, 4);
-        assertEncode(buffer, "00000000 00000000 01000000 10000001", 8193, 4);
-        assertEncode(buffer, "00000000 01111111 00111111 11111111", -8193, 4);
+        assertEncode(buffer, "10111111"                  , 63);
+        assertEncode(buffer, "00000000 11000000"         , 64);
+        assertEncode(buffer, "11111111"                  , -1);
+        assertEncode(buffer, "11111110"                  , -2);
+        assertEncode(buffer, "11000000"                  , -64);
+        assertEncode(buffer, "01111111 10111111"         , -65);
+        assertEncode(buffer, "00000100 11111111"         , 639);
+        assertEncode(buffer, "00111001 01000101 10100011", 942755);
+        assertEncode(buffer, "01000110 00111010 11011101", -942755);
+        assertEncode(buffer, "00000000 01000000 10000001", 8193);
+        assertEncode(buffer, "01111111 00111111 11111111", -8193);
     }
 
-    private void assertEncode(byte[] buffer, String bitstring, int value, int expectedOffset) {
-        int newOffset = codec.encode(buffer, 1, value);
+    private void assertEncode(ByteBuffer buffer, String bitstring, int value) {
+        codec.encode(buffer, value);
         assertEquals(bitstring, buffer);
-        assertEquals(expectedOffset, newOffset);
-        Arrays.fill(buffer, (byte) 0);
+        buffer.clear();
     }
 
     public void testGetLength() {
@@ -76,8 +74,9 @@ public class SignedLongCodecTest extends OpenFastTestCase {
         return codec.decode(buffer(bits));
     }
 
-    private byte[] encode(long value) {
-        codec.encode(buffer, 0, value);
+    private ByteBuffer encode(long value) {
+        buffer.clear();
+        codec.encode(buffer, value);
         return buffer;
     }
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.cli.ParseException;
@@ -48,9 +49,9 @@ public class XmlToFastTool {
         HierarchicalStreamReader reader = new XppDriver().createReader(new FileInputStream(xmlFile));
         Message element = elementTemplate.newObject();
         constructElementMessage(reader, element);
-        byte[] buffer = new byte[1024 * 1024];
-        int length = encoder.encode(buffer, 0, element);
-        System.out.write(buffer, 0, length);
+        ByteBuffer buffer = ByteBuffer.allocateDirect(1024 * 1024);
+        encoder.encode(buffer, element);
+        System.out.println(buffer);
         encoder.reset();
     }
     @SuppressWarnings("unchecked")

@@ -1,5 +1,6 @@
 package org.openfast.codec.type;
 
+import java.nio.ByteBuffer;
 import org.openfast.Global;
 import org.openfast.codec.LongCodec;
 import org.openfast.error.ErrorHandler;
@@ -9,11 +10,11 @@ import org.openfast.test.OpenFastTestCase;
 
 public class UnsignedLongCodecTest extends OpenFastTestCase {
     LongCodec codec = new UnsignedLongCodec();
-    private byte[] buffer = new byte[10];
+    ByteBuffer buffer = ByteBuffer.allocate(32);
     
     public void testBoundaries() {
         assertEquals(Long.MAX_VALUE, decode("01111111 01111111 01111111 01111111 01111111 01111111 01111111 01111111 11111111"));
-        assertEquals("01111111 01111111 01111111 01111111 01111111 01111111 01111111 01111111 11111111", encode(Long.MAX_VALUE), 9);
+        assertEquals("01111111 01111111 01111111 01111111 01111111 01111111 01111111 01111111 11111111", encode(Long.MAX_VALUE));
     }
     
     public void testOverlong() {
@@ -37,16 +38,17 @@ public class UnsignedLongCodecTest extends OpenFastTestCase {
     }
 
     public void testEncode() {
-        assertEquals("10000001", encode(1), 1);
-        assertEquals("10000010", encode(2), 1);
+        assertEquals("10000001", encode(1));
+        assertEquals("10000010", encode(2));
     }
 
     private long decode(String bits) {
         return codec.decode(buffer(bits));
     }
 
-    private byte[] encode(long value) {
-        codec.encode(buffer, 0, value);
+    private ByteBuffer encode(long value) {
+        buffer.clear();
+        codec.encode(buffer, value);
         return buffer;
     }
 }

@@ -10,8 +10,8 @@ public class BasicULongCodec extends StopBitEncodedTypeCodec implements ULongCod
         return new ULong(value);
     }
 
-    public int encode(byte[] buffer, int offset, ULong value) {
-        return FastTypeCodecs.UNSIGNED_LONG.encode(buffer, offset, value.longValue());
+    public void encode(ByteBuffer buffer, ULong value) {
+        FastTypeCodecs.UNSIGNED_LONG.encode(buffer, value.longValue());
     }
 
     public boolean isNull(ByteBuffer buffer) {

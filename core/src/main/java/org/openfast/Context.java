@@ -20,6 +20,7 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast;
 
+import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +48,7 @@ public class Context {
     private QName currentApplicationType;
     private List<TemplateRegisteredListener> listeners = Collections.emptyList();
     private boolean traceEnabled;
-    private byte[] tempBuffer = new byte[1024 * 32]; // max 32 kB message size
+    private ByteBuffer tempBuffer = ByteBuffer.allocate(1024 * 32); // TODO - remove hardcoded max 32 kB message size
 
     public Context() {
         dictionaries.put("global", new BasicFastDictionary());
@@ -105,15 +106,16 @@ public class Context {
     public boolean isTraceEnabled() {
         return traceEnabled;
     }
-    public byte[] getTemporaryBuffer() {
+    public ByteBuffer getTemporaryBuffer() {
         if (tempBuffer == null)
             throw new IllegalStateException("The temporary buffer was not checked in.");
-        byte[] pointer = tempBuffer;
+        ByteBuffer pointer = tempBuffer;
         tempBuffer = null;
         return pointer;
     }
     
-    public void discardTemporaryBuffer(byte[] buffer) {
-        tempBuffer = buffer;
+    public void discardTemporaryBuffer(ByteBuffer temp) {
+        temp.clear();
+        tempBuffer = temp;
     }
 }

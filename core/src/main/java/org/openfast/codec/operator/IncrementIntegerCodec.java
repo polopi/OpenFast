@@ -23,10 +23,10 @@ package org.openfast.codec.operator;
 import java.nio.ByteBuffer;
 import org.lasalletech.entity.EObject;
 import org.openfast.Context;
+import org.openfast.Fast;
 import org.openfast.codec.FieldCodec;
 import org.openfast.codec.IntegerCodec;
 import org.openfast.dictionary.DictionaryEntry;
-import org.openfast.error.FastConstants;
 import org.openfast.template.operator.DictionaryOperator;
 
 public final class IncrementIntegerCodec extends DictionaryOperatorIntegerCodec implements FieldCodec {
@@ -71,43 +71,41 @@ public final class IncrementIntegerCodec extends DictionaryOperatorIntegerCodec 
         return integerCodec.getLength(buffer);
     }
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, Context context) {
         if (!object.isDefined(index)) {
-            if (dictionaryEntry.isNull())
-                return offset;
-            else {
-                return encodeNull(buffer, offset, context);
-            }
+            if (!dictionaryEntry.isNull())
+                encodeNull(buffer);
+            return;
         }
         int value = object.getInt(index);
         if (dictionaryEntry.isNull()) {
             dictionaryEntry.set(value);
-            return integerCodec.encode(buffer, offset, value);
+            integerCodec.encode(buffer, value);
+            return;
         }
         if (!dictionaryEntry.isDefined()) {
             if (!operator.hasDefaultValue()) {
                 dictionaryEntry.set(value);
-                return integerCodec.encode(buffer, offset, value);
+                integerCodec.encode(buffer, value);
             } else if (operator.hasDefaultValue() && value == initialValue) {
                 dictionaryEntry.set(value);
-                return offset;
             } else {
-                return integerCodec.encode(buffer, offset, value);
+                integerCodec.encode(buffer, value);
             }
+            return;
         }
         int previousValue = dictionaryEntry.getInt();
         if (value == previousValue + 1) {
             dictionaryEntry.set(value);
-            return offset;
+            return;
         }
 
         dictionaryEntry.set(value);
-        return integerCodec.encode(buffer, offset, value);
+        integerCodec.encode(buffer, value);
     }
 
-    private int encodeNull(byte[] buffer, int offset, Context context) {
-        buffer[offset] = FastConstants.NULL_BYTE;
+    private void encodeNull(ByteBuffer buffer) {
+        buffer.put(Fast.NULL);
         dictionaryEntry.setNull();
-        return offset + 1;
     }
 }

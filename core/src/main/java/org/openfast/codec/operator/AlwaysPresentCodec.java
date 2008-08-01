@@ -13,8 +13,8 @@ public abstract class AlwaysPresentCodec implements FieldCodec {
         decode(object, index, buffer, context);
     }
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, BitVectorBuilder pmapBuilder, Context context) {
-        return encode(object, index, buffer, offset, context);
+    public void encode(EObject object, int index, ByteBuffer buffer, BitVectorBuilder pmapBuilder, Context context) {
+        encode(object, index, buffer, context);
     }
     
     public int getLength(ByteBuffer buffer, BitVectorReader reader) {
@@ -24,5 +24,5 @@ public abstract class AlwaysPresentCodec implements FieldCodec {
     public abstract int getLength(ByteBuffer buffer);
 
     public abstract void decode(EObject object, int index, ByteBuffer buffer, Context context);
-    public abstract int encode(EObject object, int index, byte[] buffer, int offset, Context context);
+    public abstract void encode(EObject object, int index, ByteBuffer buffer, Context context);
 }

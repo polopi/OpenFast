@@ -37,30 +37,28 @@ public class BasicMessageCodec implements MessageCodec {
         }
     }
 
-    public int encode(byte[] buffer, int offset, Message message, Context context) {
-        byte[] temp = context.getTemporaryBuffer();
-        int index = 0;
-        int pmapLen = 0;
+    public void encode(ByteBuffer buffer, Message message, Context context) {
+        ByteBuffer temp = context.getTemporaryBuffer();
         try {
             BitVectorBuilder pmapBuilder = new BitVectorBuilder(7); // TODO - calculate size of pmap builder
             if (context.getLastTemplateId() != templateId) {
-                index = uintCodec.encode(temp, offset, templateId);
+                uintCodec.encode(temp, templateId);
                 context.setLastTemplateId(templateId);
                 pmapBuilder.set();
             } else {
                 pmapBuilder.skip();
             }
             for (int i=0; i<fieldCodecs.length; i++) {
-                index = fieldCodecs[i].encode(message, i, temp, index, pmapBuilder, context);
+                fieldCodecs[i].encode(message, i, temp, pmapBuilder, context);
             }
-            pmapLen = bitVectorCodec.encode(buffer, offset, pmapBuilder.getBitVector());
-            System.arraycopy(temp, 0, buffer, offset + pmapLen, index);
+            bitVectorCodec.encode(buffer, pmapBuilder.getBitVector());
+            temp.flip();
+            buffer.put(temp);
         } catch (Throwable t) {
             context.getErrorHandler().error(FastConstants.GENERAL_ERROR, "Error occurred while encoding " + message, t);
         } finally {
             context.discardTemporaryBuffer(temp);
         }
-        return offset + pmapLen + index;
     }
 
     public int getLength(ByteBuffer buffer, BitVectorReader reader, Context context) {

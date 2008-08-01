@@ -47,17 +47,17 @@ public class BasicSequenceCodec implements FieldCodec {
     public void decode(EObject object, int index, ByteBuffer buffer, BitVectorReader pmapReader, Context context) {
     }
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, BitVectorBuilder pmapBuilder, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, BitVectorBuilder pmapBuilder, Context context) {
         if (!object.isDefined(index)) {
-            return lengthCodec.encode(EObject.EMPTY, 0, buffer, offset, pmapBuilder, context);
+            lengthCodec.encode(EObject.EMPTY, 0, buffer, pmapBuilder, context);
+            return;
         }
         EObjectList list = object.getList(index);
         EObject wrapper = new IntEObjectWrapper(list.size());
-        int newOffset = lengthCodec.encode(wrapper, 0, buffer, offset, pmapBuilder, context);
+        lengthCodec.encode(wrapper, 0, buffer, pmapBuilder, context);
         for (EObject o : list) {
-            newOffset = groupCodec.encode(o, buffer, newOffset, context);
+            groupCodec.encode(o, buffer, context);
         }
-        return newOffset;
     }
 
     public int getLength(ByteBuffer buffer, BitVectorReader reader) {

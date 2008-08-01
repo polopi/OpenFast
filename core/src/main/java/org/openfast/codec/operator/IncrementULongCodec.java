@@ -23,11 +23,11 @@ package org.openfast.codec.operator;
 import java.nio.ByteBuffer;
 import org.lasalletech.entity.EObject;
 import org.openfast.Context;
+import org.openfast.Fast;
 import org.openfast.ULong;
 import org.openfast.codec.FieldCodec;
 import org.openfast.codec.ULongCodec;
 import org.openfast.dictionary.DictionaryEntry;
-import org.openfast.error.FastConstants;
 import org.openfast.template.operator.DictionaryOperator;
 
 public final class IncrementULongCodec extends DictionaryOperatorULongCodec implements FieldCodec {
@@ -68,43 +68,40 @@ public final class IncrementULongCodec extends DictionaryOperatorULongCodec impl
         return longCodec.getLength(buffer);
     }
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, Context context) {
         if (!object.isDefined(index)) {
-            if (dictionaryEntry.isNull())
-                return offset;
-            else {
-                return encodeNull(buffer, offset, context);
-            }
+            if (!dictionaryEntry.isNull())
+                encodeNull(buffer);
+            return;
         }
         long value = object.getLong(index);
         if (dictionaryEntry.isNull()) {
             dictionaryEntry.set(value);
-            return longCodec.encode(buffer, offset, new ULong(value));
+            longCodec.encode(buffer, new ULong(value));
         }
         if (!dictionaryEntry.isDefined()) {
             if (!operator.hasDefaultValue()) {
                 dictionaryEntry.set(value);
-                return longCodec.encode(buffer, offset, new ULong(value));
+                longCodec.encode(buffer, new ULong(value));
             } else if (operator.hasDefaultValue() && value == initialValue) {
                 dictionaryEntry.set(value);
-                return offset;
             } else {
-                return longCodec.encode(buffer, offset, new ULong(value));
+                longCodec.encode(buffer, new ULong(value));
             }
+            return;
         }
         long previousValue = dictionaryEntry.getLong();
         if (value == previousValue + 1) {
             dictionaryEntry.set(value);
-            return offset;
+            return;
         }
 
         dictionaryEntry.set(value);
-        return longCodec.encode(buffer, offset, new ULong(value));
+        longCodec.encode(buffer, new ULong(value));
     }
 
-    private int encodeNull(byte[] buffer, int offset, Context context) {
-        buffer[offset] = FastConstants.NULL_BYTE;
+    private void encodeNull(ByteBuffer buffer) {
+        buffer.put(Fast.NULL);
         dictionaryEntry.setNull();
-        return offset + 1;
     }
 }

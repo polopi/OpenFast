@@ -13,10 +13,9 @@ public class NullableByteVectorCodec extends LengthEncodedTypeCodec implements B
         return bytes;
     }
 
-    public int encode(byte[] buffer, int offset, byte[] value) {
-        offset = NULLABLE_UNSIGNED_INTEGER.encode(buffer, offset, value.length);
-        System.arraycopy(value, 0, buffer, offset, value.length);
-        return offset + value.length;
+    public void encode(ByteBuffer buffer, byte[] value) {
+        NULLABLE_UNSIGNED_INTEGER.encode(buffer, value.length);
+        buffer.put(value);
     }
 
     public boolean isNull(ByteBuffer buffer) {

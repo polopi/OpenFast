@@ -44,15 +44,16 @@ public class CacheStringCodecTest extends OpenFastTestCase {
     public void testEncode() {
         Message message = template.newObject();
         message.set(0, "A");
-        byte[] buffer = new byte[10];
+        ByteBuffer buffer = ByteBuffer.allocate(10);
         BitVectorBuilder pmapBuilder = new BitVectorBuilder(7);
-        nullable.encode(message, 0, buffer, 0, pmapBuilder, context);
+        nullable.encode(message, 0, buffer, pmapBuilder, context);
         assertEquals("11000000", pmapBuilder.getBitVector().getBytes());
-        assertEquals("11000001", buffer, 1);
+        assertEquals("11000001", buffer);
         
+        buffer.clear();
         pmapBuilder = new BitVectorBuilder(7);
-        nullable.encode(message, 0, buffer, 0, pmapBuilder, context);
+        nullable.encode(message, 0, buffer, pmapBuilder, context);
         assertEquals("10000000", pmapBuilder.getBitVector().getBytes());
-        assertEquals("10000001", buffer, 1);
+        assertEquals("10000001", buffer);
     }
 }

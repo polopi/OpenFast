@@ -27,33 +27,32 @@ public class CopyStringCodec extends DictionaryOperatorStringCodec {
         dictionaryEntry.set(value);
     }
 
-    public int encode(EObject object, int index, byte[] buffer, int offset, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, Context context) {
         boolean dictionaryUndefined = !dictionaryEntry.isDefined();
         boolean dictionaryNull = dictionaryEntry.isNull();
         if (!object.isDefined(index)) {
             dictionaryEntry.setNull();
             if ((dictionaryUndefined && !operator.hasDefaultValue()) || dictionaryNull) {
-                return offset;
+                return;
             } else {
-                buffer[offset] = Fast.NULL;
-                return offset + 1;
+                buffer.put(Fast.NULL);
+                return;
             }
         }
         String value = object.getString(index);
         if (dictionaryUndefined) {
             if ((operator.hasDefaultValue() && operator.getDefaultValue().equals(value))) {
                 dictionaryEntry.set(value);
-                return offset;
+                return;
             }
         } else if (!dictionaryNull) {
             if (value.equals(dictionaryEntry.getString())) {
                 dictionaryEntry.set(value);
-                return offset;
+                return;
             }
         }
-        int newOffset = stringCodec.encode(buffer, offset, value);
+        stringCodec.encode(buffer, value);
         dictionaryEntry.set(value);
-        return newOffset;
     }
 
     public void decodeEmpty(EObject object, int index, Context context) {

@@ -11,21 +11,21 @@ public class NullableULongCodec extends StopBitEncodedTypeCodec implements ULong
         return new ULong(value);
     }
 
-    public int encode(byte[] buffer, int offset, ULong value) {
+    public void encode(ByteBuffer buffer, ULong value) {
         if (value.longValue() == ULong.MAX_VALUE) {
-            buffer[offset]   = 2;
-            buffer[offset+1] = 0;
-            buffer[offset+2] = 0;
-            buffer[offset+3] = 0;
-            buffer[offset+4] = 0;
-            buffer[offset+5] = 0;
-            buffer[offset+6] = 0;
-            buffer[offset+7] = 0;
-            buffer[offset+8] = 0;
-            buffer[offset+9] = Fast.STOP_BIT;
-            return offset+10;
+            buffer.put((byte) 2);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put(Fast.STOP_BIT);
+            return;
         }
-        return FastTypeCodecs.NULLABLE_UNSIGNED_LONG.encode(buffer, offset, value.longValue());
+        FastTypeCodecs.NULLABLE_UNSIGNED_LONG.encode(buffer, value.longValue());
     }
 
     public boolean isNull(ByteBuffer buffer) {

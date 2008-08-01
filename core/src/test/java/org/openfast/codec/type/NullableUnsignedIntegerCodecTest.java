@@ -1,5 +1,6 @@
 package org.openfast.codec.type;
 
+import java.nio.ByteBuffer;
 import org.openfast.Global;
 import org.openfast.codec.IntegerCodec;
 import org.openfast.error.ErrorHandler;
@@ -9,11 +10,11 @@ import org.openfast.test.OpenFastTestCase;
 
 public class NullableUnsignedIntegerCodecTest extends OpenFastTestCase {
     IntegerCodec codec = new NullableUnsignedIntegerCodec();
-    private byte[] buffer = new byte[10];
+    ByteBuffer buffer = ByteBuffer.allocate(32);
     
     public void testBoundaries() {
         assertEquals(Integer.MAX_VALUE, decode("00001000 00000000 00000000 00000000 10000000"));
-        assertEquals("00001000 00000000 00000000 00000000 10000000", encode(Integer.MAX_VALUE), 5);
+        assertEquals("00001000 00000000 00000000 00000000 10000000", encode(Integer.MAX_VALUE));
     }
     
     public void testOverlong() {
@@ -37,16 +38,17 @@ public class NullableUnsignedIntegerCodecTest extends OpenFastTestCase {
     }
 
     public void testEncode() {
-        assertEquals("10000010", encode(1), 1);
-        assertEquals("10000011", encode(2), 1);
+        assertEquals("10000010", encode(1));
+        assertEquals("10000011", encode(2));
     }
 
     private int decode(String bits) {
         return codec.decode(buffer(bits));
     }
 
-    private byte[] encode(int value) {
-        codec.encode(buffer, 0, value);
+    private ByteBuffer encode(int value) {
+        buffer.clear();
+        codec.encode(buffer, value);
         return buffer;
     }
 }

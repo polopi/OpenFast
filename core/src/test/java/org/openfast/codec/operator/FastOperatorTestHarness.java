@@ -1,5 +1,6 @@
 package org.openfast.codec.operator;
 
+import static org.openfast.test.OpenFastTestCase.assertEquals;
 import java.nio.ByteBuffer;
 import junit.framework.Assert;
 import org.lasalletech.entity.QName;
@@ -19,7 +20,6 @@ import org.openfast.template.MessageTemplate;
 import org.openfast.template.Scalar;
 import org.openfast.test.OpenFastTestCase;
 import org.openfast.util.BitVector;
-import org.openfast.util.BitVectorBuilder;
 
 public class FastOperatorTestHarness {
 
@@ -121,11 +121,9 @@ public class FastOperatorTestHarness {
         initDictionary(getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
         Message message = template.newObject();
-        byte[] buffer = new byte[32];
-        int offset = codec.encode(message, 0, buffer, 0, new BitVectorBuilder(3), context);
-        byte[] encodedBytes = ByteUtil.convertBitStringToFastByteArray(encoded);
-        Assert.assertEquals(encodedBytes.length, offset);
-        OpenFastTestCase.assertEquals(encoded, buffer, offset);
+        ByteBuffer buffer = ByteBuffer.allocate(32);
+        codec.encode(message, 0, buffer, context);
+        assertEquals(encoded, buffer);
     }
     
     public void assertEncode(String encoded, int initialValue, int dictionaryState, int value) {
@@ -135,9 +133,9 @@ public class FastOperatorTestHarness {
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
         Message message = template.newObject();
         message.set(0, value);
-        byte[] buffer = new byte[32];
-        int offset = codec.encode(message, 0, buffer, 0, new BitVectorBuilder(7), context);
-        OpenFastTestCase.assertEquals(encoded, buffer, offset);
+        ByteBuffer buffer = ByteBuffer.allocate(32);
+        codec.encode(message, 0, buffer, context);
+        assertEquals(encoded, buffer);
     }
 
 }

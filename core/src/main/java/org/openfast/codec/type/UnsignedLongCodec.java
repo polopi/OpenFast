@@ -20,14 +20,14 @@ public class UnsignedLongCodec extends StopBitEncodedTypeCodec implements LongCo
         return value;
     }
 
-    public int encode(byte[] buffer, int offset, long value) {
+    public void encode(ByteBuffer buffer, long value) {
         int size = getUnsignedLongSize(value);
-        for (int index = offset + size -1; index >= offset; index--) {
-            buffer[index] = (byte) (value & VALUE_BITS);
-            value >>>= 7;
+        int factor =(size-1) * 7;
+        while (factor >= 0) {
+            buffer.put((byte) ((value >>> (factor)) & VALUE_BITS));
+            factor -= 7;
         }
-        buffer[offset + size - 1] |= STOP_BIT;
-        return offset + size;
+        buffer.array()[buffer.position() - 1] |= STOP_BIT;
     }
     
     /**

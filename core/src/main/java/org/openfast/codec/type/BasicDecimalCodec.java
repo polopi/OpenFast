@@ -18,12 +18,12 @@ public class BasicDecimalCodec implements DecimalCodec {
         return new Decimal(mantissa, exponent);
     }
 
-    public int encode(byte[] buffer, int offset, Decimal value) {
+    public void encode(ByteBuffer buffer, Decimal value) {
         if (Math.abs(value.exponent) > 63) {
             Global.handleError(FastConstants.R1_LARGE_DECIMAL, "Encountered exponent of size " + value.exponent);
         }
-        int newOffset = SIGNED_INTEGER.encode(buffer, offset, value.exponent);
-        return SIGNED_LONG.encode(buffer, newOffset, value.mantissa);
+        SIGNED_INTEGER.encode(buffer, value.exponent);
+        SIGNED_LONG.encode(buffer, value.mantissa);
     }
 
     public int getLength(ByteBuffer buffer) {

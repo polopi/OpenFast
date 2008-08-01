@@ -12,10 +12,9 @@ public class BasicByteVectorCodec extends LengthEncodedTypeCodec implements Byte
         return bytes;
     }
 
-    public int encode(byte[] buffer, int offset, byte[] value) {
-        offset = UNSIGNED_INTEGER.encode(buffer, offset, value.length);
-        System.arraycopy(value, 0, buffer, offset, value.length);
-        return offset + value.length;
+    public void encode(ByteBuffer buffer, byte[] value) {
+        UNSIGNED_INTEGER.encode(buffer, value.length);
+        buffer.put(value);
     }
 
     public boolean isNull(ByteBuffer buffer) {

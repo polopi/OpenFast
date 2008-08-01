@@ -50,11 +50,11 @@ public class CacheStringCodec implements FieldCodec {
     }
 
     @SuppressWarnings("unchecked")
-    public int encode(EObject object, int index, byte[] buffer, int offset, BitVectorBuilder pmapBuilder, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, BitVectorBuilder pmapBuilder, Context context) {
         if (!object.isDefined(index)) {
             pmapBuilder.skip();
-            buffer[offset] = Fast.NULL;
-            return offset + 1;
+            buffer.put(Fast.NULL);
+            return;
         }
         String value = object.getString(index);
         if (!entry.isDefined())
@@ -63,11 +63,13 @@ public class CacheStringCodec implements FieldCodec {
         if (cache.hasValue(value)) {
             int cacheIndex = cache.getIndex(value);
             pmapBuilder.skip();
-            return integerCodec.encode(buffer, offset, cacheIndex);
+            integerCodec.encode(buffer, cacheIndex);
+            return;
         } else {
             pmapBuilder.set();
             cache.store(value);
-            return stringCodec.encode(buffer, offset, value);
+            stringCodec.encode(buffer, value);
+            return;
         }
     }
 

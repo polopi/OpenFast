@@ -17,9 +17,9 @@ public class FastMessageEncoder implements MessageEncoder {
 
     public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
         FastEncoder encoder = (FastEncoder) session.getAttribute(ENCODER);
-        byte[] buffer = new byte[1024*32]; // PERFORMANCE - Cache buffer
-        int len = encoder.encode(buffer, 0, (Message) message);
-        out.write(ByteBuffer.wrap(buffer, 0, len));
+        java.nio.ByteBuffer buffer = java.nio.ByteBuffer.allocateDirect(1024*32); // PERFORMANCE - Cache buffer
+        encoder.encode(buffer, (Message) message);
+        out.write(ByteBuffer.wrap(buffer));
     }
 
     @SuppressWarnings("unchecked")

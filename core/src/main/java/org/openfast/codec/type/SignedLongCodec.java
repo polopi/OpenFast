@@ -27,20 +27,21 @@ public class SignedLongCodec extends StopBitEncodedTypeCodec implements LongCode
         return value;
     }
 
-    public int encode(byte[] buffer, int offset, long value) {
-        int index = offset;
+    public void encode(ByteBuffer buffer, long value) {
+        int index = buffer.position();
         int size = getSignedLongSize(value);
-        for (int factor = 0; factor < size; factor++) {
-            int bitMask = (factor == (size - 1)) ? 0x3f : VALUE_BITS;
-            buffer[offset + size - factor - 1] = (byte) ((value >> (factor * 7)) & bitMask);
-            index++;
+        int factor = (size-1) * 7;
+        int bitMask = 0x3f;
+        while (factor >= 0) {
+            buffer.put((byte)((value >> factor) & bitMask));
+            bitMask = 0x7f;
+            factor -= 7;
         }
-        // Get the sign bit from the long value and set it on the first byte
+        // Get the sign bit from the value and set it on the first byte
         // 01000000 00000000 ... 00000000
         // ^----SIGN BIT
-        buffer[offset] |= (0x40 & (value >> 57));
-        buffer[index - 1] |= Fast.STOP_BIT;
-        return index;
+        buffer.array()[index] |= (0x40 & (value >> 57));
+        buffer.array()[buffer.position()-1] |= Fast.STOP_BIT;
     }
     
     /**

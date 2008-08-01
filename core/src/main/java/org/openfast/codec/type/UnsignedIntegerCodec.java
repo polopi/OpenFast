@@ -21,13 +21,14 @@ public class UnsignedIntegerCodec extends StopBitEncodedTypeCodec implements Int
         return value;
     }
 
-    public int encode(byte[] buffer, int offset, int value) {
+    public void encode(ByteBuffer buffer, int value) {
         int size = getUnsignedIntegerSize(value);
-        for (int factor = 0; factor < size; factor++) {
-            buffer[size - factor - 1 + offset] = (byte) ((value >> (factor * 7)) & VALUE_BITS);
+        int factor = (size-1) * 7;
+        while (factor >= 0) {
+            buffer.put((byte) ((value >> (factor)) & VALUE_BITS));
+            factor -= 7;
         }
-        buffer[offset + size - 1] |= STOP_BIT;
-        return offset + size;
+        buffer.array()[buffer.position() - 1] |= STOP_BIT;
     }
     
     /**

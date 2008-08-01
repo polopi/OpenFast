@@ -1,11 +1,12 @@
 package org.openfast.codec.type;
 
+import java.nio.ByteBuffer;
 import org.openfast.codec.StringCodec;
 import org.openfast.test.OpenFastTestCase;
 
 public class NullableAsciiStringCodecTest extends OpenFastTestCase {
     StringCodec ascii = new NullableAsciiStringCodec();
-    private byte[] buffer = new byte[10];
+    ByteBuffer buffer = ByteBuffer.allocate(32);
     
     public void testDecode() {
         assertEquals("ABCD", decode("01000001 01000010 01000011 11000100"));
@@ -15,13 +16,14 @@ public class NullableAsciiStringCodecTest extends OpenFastTestCase {
     }
 
     public void testEncode() {
-        assertEquals("01000001 01000010 01000011 11000100", encode("ABCD"), 4);
-        assertEquals("10000000", encode(null), 1);
-        assertEquals("00000000 00000000 10000000", encode("\u0000"), 3);
-        assertEquals("00000000 10000000", encode(""), 2);
+        assertEquals("01000001 01000010 01000011 11000100", encode("ABCD"));
+        assertEquals("10000000", encode(null));
+        assertEquals("00000000 00000000 10000000", encode("\u0000"));
+        assertEquals("00000000 10000000", encode(""));
     }
-    private byte[] encode(String value) {
-        ascii.encode(buffer, 0, value);
+    private ByteBuffer encode(String value) {
+        buffer.clear();
+        ascii.encode(buffer, value);
         return buffer;
     }
     private String decode(String bits) {

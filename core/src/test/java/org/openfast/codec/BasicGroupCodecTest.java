@@ -24,7 +24,7 @@ public class BasicGroupCodecTest extends OpenFastTestCase {
     });
     BasicGroupCodec codec = new BasicGroupCodec(null, group, impl, dictionaryRegistry);
     Context context = new Context();
-    byte[] buffer = new byte[32];
+    ByteBuffer buffer = ByteBuffer.allocate(32);
     
     public void testDecode() {
         ByteBuffer encoded = buffer("10000000 10000010 11000001");
@@ -37,8 +37,7 @@ public class BasicGroupCodecTest extends OpenFastTestCase {
         EObject object = group.newObject();
         object.set(0, 2);
         object.set(1, "A");
-        int length = codec.encode(object, buffer, 0, context);
-        assertEquals("10000000 10000010 11000001", buffer, 3);
-        assertEquals(3, length);
+        codec.encode(object, buffer, context);
+        assertEquals("10000000 10000010 11000001", buffer);
     }
 }

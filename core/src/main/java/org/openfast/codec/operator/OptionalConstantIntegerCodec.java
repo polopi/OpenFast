@@ -17,12 +17,11 @@ public class OptionalConstantIntegerCodec implements FieldCodec {
         if (reader.read())
             object.set(index, defaultValue);
     }
-    public int encode(EObject object, int index, byte[] buffer, int offset, BitVectorBuilder pmapBuilder, Context context) {
+    public void encode(EObject object, int index, ByteBuffer buffer, BitVectorBuilder pmapBuilder, Context context) {
         if (object.isDefined(index))
             pmapBuilder.set();
         else
             pmapBuilder.skip();
-        return offset;
     }
     public int getLength(ByteBuffer buffer, BitVectorReader reader) {
         return 0;

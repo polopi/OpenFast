@@ -12,19 +12,20 @@ public class NullableSignedIntegerCodec extends StopBitEncodedTypeCodec implemen
         return value;
     }
 
-    public int encode(byte[] buffer, int offset, int value) {
+    public void encode(ByteBuffer buffer, int value) {
         // handle maximum value case due to nullable max value being larger than int capacity
         if (value == Integer.MAX_VALUE) {
-            buffer[offset] = 8;
-            buffer[offset+1] = 0;
-            buffer[offset+2] = 0;
-            buffer[offset+3] = 0;
-            buffer[offset+4] = Fast.STOP_BIT;
-            return offset + 5;
+            buffer.put((byte) 8);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put((byte) 0);
+            buffer.put(Fast.STOP_BIT);
+            return;
         }
         if (value >= 0)
-            return FastTypeCodecs.SIGNED_INTEGER.encode(buffer, offset, value + 1);
-        return FastTypeCodecs.SIGNED_INTEGER.encode(buffer, offset, value);
+            FastTypeCodecs.SIGNED_INTEGER.encode(buffer, value + 1);
+        else
+            FastTypeCodecs.SIGNED_INTEGER.encode(buffer, value);
     }
 
     public boolean isNull(ByteBuffer buffer) {
