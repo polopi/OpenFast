@@ -22,6 +22,7 @@ package org.openfast.template;
 
 import org.openfast.Message;
 
-public interface MessageTemplate extends Composite<Message> {
 
+public interface MessageTemplate extends Composite {
+    Message newMessage();
 }

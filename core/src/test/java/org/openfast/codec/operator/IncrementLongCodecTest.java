@@ -6,7 +6,6 @@ import static org.openfast.codec.operator.FastLongOperatorTestHarness.UNDEFINED;
 import static org.openfast.codec.operator.FastOperatorTestHarness.KEY;
 import static org.openfast.fast.FastTypes.U32;
 import static org.openfast.template.ScalarBuilder.scalar;
-import org.openfast.fast.FastTypes;
 import org.openfast.template.Scalar;
 import org.openfast.test.OpenFastTestCase;
 

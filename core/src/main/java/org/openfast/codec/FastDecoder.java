@@ -47,7 +47,7 @@ public class FastDecoder implements Coder {
         }
         MessageTemplate template = context.getTemplate(templateId);
         MessageCodec codec = getCodec(templateId, template);
-        Message message = template.newObject();
+        Message message = template.newMessage();
         codec.decode(message, buffer, reader, context);
         if (messageHandlers.containsKey(message.getTemplate()))
             messageHandlers.get(message.getTemplate()).handleMessage(message, context, this);

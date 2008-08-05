@@ -47,14 +47,13 @@ public class XmlToFastTool {
     
     public void convert(File xmlFile) throws FileNotFoundException {
         HierarchicalStreamReader reader = new XppDriver().createReader(new FileInputStream(xmlFile));
-        Message element = elementTemplate.newObject();
+        Message element = elementTemplate.newMessage();
         constructElementMessage(reader, element);
         ByteBuffer buffer = ByteBuffer.allocateDirect(1024 * 1024);
         encoder.encode(buffer, element);
         System.out.println(buffer);
         encoder.reset();
     }
-    @SuppressWarnings("unchecked")
     private void constructElementMessage(HierarchicalStreamReader reader, EObject element) {
         element.set(0, reader.getNodeName());
         if (reader.getAttributeCount() > 0) {

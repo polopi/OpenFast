@@ -49,7 +49,7 @@ public class FastStringOperatorTestHarness {
         Context context = new Context();
         initDictionary(context, getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         codec.decodeEmpty(message, 0, context);
         Assert.assertFalse(message.isDefined(0));
     }
@@ -59,7 +59,7 @@ public class FastStringOperatorTestHarness {
         Context context = new Context();
         initDictionary(context, getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         ByteBuffer encodedBytes = ByteBuffer.wrap(ByteUtil.convertBitStringToFastByteArray(encoded));
         codec.decode(message, 0, encodedBytes, context);
         Assert.assertFalse(message.isDefined(0));
@@ -70,7 +70,7 @@ public class FastStringOperatorTestHarness {
         Context context = new Context();
         initDictionary(context, getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         codec.decodeEmpty(message, 0, context);
         Assert.assertEquals(expectedValue, message.getString(0));
     }
@@ -80,7 +80,7 @@ public class FastStringOperatorTestHarness {
         Context context = new Context();
         initDictionary(context, getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         ByteBuffer encodedBytes = ByteBuffer.wrap(ByteUtil.convertBitStringToFastByteArray(encoded));
         codec.decode(message, 0, encodedBytes, context);
         Assert.assertEquals(expectedValue, message.getString(0));
@@ -119,7 +119,7 @@ public class FastStringOperatorTestHarness {
         Context context = new Context();
         initDictionary(context, getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         ByteBuffer buffer = ByteBuffer.allocate(32);
         codec.encode(message, 0, buffer, context);
         OpenFastTestCase.assertEquals(encoded, buffer);
@@ -130,7 +130,7 @@ public class FastStringOperatorTestHarness {
         Context context = new Context();
         initDictionary(context, getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         message.set(0, value);
         ByteBuffer buffer = ByteBuffer.allocate(32);
         codec.encode(message, 0, buffer, context);
@@ -141,7 +141,7 @@ public class FastStringOperatorTestHarness {
         Context context = new Context();
         initDictionary(context, getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         message.set(0, value);
         ByteBuffer buffer = ByteBuffer.allocate(32);
         codec.encode(message, 0, buffer, context);

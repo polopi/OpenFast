@@ -59,8 +59,6 @@ public class XMLMessageTemplateLoader implements MessageTemplateLoader {
 
     private boolean loadTemplateIdFromAuxId;
     
-    private final FastImplementation implementation;
-
     private MessageTemplateFactory templateFactory = new SimpleMessageTemplateFactory();
 
     public XMLMessageTemplateLoader() {
@@ -73,7 +71,6 @@ public class XMLMessageTemplateLoader implements MessageTemplateLoader {
     
     public XMLMessageTemplateLoader(FastImplementation implementation, boolean namespaceAwareness) {
         this.namespaceAwareness = namespaceAwareness;
-        this.implementation = implementation;
         this.initialContext = createInitialContext(implementation);
     }
 

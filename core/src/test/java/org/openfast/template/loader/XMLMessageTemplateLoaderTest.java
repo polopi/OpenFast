@@ -258,14 +258,14 @@ public class XMLMessageTemplateLoaderTest extends OpenFastTestCase {
         assertOperator(mantissa, mantissaOperator, mantissaKey, "", mantissaDefault, mantissaDictionary);
     }
 
-    private void assertScalarField(Composite<?> messageTemplate, int index, Type type, String name, String namespace) {
+    private void assertScalarField(Composite messageTemplate, int index, Type type, String name, String namespace) {
         Scalar scalar = messageTemplate.getScalar(index);
         assertEquals(new QName(name, namespace), scalar.getQName());
         assertEquals(type, scalar.getType());
         assertFalse(scalar.isOptional());
     }
     
-    private void assertOperator(Composite<?> group, int index, String operator, String key, String namespace, String defaultValue, String dictionary) {
+    private void assertOperator(Composite group, int index, String operator, String key, String namespace, String defaultValue, String dictionary) {
         Scalar scalar = group.getScalar(index);
         assertOperator(scalar, operator, key, namespace, defaultValue, dictionary);
     }
@@ -283,7 +283,7 @@ public class XMLMessageTemplateLoaderTest extends OpenFastTestCase {
         }
     }
 
-    private void assertOptionalScalarField(Composite<?> messageTemplate, int index, Type type, String name, String namespace) {
+    private void assertOptionalScalarField(Composite messageTemplate, int index, Type type, String name, String namespace) {
         Scalar scalar = messageTemplate.getScalar(index);
         assertEquals(new QName(name, namespace), scalar.getQName());
         assertEquals(type, scalar.getType());

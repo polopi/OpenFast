@@ -2,13 +2,12 @@ package org.openfast.codec;
 
 import java.nio.ByteBuffer;
 import org.lasalletech.entity.EObject;
+import org.lasalletech.entity.Entity;
 import org.openfast.Context;
-import org.openfast.FastObject;
 import org.openfast.dictionary.DictionaryRegistry;
 import org.openfast.error.FastConstants;
 import org.openfast.fast.FastTypes;
 import org.openfast.fast.impl.FastImplementation;
-import org.openfast.template.Composite;
 import org.openfast.template.Field;
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.Scalar;
@@ -19,21 +18,21 @@ import org.openfast.util.BitVectorReader;
 public class BasicGroupCodec implements GroupCodec {
     private final BitVectorCodec bitVectorCodec;
     private final FieldCodec[] fieldCodecs;
-    private final Composite<FastObject> composite;
+    private final Entity composite;
 
-    public BasicGroupCodec(MessageTemplate template, Composite<FastObject> composite, FastImplementation implementation, DictionaryRegistry dictionaryRegistry) {
+    public BasicGroupCodec(MessageTemplate template, Entity composite, FastImplementation implementation, DictionaryRegistry dictionaryRegistry) {
         this.bitVectorCodec = implementation.getTypeCodecRegistry().getBitVectorCodec(FastTypes.BIT_VECTOR);
         this.fieldCodecs = new FieldCodec[composite.getFieldCount()];
         this.composite = composite;
         int index = 0;
         CodecFactory codecFactory = implementation.getCodecFactory();
-        for (Field field : composite.getFields()) {
+        for (org.lasalletech.entity.Field field : composite.getFields()) {
             if (field instanceof Scalar) {
                 Scalar scalar = (Scalar) field;
                 fieldCodecs[index] = codecFactory.createScalarCodec(template, scalar, implementation, dictionaryRegistry);
                 index++;
             } else {
-                fieldCodecs[index] = codecFactory.createCompositeCodec(template, field, implementation, dictionaryRegistry);
+                fieldCodecs[index] = codecFactory.createCompositeCodec(template, (Field) field, implementation, dictionaryRegistry);
                 index++;
             }
         }
@@ -46,7 +45,7 @@ public class BasicGroupCodec implements GroupCodec {
     public EObject decode(ByteBuffer buffer, BitVectorReader reader, Context context) {
         BitVector vector = bitVectorCodec.decode(buffer);
         BitVectorReader pmapReader = new BitVectorReader(vector);
-        FastObject o = composite.newObject();
+        EObject o = composite.newObject();
         for (int i=0; i<fieldCodecs.length; i++) {
             fieldCodecs[i].decode(o, i, buffer, pmapReader, context);
         }
@@ -59,8 +58,6 @@ public class BasicGroupCodec implements GroupCodec {
     
     public void encode(EObject object, ByteBuffer buffer, Context context) {
         ByteBuffer temp = context.getTemporaryBuffer();
-        int index = 0;
-        int pmapLen = 0;
         try {
             BitVectorBuilder pmapBuilder = new BitVectorBuilder(7); // TODO - calculate size of pmap builder
             for (int i=0; i<fieldCodecs.length; i++) {

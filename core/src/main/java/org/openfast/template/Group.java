@@ -20,10 +20,8 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.template;
 
-import org.lasalletech.entity.QName;
-import org.openfast.FastObject;
 
-public interface Group extends Composite<FastObject> {
+public interface Group extends Composite {
 
 //    private static final long serialVersionUID = 1L;
 //    protected QName typeReference = null;

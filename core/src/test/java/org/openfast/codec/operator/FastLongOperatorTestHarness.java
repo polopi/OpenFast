@@ -18,7 +18,6 @@ import org.openfast.fast.impl.FastImplementation;
 import org.openfast.template.Field;
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.Scalar;
-import org.openfast.test.OpenFastTestCase;
 
 public class FastLongOperatorTestHarness {
 
@@ -33,7 +32,6 @@ public class FastLongOperatorTestHarness {
     private final Scalar defaultScalar;
     private final DictionaryRegistry dictionaryRegistry;
 
-    @SuppressWarnings("unchecked")
     public FastLongOperatorTestHarness(Scalar defaultScalar, Scalar noDefaultScalar) {
         CodecFactory factory = FastImplementation.getDefaultVersion().getCodecFactory();
         this.noDefaultScalar = noDefaultScalar;
@@ -48,7 +46,7 @@ public class FastLongOperatorTestHarness {
         Context context = new Context();
         initDictionary(getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         codec.decodeEmpty(message, 0, context);
         Assert.assertFalse(message.isDefined(0));
     }
@@ -58,7 +56,7 @@ public class FastLongOperatorTestHarness {
         Context context = new Context();
         initDictionary(getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         ByteBuffer encodedBytes = ByteBuffer.wrap(ByteUtil.convertBitStringToFastByteArray(encoded));
         codec.decode(message, 0, encodedBytes, context);
         Assert.assertFalse(message.isDefined(0));
@@ -69,7 +67,7 @@ public class FastLongOperatorTestHarness {
         Context context = new Context();
         initDictionary(getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         codec.decodeEmpty(message, 0, context);
         Assert.assertEquals(expectedValue, message.getInt(0));
     }
@@ -80,7 +78,7 @@ public class FastLongOperatorTestHarness {
         initDictionary(getScalar(initialValue), dictionaryState);
         Scalar scalar = new Scalar(QName.NULL, FastTypes.U32, null, true);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { scalar });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         ByteBuffer encodedBytes = ByteBuffer.wrap(ByteUtil.convertBitStringToFastByteArray(encoded));
         codec.decode(message, 0, encodedBytes, context);
         Assert.assertEquals(expectedValue, message.getInt(0));
@@ -120,7 +118,7 @@ public class FastLongOperatorTestHarness {
         Scalar scalar = getScalar(initialValue);
         initDictionary(scalar, dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         ByteBuffer buffer = ByteBuffer.allocate(32);
         codec.encode(message, 0, buffer, context);
         assertEquals(encoded, buffer);
@@ -131,7 +129,7 @@ public class FastLongOperatorTestHarness {
         Context context = new Context();
         initDictionary(getScalar(initialValue), dictionaryState);
         MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { new Scalar(QName.NULL, FastTypes.U32, null, true) });
-        Message message = template.newObject();
+        Message message = template.newMessage();
         message.set(0, value);ByteBuffer buffer = ByteBuffer.allocate(32);;
         codec.encode(message, 0, buffer, context);
         assertEquals(encoded, buffer);

@@ -6,7 +6,6 @@ import org.openfast.Context;
 import org.openfast.Fast;
 import org.openfast.codec.FieldCodec;
 import org.openfast.codec.IntegerCodec;
-import org.openfast.template.Scalar;
 
 public class NoneIntegerCodec extends AlwaysPresentCodec implements FieldCodec {
     private IntegerCodec integerCodec;

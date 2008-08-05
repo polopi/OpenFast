@@ -21,7 +21,6 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 package org.openfast.template.loader;
 
 import org.openfast.template.Field;
-import org.w3c.dom.Element;
 
 public interface FieldParser extends Parser<Field> {
 }

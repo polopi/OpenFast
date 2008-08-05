@@ -15,7 +15,7 @@ public class BasicMessageEncodingAcceptanceTest extends OpenFastTestCase {
         
         FastEncoder encoder = new FastEncoder(loader.getTemplateRegistry());
         ByteBuffer buffer = ByteBuffer.allocate(256);
-        Message message = template.newObject();
+        Message message = template.newMessage();
         message.set(0, 24);
         encoder.encode(buffer, message);
         assertEquals("11100000 10000001 10011000", buffer);

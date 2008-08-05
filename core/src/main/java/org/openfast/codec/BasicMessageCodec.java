@@ -25,13 +25,13 @@ public class BasicMessageCodec implements MessageCodec {
         this.bitVectorCodec = implementation.getTypeCodecRegistry().getBitVectorCodec(FastTypes.BIT_VECTOR);
         this.fieldCodecs = new FieldCodec[template.getFieldCount()];
         int index = 0;
-        for (Field field : template.getFields()) {
+        for (org.lasalletech.entity.Field field : template.getFields()) {
             if (field instanceof Scalar) {
                 Scalar scalar = (Scalar) field;
                 fieldCodecs[index] = codecFactory.createScalarCodec(template, scalar, implementation, dictionaryRegistry);
                 index++;
             } else {
-                fieldCodecs[index] = codecFactory.createCompositeCodec(template, field, implementation, dictionaryRegistry);
+                fieldCodecs[index] = codecFactory.createCompositeCodec(template, (Field) field, implementation, dictionaryRegistry);
                 index++;
             }
         }

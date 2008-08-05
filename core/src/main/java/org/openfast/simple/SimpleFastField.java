@@ -5,7 +5,7 @@ import org.lasalletech.entity.simple.SimpleField;
 import org.openfast.template.Field;
 import org.openfast.template.Type;
 
-public class SimpleFastField extends SimpleField<Type> implements Field {
+public class SimpleFastField extends SimpleField implements Field {
     private static final long serialVersionUID = 1L;
 
     public SimpleFastField(String name, Type type) {
