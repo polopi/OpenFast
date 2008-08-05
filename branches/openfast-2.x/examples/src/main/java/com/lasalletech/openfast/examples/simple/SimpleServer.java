@@ -58,8 +58,8 @@ public class SimpleServer {
         final MessageTemplate disconnectTemplate = loader.getTemplateRegistry().get("disconnect");
         final MessageTemplate resetTemplate = loader.getTemplateRegistry().get("reset");
         final MessageTemplate testFileTemplate = loader.getTemplateRegistry().get("testFile");
-        final Message disconnect = disconnectTemplate.newObject();
-        final Message reset = resetTemplate.newObject();
+        final Message disconnect = disconnectTemplate.newMessage();
+        final Message reset = resetTemplate.newMessage();
         final CsvParser csvParser = new CsvParser(loader.getTemplateRegistry());
         
         ByteBuffer.setUseDirectBuffers(false);
@@ -93,7 +93,7 @@ public class SimpleServer {
                     File[] csvFiles = getFiles("/simple/data");
                     for (File csvFile : csvFiles) {
                         session.write(reset);
-                        Message fileName = testFileTemplate.newObject();
+                        Message fileName = testFileTemplate.newMessage();
                         fileName.set(0, csvFile.getName());
                         session.write(fileName);
                         List<Message> messages = csvParser.parse(new FileInputStream(csvFile));

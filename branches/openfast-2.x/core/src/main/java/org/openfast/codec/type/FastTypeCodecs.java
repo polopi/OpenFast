@@ -4,7 +4,6 @@ import org.openfast.codec.BitVectorCodec;
 import org.openfast.codec.IntegerCodec;
 import org.openfast.codec.LongCodec;
 import org.openfast.codec.StringCodec;
-import org.openfast.codec.TypeCodec;
 import org.openfast.codec.ULongCodec;
 
 public class FastTypeCodecs {

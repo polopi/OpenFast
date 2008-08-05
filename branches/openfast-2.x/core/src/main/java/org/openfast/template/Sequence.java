@@ -20,10 +20,9 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.template;
 
-import org.openfast.FastObject;
 
 
-public interface Sequence extends Composite<FastObject> {
+public interface Sequence extends Composite {
 //    private static final long serialVersionUID = 1L;
 //    private final Group group;
 //    private final Scalar length;

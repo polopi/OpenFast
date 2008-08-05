@@ -52,7 +52,7 @@ public class GroupParser extends AbstractFieldParser {
         return Fast.SIMPLE.createField(group, optional);
     }
 
-    protected static void parseMore(Element groupElement, Composite<?> group, ParsingContext context) {
+    protected static void parseMore(Element groupElement, Composite group, ParsingContext context) {
         group.setChildNamespace(context.getNamespace());
 //        if (groupElement.hasAttribute("id"))
 //            group.setId(groupElement.getAttribute("id"));

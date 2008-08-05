@@ -28,13 +28,13 @@ public class CacheStringCodecTest extends OpenFastTestCase {
     Scalar field = new Scalar(QName.NULL, FastTypes.ASCII, operator, true);
     MessageTemplate template = Fast.SIMPLE.createMessageTemplate(QName.NULL, new Field[] { field });
     public void testDecode() {
-        Message message = template.newObject();
+        Message message = template.newMessage();
         ByteBuffer encodedBytes = buffer("11000001");
         BitVectorReader reader = new BitVectorReader(new BitVector(bytes("11000000")));
         nullable.decode(message, 0, encodedBytes, reader, context);
         assertEquals("A", message.getString(0));
         
-        message = template.newObject();
+        message = template.newMessage();
         reader = new BitVectorReader(new BitVector(bytes("10000000")));
         encodedBytes = buffer("10000001");
         nullable.decode(message, 0, encodedBytes, reader, context);
@@ -42,7 +42,7 @@ public class CacheStringCodecTest extends OpenFastTestCase {
     }
 
     public void testEncode() {
-        Message message = template.newObject();
+        Message message = template.newMessage();
         message.set(0, "A");
         ByteBuffer buffer = ByteBuffer.allocate(10);
         BitVectorBuilder pmapBuilder = new BitVectorBuilder(7);

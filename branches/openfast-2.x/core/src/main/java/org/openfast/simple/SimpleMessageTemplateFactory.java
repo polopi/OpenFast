@@ -1,7 +1,6 @@
 package org.openfast.simple;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import org.lasalletech.entity.QName;
 import org.openfast.MessageTemplateBuilder;
@@ -37,11 +36,11 @@ public class SimpleMessageTemplateFactory implements MessageTemplateFactory {
     }
 
     public Field createField(Group group, boolean optional) {
-        return new SimpleFastField(group.getName(), new FastEntityType<Group>(group));
+        return new SimpleFastField(group.getName(), new FastEntityType(group));
     }
 
     public Field createField(Sequence sequence, boolean optional) {
-        return new SimpleFastField(sequence.getName(), new FastEntityType<Sequence>(sequence, true));
+        return new SimpleFastField(sequence.getName(), new FastEntityType(sequence, true));
     }
 
     public Group createGroup(QName name, Field[] fields) {
@@ -63,8 +62,8 @@ public class SimpleMessageTemplateFactory implements MessageTemplateFactory {
         for (Field field : fields) {
             if (field instanceof StaticTemplateReference) {
                 StaticTemplateReference reference = (StaticTemplateReference) field;
-                for (Field referencedField : reference.getTemplate().getFields())
-                    newFields.add(referencedField);
+                for (org.lasalletech.entity.Field referencedField : reference.getTemplate().getFields())
+                    newFields.add((Field) referencedField);
 //                if (staticTemplateReferences.isEmpty()) {
 //                    staticTemplateReferences = new LinkedList<StaticTemplateReference>();
 //                }

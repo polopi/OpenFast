@@ -2,10 +2,9 @@ package org.openfast.codec;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.openfast.FastObject;
+import org.lasalletech.entity.EntityType;
 import org.openfast.dictionary.DictionaryRegistry;
 import org.openfast.fast.impl.FastImplementation;
-import org.openfast.template.Composite;
 import org.openfast.template.Field;
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.Scalar;
@@ -34,12 +33,12 @@ public class BasicCodecFactory implements CodecFactory {
     public FieldCodec createCompositeCodec(MessageTemplate template, Field field, FastImplementation implementation,
             DictionaryRegistry dictionaryRegistry) {
         if (field.getType().isRepeating()) {
-            return new BasicSequenceCodec(template, field, implementation, dictionaryRegistry, this);
+            return new BasicSequenceCodec(template, field, implementation, dictionaryRegistry);
         }
         return createGroupCodec(template, field, implementation, dictionaryRegistry);
     }
     
     public FieldCodec createGroupCodec(MessageTemplate template, Field field, FastImplementation implementation, DictionaryRegistry dictionaryRegistry) {
-        return new BasicGroupCodec(template, (Composite<FastObject>) field, implementation, dictionaryRegistry);
+        return new BasicGroupCodec(template,  ((EntityType)field.getType()).getEntity(), implementation, dictionaryRegistry);
     }
 }

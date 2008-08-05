@@ -9,6 +9,7 @@ import java.util.List;
 import org.openfast.Message;
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Type;
 
 public class CsvParser {
     private static final String[] EMPTY = new String[0];
@@ -29,11 +30,11 @@ public class CsvParser {
             if (values.length == 0) continue;
             int templateId = Integer.parseInt(values[0]);
             MessageTemplate template = registry.get(templateId);
-            Message message = template.newObject();
+            Message message = template.newMessage();
             for (int i=0;i<values.length-1;i++) {
                 if (indexBased) {
                     if (values[i+1] != null)
-                        message.getTemplate().getField(i).getType().parse(message, i, values[i+1]);
+                        ((Type)message.getTemplate().getField(i).getType()).parse(message, i, values[i+1]);
                 }
             }
             messages.add(message);

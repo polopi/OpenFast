@@ -5,6 +5,7 @@ import org.lasalletech.entity.EObject;
 import org.lasalletech.entity.EObjectList;
 import org.lasalletech.entity.EmptyEObject;
 import org.lasalletech.entity.EntityType;
+import org.lasalletech.entity.simple.SimpleEObjectList;
 import org.openfast.Context;
 import org.openfast.dictionary.DictionaryRegistry;
 import org.openfast.fast.impl.FastImplementation;
@@ -15,7 +16,7 @@ import org.openfast.template.Sequence;
 import org.openfast.util.BitVectorBuilder;
 import org.openfast.util.BitVectorReader;
 
-public class BasicSequenceCodec implements FieldCodec {
+public class BasicSequenceCodec implements SequenceCodec {
     public class IntEObjectWrapper extends EmptyEObject {
         private final int value;
         
@@ -37,11 +38,11 @@ public class BasicSequenceCodec implements FieldCodec {
     private final Scalar lengthScalar;
     private final BasicGroupCodec groupCodec;
     
-    public BasicSequenceCodec(MessageTemplate template, Field field, FastImplementation implementation,
-            DictionaryRegistry dictionaryRegistry, BasicCodecFactory basicCodecFactory) {
+    public BasicSequenceCodec(MessageTemplate template, Field field, FastImplementation implementation, DictionaryRegistry dictionaryRegistry) {
         lengthScalar = ((Sequence) ((EntityType)field.getType()).getEntity()).getLength();
-        lengthCodec = basicCodecFactory.createScalarCodec(template, lengthScalar, implementation, dictionaryRegistry);
-        groupCodec = (BasicGroupCodec) basicCodecFactory.createGroupCodec(template, field, implementation, dictionaryRegistry);
+        CodecFactory codecFactory = implementation.getCodecFactory();
+        lengthCodec = codecFactory.createScalarCodec(template, lengthScalar, implementation, dictionaryRegistry);
+        groupCodec = (BasicGroupCodec) codecFactory.createGroupCodec(template, field, implementation, dictionaryRegistry);
     }
 
     public void decode(EObject object, int index, ByteBuffer buffer, BitVectorReader pmapReader, Context context) {
@@ -53,14 +54,31 @@ public class BasicSequenceCodec implements FieldCodec {
             return;
         }
         EObjectList list = object.getList(index);
-        EObject wrapper = new IntEObjectWrapper(list.size());
-        lengthCodec.encode(wrapper, 0, buffer, pmapBuilder, context);
-        for (EObject o : list) {
-            groupCodec.encode(o, buffer, context);
-        }
+        encode(list, buffer, pmapBuilder, context);
     }
 
     public int getLength(ByteBuffer buffer, BitVectorReader reader) {
         return 0;
+    }
+
+    public EObjectList decode(ByteBuffer buffer, BitVectorReader pmapReader, Context context) {
+        IntegerPlaceholder placeholder = new IntegerPlaceholder();
+        lengthCodec.decode(placeholder, 0, buffer, pmapReader, context);
+        if (placeholder.isNull())
+            return null;
+        EObjectList list = new SimpleEObjectList();
+        for (int i=0; i<placeholder.getValue(); i++) {
+            EObject object = groupCodec.decode(buffer, pmapReader, context);
+            list.add(object);
+        }
+        return list;
+    }
+
+    public void encode(EObjectList objects, ByteBuffer buffer, BitVectorBuilder pmapBuilder, Context context) {
+        EObject wrapper = new IntEObjectWrapper(objects.size());
+        lengthCodec.encode(wrapper, 0, buffer, pmapBuilder, context);
+        for (EObject o : objects) {
+            groupCodec.encode(o, buffer, context);
+        }
     }
 }

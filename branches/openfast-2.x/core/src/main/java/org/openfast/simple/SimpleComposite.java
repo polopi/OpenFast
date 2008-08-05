@@ -1,18 +1,14 @@
 package org.openfast.simple;
 
-import org.lasalletech.entity.EObject;
 import org.lasalletech.entity.EntityType;
 import org.lasalletech.entity.QName;
 import org.lasalletech.entity.simple.SimpleEntity;
 import org.openfast.template.Composite;
-import org.openfast.template.Field;
 import org.openfast.template.Group;
 import org.openfast.template.Scalar;
 import org.openfast.template.Sequence;
-import org.openfast.template.Type;
 
-@SuppressWarnings("unchecked")
-public abstract class SimpleComposite<O extends EObject> extends SimpleEntity<O, Type, Field> implements Composite<O> {
+public abstract class SimpleComposite extends SimpleEntity implements Composite {
     public SimpleComposite(QName name) {
         super(name);
     }
@@ -45,10 +41,10 @@ public abstract class SimpleComposite<O extends EObject> extends SimpleEntity<O,
     }
 
     public Group getGroup(int index) {
-        return ((EntityType<Group>)getField(index).getType()).getEntity();
+        return (Group) ((EntityType)getField(index).getType()).getEntity();
     }
 
     public Sequence getSequence(int index) {
-        return ((EntityType<Sequence>)getField(index).getType()).getEntity();
+        return (Sequence) ((EntityType)getField(index).getType()).getEntity();
     }
 }

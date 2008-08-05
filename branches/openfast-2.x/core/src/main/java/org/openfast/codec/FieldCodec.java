@@ -16,7 +16,6 @@ public interface FieldCodec {
      * @param context      the current decoding context
      * @param field        the field definition that this codec was built from
      */
-    @SuppressWarnings("unchecked")
     void decode(EObject object, int index, ByteBuffer buffer, BitVectorReader pmapReader, Context context);
     /**
      * @param object
@@ -26,7 +25,6 @@ public interface FieldCodec {
      * @param context
      * @param field
      */
-    @SuppressWarnings("unchecked")
     void encode(EObject object, int index, ByteBuffer buffer, BitVectorBuilder pmapBuilder, Context context);
     int getLength(ByteBuffer buffer, BitVectorReader reader);
 }
