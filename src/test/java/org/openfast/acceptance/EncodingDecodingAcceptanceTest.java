@@ -22,10 +22,10 @@ public class EncodingDecodingAcceptanceTest extends OpenFastTestCase {
         loader.load(getAcceptanceTestTemplates());
         TemplateRegistry registry = loader.getTemplateRegistry();
         MessageTemplate[] templates = registry.getTemplates();
-        for (int i=0; i<templates.length; i++) {
-            InputStream dataForTemplate = getDataForTemplate(templates[i]);
+        for (MessageTemplate template : templates) {
+            InputStream dataForTemplate = getDataForTemplate(template);
             if (dataForTemplate != null) {
-                encode(registry, templates[i], dataForTemplate);
+                encode(registry, template, dataForTemplate);
             }
         }
     }
@@ -61,8 +61,8 @@ public class EncodingDecodingAcceptanceTest extends OpenFastTestCase {
 
     private Message createMessage(MessageTemplate template, String[] entries) {
         Message message = new Message(template);
-        for (int i=0; i<entries.length-1; i++) {
-            message.setString(i+1, entries[i].trim());
+        for (int i = 0; i < entries.length - 1; ++i) {
+            message.setString(i + 1, entries[i].trim());
         }
         return message;
     }

@@ -72,7 +72,7 @@ public class LongValue extends NumericValue {
      * LogValue
      *
      * @param defaultValue
-     *            The string to be convereted to an integer and compared
+     *            The string to be converted to an integer and compared
      * @return Returns true if the string and the value are equal, false
      *         otherwise
      */

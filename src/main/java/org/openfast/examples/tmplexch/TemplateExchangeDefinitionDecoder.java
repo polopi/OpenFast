@@ -29,7 +29,7 @@ public class TemplateExchangeDefinitionDecoder {
         context.setTemplateRegistry(registry);
         FastDecoder decoder = new FastDecoder(context, fastIn);
         Message message = null;
-        List templates = new ArrayList();
+        List<MessageTemplate> templates = new ArrayList<MessageTemplate>();
         do {
             message = decoder.readMessage();
             if (message != null) {
@@ -37,7 +37,8 @@ public class TemplateExchangeDefinitionDecoder {
             }
         } while (message != null);
         XMLMessageTemplateSerializer serializer = new XMLMessageTemplateSerializer();
-        MessageTemplate[] templateArr = (MessageTemplate[]) templates.toArray(new MessageTemplate[templates.size()]);
+        // TODO: This toArray new may not be the fastest or most appropriate way to do this
+        MessageTemplate[] templateArr = templates.toArray(new MessageTemplate[templates.size()]);
         serializer.serialize(templateArr, out);
     }
 }

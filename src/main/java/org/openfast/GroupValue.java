@@ -46,10 +46,10 @@ public class GroupValue implements FieldValue {
         this.group = group;
         this.values = values;
 
-        for (int i=0; i<group.getFieldCount(); i++) {
+        for (int i = 0; i < group.getFieldCount(); ++i) {
             if (group.getField(i) instanceof Scalar) {
-                Scalar scalar = ((Scalar) group.getField(i));
-                if (scalar.getOperator().equals(Operator.CONSTANT) && !scalar.isOptional()) {
+                Scalar scalar = (Scalar) group.getField(i);
+                if (Operator.CONSTANT.equals(scalar.getOperator()) && !scalar.isOptional()) {
                     values[i] = scalar.getDefaultValue();
                 }
             }
@@ -60,8 +60,8 @@ public class GroupValue implements FieldValue {
         this(group, new FieldValue[group.getFieldCount()]);
     }
 
-    public Iterator iterator() {
-        return new ArrayIterator(values);
+    public Iterator<FieldValue> iterator() {
+        return new ArrayIterator<FieldValue>(values);
     }
 
     public int getInt(int fieldIndex) {
@@ -120,7 +120,7 @@ public class GroupValue implements FieldValue {
 
     public String getString(String fieldName) {
         FieldValue value = getValue(fieldName);
-        return (value == null) ? null : value.toString();
+        return (value != null) ? value.toString() : null;
     }
 
     public double getDouble(int fieldIndex) {
@@ -291,7 +291,7 @@ public class GroupValue implements FieldValue {
             return false;
         }
 
-        for (int i = 0; i < values.length; i++) {
+        for (int i = 0; i < values.length; ++i) {
             if (values[i] == null) {
                 if (other.values[i] != null)
                     return false;
@@ -310,11 +310,11 @@ public class GroupValue implements FieldValue {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(6 + values.length * 16);
 
         builder.append(group).append(" -> {");
-        for (int i = 0; i < values.length; i++) {
-            builder.append(values[i]).append(", ");
+        for (FieldValue value : values) {
+            builder.append(value).append(", ");
         }
 
         if (values.length > 0) {
@@ -350,7 +350,7 @@ public class GroupValue implements FieldValue {
 
     public FieldValue copy() {
         FieldValue[] copies = new FieldValue[values.length];
-        for (int i = 0; i < copies.length; i++) {
+        for (int i = 0; i < copies.length; ++i) {
             copies[i] = values[i].copy();
         }
         return new GroupValue(group, this.values);

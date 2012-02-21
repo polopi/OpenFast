@@ -31,7 +31,7 @@ import org.openfast.template.TemplateRegisteredListener;
 
 public class FastEncoder implements Coder {
     private Context context;
-    private List listeners = Collections.EMPTY_LIST;
+    private List<TemplateRegisteredListener> listeners = Collections.emptyList();
 
     public FastEncoder(Context context) {
         this.context = context;
@@ -55,7 +55,7 @@ public class FastEncoder implements Coder {
     }
     public void addTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener) {
         if (listeners.isEmpty()) {
-            listeners = new ArrayList();
+            listeners = new ArrayList<TemplateRegisteredListener>();
         }
         listeners.add(templateRegisteredListener);
     }

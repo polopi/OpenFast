@@ -41,7 +41,7 @@ public class MulticastOutputStreamTest extends TestCase {
     MulticastOutputStream multicastOutputStream;
 
     public class MockMulticastSocket extends MulticastSocket {
-        public Deque packetsSent = new LinkedList();
+        public Deque<DatagramPacket> packetsSent = new LinkedList<DatagramPacket>();
         
         public MockMulticastSocket(int port) throws IOException {
             super(port);

@@ -115,8 +115,7 @@ public class FastMessageInterpreter implements FastMessageConsumer {
         indent = indent + tab;
 
         boolean needNewLine = false;
-        for (int i = 0; i < entries.length; i++) {
-            GroupValue entry = entries[i];
+        for(GroupValue entry : entries) {
             line.append("\n").append(indent);
             // for each entry, iterate through the possible fields
             for (int nField = 0; nField < fieldCount; ++nField) {

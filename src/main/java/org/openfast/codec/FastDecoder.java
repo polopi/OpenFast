@@ -47,11 +47,11 @@ public class FastDecoder implements Coder {
             return null; // Must have reached end of stream;
         }
 
-        BitVector pmap = (bitVectorValue).value;
+        BitVector pmap = bitVectorValue.value;
         BitVectorReader presenceMapReader = new BitVectorReader(pmap);
 
         // if template id is not present, use previous, else decode template id
-        int templateId = (presenceMapReader.read()) ? TypeCodec.UINT.decode(in).toInt() : context.getLastTemplateId();
+        int templateId = presenceMapReader.read() ? TypeCodec.UINT.decode(in).toInt() : context.getLastTemplateId();
         MessageTemplate template = context.getTemplate(templateId);
 
         if (template == null) {

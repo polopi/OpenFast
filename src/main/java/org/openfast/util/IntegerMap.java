@@ -1,13 +1,13 @@
 package org.openfast.util;
 
 
-public interface IntegerMap {
+public interface IntegerMap<E> {
 
-    void put(int key, Object value);
+    void put(int key, E value);
 
-    Object get(int key);
+    E get(int key);
 
     boolean containsKey(int key);
 
-    Object remove(int key);
+    E remove(int key);
 }

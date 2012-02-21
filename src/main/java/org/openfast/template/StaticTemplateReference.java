@@ -60,7 +60,7 @@ public class StaticTemplateReference extends Field {
         return null;
     }
 
-    public Class getValueType() {
+    public Class<? extends FieldValue> getValueType() {
         return null;
     }
 

@@ -25,6 +25,7 @@ import java.util.Map;
 import org.openfast.QName;
 import org.openfast.error.ErrorHandler;
 import org.openfast.template.TemplateRegistry;
+import org.openfast.template.type.Type;
 import org.w3c.dom.Element;
 
 public class ParsingContext {
@@ -40,8 +41,8 @@ public class ParsingContext {
     private String dictionary = null;
     private ErrorHandler errorHandler;
     private TemplateRegistry templateRegistry;
-    private Map typeMap;
-    private List fieldParsers;
+    private Map<String, Type> typeMap;
+    private List<FieldParser> fieldParsers;
     private QName name;
 
     public ParsingContext() {
@@ -73,9 +74,7 @@ public class ParsingContext {
     }
 
     public String getTemplateNamespace() {
-        if (templateNamespace == null)
-            return parent.getTemplateNamespace();
-        return templateNamespace;
+        return (templateNamespace != null) ? templateNamespace : parent.getTemplateNamespace();
     }
 
     public void setNamespace(String namespace) {
@@ -83,9 +82,7 @@ public class ParsingContext {
     }
 
     public String getNamespace() {
-        if (namespace == null)
-            return parent.getNamespace();
-        return namespace;
+        return (namespace != null) ? namespace : parent.getNamespace();
     }
 
     public void setDictionary(String dictionary) {
@@ -93,9 +90,7 @@ public class ParsingContext {
     }
 
     public String getDictionary() {
-        if (dictionary == null)
-            return parent.getDictionary();
-        return dictionary;
+        return (dictionary != null) ? dictionary : parent.getDictionary();
     }
 
     public void setErrorHandler(ErrorHandler errorHandler) {
@@ -103,45 +98,37 @@ public class ParsingContext {
     }
 
     public ErrorHandler getErrorHandler() {
-        if (errorHandler == null)
-            return parent.getErrorHandler();
-        return errorHandler;
+        return (errorHandler != null) ? errorHandler : parent.getErrorHandler();
     }
 
     public TemplateRegistry getTemplateRegistry() {
-        if (templateRegistry == null)
-            return parent.getTemplateRegistry();
-        return templateRegistry;
+        return (templateRegistry != null) ? templateRegistry : parent.getTemplateRegistry();
     }
 
     public void setTemplateRegistry(TemplateRegistry templateRegistry) {
         this.templateRegistry = templateRegistry;
     }
 
-    public void setTypeMap(Map typeMap) {
+    public void setTypeMap(Map<String, Type> typeMap) {
         this.typeMap = typeMap;
     }
 
-    public Map getTypeMap() {
-        if (typeMap == null)
-            return parent.getTypeMap();
-        return typeMap;
+    public Map<String, Type> getTypeMap() {
+        return (typeMap != null) ? typeMap : parent.getTypeMap();
     }
 
-    public List getFieldParsers() {
-        if (fieldParsers == null)
-            return parent.getFieldParsers();
-        return fieldParsers;
+    public List<FieldParser> getFieldParsers() {
+        return (fieldParsers != null) ? fieldParsers : parent.getFieldParsers();
     }
 
-    public void setFieldParsers(List list) {
+    public void setFieldParsers(List<FieldParser> list) {
         this.fieldParsers = list;
     }
 
     public FieldParser getFieldParser(Element element) {
-        List parsers = getFieldParsers();
-        for (int i = parsers.size() - 1; i >= 0; i--) {
-            FieldParser fieldParser = ((FieldParser) parsers.get(i));
+        List<FieldParser> parsers = getFieldParsers();
+        for (int i = parsers.size() - 1; i >= 0; --i) {
+            FieldParser fieldParser = parsers.get(i);
             if (fieldParser.canParse(element, this))
                 return fieldParser;
         }

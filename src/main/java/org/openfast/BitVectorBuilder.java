@@ -29,10 +29,10 @@ public class BitVectorBuilder {
     }
     public void set() {
         vector.set(index);
-        index++;
+        ++index;
     }
     public void skip() {
-        index++;
+        ++index;
     }
     public BitVector getBitVector() {
         return vector;

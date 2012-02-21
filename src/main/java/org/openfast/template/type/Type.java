@@ -32,7 +32,7 @@ import org.openfast.util.Util;
 
 public abstract class Type implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final static Map TYPE_NAME_MAP = new LinkedHashMap();
+    private final static Map<String, Type> TYPE_NAME_MAP = new LinkedHashMap<String, Type>();
     private final String name;
 
     public Type(String typeName) {
@@ -50,7 +50,7 @@ public abstract class Type implements Serializable {
         if (!TYPE_NAME_MAP.containsKey(typeName))
             throw new IllegalArgumentException("The type named " + typeName + " does not exist.  Existing types are "
                     + Util.collectionToString(TYPE_NAME_MAP.keySet()));
-        return (Type) TYPE_NAME_MAP.get(typeName);
+        return TYPE_NAME_MAP.get(typeName);
     }
     /**
      * 
@@ -126,7 +126,7 @@ public abstract class Type implements Serializable {
             DECIMAL };
     public static final Type[] INTEGER_TYPES = new Type[] { U8, U16, U32, U64, I8, I16, I32, I64 };
 
-    public static Map getRegisteredTypeMap() {
+    public static Map<String, Type> getRegisteredTypeMap() {
         return TYPE_NAME_MAP;
     }
     public boolean equals(Object obj) {

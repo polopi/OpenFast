@@ -56,7 +56,7 @@ import org.openfast.template.type.Type;
 public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
     public static final String NAMESPACE = "http://www.fixprotocol.org/ns/fast/scp/1.1";
     private static final QName RESET_PROPERTY = new QName("reset", NAMESPACE);
-    private static final Map/* <MessageTemplate, SessionMessageHandler> */messageHandlers = new HashMap();
+    private static final Map<MessageTemplate, SessionMessageHandler> messageHandlers = new HashMap<MessageTemplate, SessionMessageHandler>();
     private final ConversionContext initialContext = createInitialContext();
 
     protected SessionControlProtocol_1_1() {
@@ -410,17 +410,17 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
         TEMPLATE_REGISTRY.register(ELEMENT_ID, ELEMENT);
         TEMPLATE_REGISTRY.register(TEXT_ID, TEXT);
         MessageTemplate[] templates = TEMPLATE_REGISTRY.getTemplates();
-        for (int i = 0; i < templates.length; i++) {
-            setNamespace(templates[i]);
+        for (MessageTemplate template : templates) {
+            setNamespace(template);
         }
     }
 
     private static void setNamespace(Group group) {
         group.setChildNamespace(NAMESPACE);
         Field[] fields = group.getFields();
-        for (int i = 0; i < fields.length; i++) {
-            if (fields[i] instanceof Group) {
-                setNamespace((Group) fields[i]);
+        for (Field field : fields) {
+            if (field instanceof Group) {
+                setNamespace((Group) field);
             }
         }
     }

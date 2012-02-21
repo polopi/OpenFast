@@ -40,7 +40,7 @@ public class ByteUtil {
         }
         String[] bitStrings = bitString.split(" ");
         byte[] bytes = new byte[bitStrings.length];
-        for (int i = 0; i < bitStrings.length; i++) {
+        for (int i = 0; i < bitStrings.length; ++i) {
             bytes[i] = (byte) Integer.parseInt(bitStrings[i], 2);
         }
         return bytes;
@@ -58,12 +58,13 @@ public class ByteUtil {
         return bytes;
     }
     
-    public static String convertByteArrayToHexString(byte[] value) {
-        StringBuffer builder = new StringBuffer(value.length * 2);
-        for (int i = 0; i < value.length; i++) {
-            String hex = Integer.toHexString(value[i] & 0xff);
-            if (hex.length() == 1)
-                builder.append('0');
+    public static String convertByteArrayToHexString(byte[] values) {
+        StringBuffer builder = new StringBuffer(values.length * 2);
+        for (byte value : values) {
+            String hex = Integer.toHexString(value & 0xff);
+            if(hex.length() == 1){
+            	builder.append('0');
+            }
             builder.append(hex);
         }
         return builder.toString();
@@ -85,9 +86,9 @@ public class ByteUtil {
             return "";
         }
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             String bits = Integer.toString(bytes[i] & 0xFF, 2);
-            for (int j = 0; j < (8 - bits.length()); j++)
+            for (int j = 0; j < (8 - bits.length()); ++j)
                 builder.append('0');
             builder.append(bits).append(' ');
         }
@@ -112,8 +113,8 @@ public class ByteUtil {
     }
 
     public static boolean isEmpty(byte[] bytes) {
-        for (int i = 0; i < bytes.length; i++)
-            if ((bytes[i] & 0x7f) != 0)
+        for (byte b : bytes)
+            if ((b & 0x7f) != 0)
                 return false;
         return true;
     }

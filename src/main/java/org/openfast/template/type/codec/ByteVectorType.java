@@ -61,7 +61,7 @@ final class ByteVectorType extends TypeCodec {
     public ScalarValue decode(InputStream in) {
         int length = ((IntegerValue) TypeCodec.UINT.decode(in)).value;
         byte[] encoding = new byte[length];
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < length; ++i)
             try {
                 encoding[i] = (byte) in.read();
             } catch (IOException e) {

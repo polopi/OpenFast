@@ -26,10 +26,10 @@ import java.util.List;
 public class LocalEndpoint implements Endpoint {
     private LocalEndpoint server;
     private ConnectionListener listener;
-    private List connections;
+    private List<LocalConnection> connections;
 
     public LocalEndpoint() {
-        connections = new ArrayList(3);
+        connections = new ArrayList<LocalConnection>(3);
     }
     public LocalEndpoint(LocalEndpoint server) {
         this.server = server;

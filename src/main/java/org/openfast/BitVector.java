@@ -78,7 +78,7 @@ public class BitVector {
         if (other.size != this.size) {
             return false;
         }
-        for (int i = 0; i < this.bytes.length; i++) {
+        for (int i = 0; i < this.bytes.length; ++i) {
             if (this.bytes[i] != other.bytes[i]) {
                 return false;
             }

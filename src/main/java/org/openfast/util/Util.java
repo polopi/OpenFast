@@ -59,11 +59,11 @@ public class Util {
         int appendIndex = 0;
         while ((appendIndex < priorValue.length) && (appendIndex < newValue.length)
                 && (newValue[appendIndex] == priorValue[appendIndex]))
-            appendIndex++;
+            ++appendIndex;
         int prependIndex = 1;
         while ((prependIndex <= newValue.length) && (prependIndex <= priorValue.length)
                 && (newValue[newValue.length - prependIndex] == priorValue[priorValue.length - prependIndex]))
-            prependIndex++;
+            ++prependIndex;
 //        String prepend = newValue.substring(0, value.length() - prependIndex + 1);
         int prependLength = newValue.length - prependIndex + 1;
         int appendLength = newValue.length - appendIndex;
@@ -84,13 +84,15 @@ public class Util {
         return ByteUtil.combine(base, 0, base.length - subtraction, diff, 0, diff.length);
     }
 
-    public static String collectionToString(Collection set) {
+    public static String collectionToString(Collection<String> set) {
         return collectionToString(set, ",");
     }
 
-    public static String collectionToString(Collection set, String sep) {
-        StringBuffer buffer = new StringBuffer();
-        Iterator iter = set.iterator();
+    public static String collectionToString(Collection<String> set, String sep) {
+    	// Pre-allocate the buffer with an estimate
+    	int setSize = set.size();
+        StringBuffer buffer = new StringBuffer(setSize + sep.length() * setSize);
+        Iterator<String> iter = set.iterator();
         buffer.append("{");
         while (iter.hasNext()) {
             buffer.append(iter.next()).append(sep);

@@ -89,7 +89,7 @@ public class ScalarParser extends AbstractFieldParser {
                     "The type " + typeName + " is not defined.  Possible types: "
                             + Util.collectionToString(context.getTypeMap().keySet(), ", "));
         }
-        return (Type) context.getTypeMap().get(typeName);
+        return context.getTypeMap().get(typeName);
     }
 
     protected String getTypeName(Element fieldNode) {

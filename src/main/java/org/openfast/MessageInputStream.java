@@ -38,8 +38,8 @@ public class MessageInputStream implements MessageStream {
     private InputStream in;
     private FastDecoder decoder;
     private Context context;
-    private Map templateHandlers = Collections.EMPTY_MAP;
-    private List handlers = Collections.EMPTY_LIST;
+    private Map<MessageTemplate, MessageHandler> templateHandlers = Collections.emptyMap();
+    private List<MessageHandler> handlers = Collections.emptyList();
     private MessageBlockReader blockReader = MessageBlockReader.NULL;
 
     public MessageInputStream(InputStream inputStream) {
@@ -69,12 +69,12 @@ public class MessageInputStream implements MessageStream {
         getContext().getLogger().log(message, ByteUtil.EMPTY, Direction.INBOUND);
         blockReader.messageRead(in, message);
         if (!handlers.isEmpty()) {
-            for (int i = 0; i < handlers.size(); i++) {
-                ((MessageHandler) handlers.get(i)).handleMessage(message, context, decoder);
+            for (MessageHandler handler : handlers) {
+                handler.handleMessage(message, context, decoder);
             }
         }
         if (templateHandlers.containsKey(message.getTemplate())) {
-            MessageHandler handler = (MessageHandler) templateHandlers.get(message.getTemplate());
+            MessageHandler handler = templateHandlers.get(message.getTemplate());
             handler.handleMessage(message, context, decoder);
             return readMessage();
         }
@@ -99,14 +99,14 @@ public class MessageInputStream implements MessageStream {
 
     public void addMessageHandler(MessageTemplate template, MessageHandler handler) {
         if (templateHandlers == Collections.EMPTY_MAP) {
-            templateHandlers = new HashMap();
+            templateHandlers = new HashMap<MessageTemplate, MessageHandler>();
         }
         templateHandlers.put(template, handler);
     }
 
     public void addMessageHandler(MessageHandler handler) {
         if (handlers == Collections.EMPTY_LIST) {
-            handlers = new ArrayList(4);
+            handlers = new ArrayList<MessageHandler>(4);
         }
         handlers.add(handler);
     }

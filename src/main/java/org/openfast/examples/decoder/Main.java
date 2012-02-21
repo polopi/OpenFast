@@ -50,6 +50,7 @@ public class Main extends OpenFastExample {
             displayHelp("consumer", options);
         }
 
+        // TODO: readOffset is not used in the FastMessageDecoder
         final int readOffset = cl.hasOption(READ_OFFSET) ? getInteger(cl, READ_OFFSET) : 0;
         FastMessageDecoder consumer = new FastMessageDecoder(dataFile, templatesFile, cl.hasOption(NAMESPACE_AWARENESS), readOffset);
         if (cl.hasOption(BLOCK)) {

@@ -5,15 +5,15 @@ import java.util.List;
 import org.openfast.template.Field;
 
 public class SerializerRegistry {
-    private List serializers = new ArrayList();
+    private List<FieldSerializer> serializers = new ArrayList<FieldSerializer>();
 
     public void addFieldSerializer(FieldSerializer serializer) {
         serializers.add(serializer);
     }
 
     public FieldSerializer getSerializer(Field field) {
-        for (int i=serializers.size()-1; i>=0; i--) {
-            FieldSerializer serializer = (FieldSerializer) serializers.get(i);
+        for (int i = serializers.size() - 1; i >= 0; --i) {
+            FieldSerializer serializer = serializers.get(i);
             if (serializer.canSerialize(field)) {
                 return serializer;
             }

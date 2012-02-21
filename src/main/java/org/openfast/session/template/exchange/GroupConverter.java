@@ -78,9 +78,8 @@ public class GroupConverter extends AbstractFieldInstructionConverter {
             groupMsg.setFieldValue("TypeRef", typeRef);
         }
         SequenceValue instructions = new SequenceValue(SessionControlProtocol_1_1.TEMPLATE_DEFINITION.getSequence("Instructions"));
-        int i = group instanceof MessageTemplate ? 1 : 0;
         Field[] fields = group.getFieldDefinitions();
-        for (; i < fields.length; i++) {
+        for (int i = group instanceof MessageTemplate ? 1 : 0; i < fields.length; ++i) {
             Field field = fields[i];
             FieldInstructionConverter converter = context.getConverter(field);
             if (converter == null)
@@ -95,7 +94,7 @@ public class GroupConverter extends AbstractFieldInstructionConverter {
     public static Field[] parseFieldInstructions(GroupValue groupDef, TemplateRegistry registry, ConversionContext context) {
         SequenceValue instructions = groupDef.getSequence("Instructions");
         Field[] fields = new Field[instructions.getLength()];
-        for (int i = 0; i < fields.length; i++) {
+        for (int i = 0; i < fields.length; ++i) {
             GroupValue fieldDef = instructions.get(i).getGroup(0);
             FieldInstructionConverter converter = context.getConverter(fieldDef.getGroup());
             if (converter == null)

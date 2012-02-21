@@ -83,4 +83,8 @@ public class FastMessageDecoder {
     public void setBlockReader(MessageBlockReader messageBlockReader) {
         this.blockReader = messageBlockReader;
     }
+
+	public int getReadOffset() {
+		return readOffset;
+	}
 }

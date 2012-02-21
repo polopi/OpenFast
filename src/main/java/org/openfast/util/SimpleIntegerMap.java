@@ -2,9 +2,9 @@ package org.openfast.util;
 
 
 
-public class SimpleIntegerMap implements IntegerMap {
+public class SimpleIntegerMap<E> implements IntegerMap<E> {
     private static final int DEFAULT_INC_SIZE = 32;
-    private Object[] table;
+    private E[] table;
     private int firstKey;
     private final int incSize;
     
@@ -16,30 +16,31 @@ public class SimpleIntegerMap implements IntegerMap {
         this.incSize = size;
     }
     
-    public void put(int key, Object object) {
+    public void put(int key, E object) {
         adjust(key);
         table[key - firstKey] = object;
     }
 
-    private void adjust(int key) {
+    @SuppressWarnings("unchecked")
+	private void adjust(int key) {
         if (table == null) {
-            table = new Object[incSize];
+            table = (E[])new Object[incSize];
             firstKey = key;
         } else if (firstKey > key) {
-            Object[] originalTable = table;
+            E[] originalTable = table;
             int diff = firstKey - key;
-            table = new Object[originalTable.length + diff];
+            table = (E[])new Object[originalTable.length + diff];
             System.arraycopy(originalTable, 0, table, diff, originalTable.length);
             firstKey = key;
         } else if (key >= firstKey + table.length) {
             Object[] originalTable = table;
             int diff = key - (firstKey + table.length);
-            table = new Object[originalTable.length + diff + incSize];
+            table = (E[])new Object[originalTable.length + diff + incSize];
             System.arraycopy(originalTable, 0, table, 0, originalTable.length);
         }
     }
 
-    public Object get(int key) {
+    public E get(int key) {
         if (undefined(key))
             return null;
         return table[key-firstKey];
@@ -55,10 +56,10 @@ public class SimpleIntegerMap implements IntegerMap {
         return table[key-firstKey] != null;
     }
 
-    public Object remove(int key) {
+    public E remove(int key) {
         if (undefined(key))
             return null;
-        Object removed = table[key-firstKey];
+        E removed = table[key-firstKey];
         table[key-firstKey] = null;
         return removed;
     }

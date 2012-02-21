@@ -24,18 +24,18 @@ import org.openfast.QName;
 import org.openfast.template.DynamicTemplateReference;
 import org.openfast.template.Field;
 import org.openfast.template.StaticTemplateReference;
+import org.openfast.template.TemplateRegistry;
 import org.w3c.dom.Element;
 
 public class TemplateRefParser implements FieldParser {
     public Field parse(Element element, ParsingContext context) {
         if (element.hasAttribute("name")) {
-            QName templateName;
-            if (element.hasAttribute("templateNs"))
-                templateName = new QName(element.getAttribute("name"), element.getAttribute("templateNs"));
-            else
-                templateName = new QName(element.getAttribute("name"), context.getTemplateNamespace());
-            if (context.getTemplateRegistry().isDefined(templateName)) {
-                return new StaticTemplateReference(context.getTemplateRegistry().get(templateName));
+            QName templateName = new QName(element.getAttribute("name"), element.hasAttribute("templateNs") ?
+                		element.getAttribute("templateNs") : context.getTemplateNamespace());
+            
+            TemplateRegistry templateRegistry = context.getTemplateRegistry();
+            if (templateRegistry.isDefined(templateName)) {
+                return new StaticTemplateReference(templateRegistry.get(templateName));
             } else {
                 throw new UnresolvedStaticTemplateReferenceException();
             }

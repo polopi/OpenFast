@@ -16,7 +16,6 @@ import org.openfast.session.FastConnectionException;
 import org.openfast.session.MessageListener;
 import org.openfast.session.Session;
 import org.openfast.session.SessionConstants;
-import org.openfast.session.SessionListener;
 import org.openfast.template.TemplateRegistry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
 
@@ -41,10 +40,9 @@ public class ScpMessageProducer implements MessageListener {
     public void encode(File xmlDataFile, MessageOutputStream out) throws FastConnectionException, IOException {
         XmlCompressedMessageConverter converter = new XmlCompressedMessageConverter();
         converter.setTemplateRegistry(templateRegistry);
-        List messages = converter.parse(new FileInputStream(xmlDataFile));
+        List<Message> messages = converter.parse(new FileInputStream(xmlDataFile));
         while (true) {
-            for (int i=0; i<messages.size(); i++) {
-                Message message = (Message) messages.get(i);
+            for (Message message : messages) {
                 out.writeMessage(message);
             }
             try {

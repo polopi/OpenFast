@@ -2,6 +2,8 @@ package org.openfast.template.serializer;
 
 import java.util.List;
 import org.openfast.Node;
+import org.openfast.QName;
+import org.openfast.ScalarValue;
 import org.openfast.error.FastConstants;
 import org.openfast.template.Field;
 import org.openfast.template.Group;
@@ -10,51 +12,59 @@ import org.openfast.util.XmlWriter;
 
 public abstract class AbstractFieldSerializer implements FieldSerializer {
     protected static void writeCommonAttributes(XmlWriter writer, Field field, SerializingContext context) {
-        writer.addAttribute("name", field.getQName().getName());
-        if (!context.getNamespace().equals(field.getQName().getNamespace()))
-        writer.addAttribute("ns", field.getQName().getNamespace());
-        if (field.getId() != null)
-            writer.addAttribute("id", field.getId());
+    	QName fieldQName = field.getQName();
+        writer.addAttribute("name", fieldQName.getName());
+        String fieldQNameNamespace = fieldQName.getNamespace();
+        if (!context.getNamespace().equals(fieldQNameNamespace))
+        writer.addAttribute("ns", fieldQNameNamespace);
+        String fieldId = field.getId();
+        if (fieldId != null)
+            writer.addAttribute("id", fieldId);
         if (field.isOptional())
             writer.addAttribute("presence", "optional");
     }
 
     protected static void writeOperator(XmlWriter writer, Scalar scalar, SerializingContext context) {
         writer.start(scalar.getOperator().getName());
-        if (!scalar.getDictionary().equals(context.getDictionary())) {
-            writer.addAttribute("dictionary", scalar.getDictionary());
+        String scalarDictionary = scalar.getDictionary();
+        if (!scalarDictionary.equals(context.getDictionary())) {
+            writer.addAttribute("dictionary", scalarDictionary);
         }
-        if (!scalar.getKey().equals(scalar.getQName())) {
-            writer.addAttribute("key", scalar.getKey().getName());
-            if (!context.getNamespace().equals(scalar.getKey().getNamespace()))
-                writer.addAttribute("ns", scalar.getKey().getNamespace());
+    	QName scalarKey = scalar.getKey();
+        if (!scalarKey.equals(scalar.getQName())) {
+            writer.addAttribute("key", scalarKey.getName());
+            String scalarKeyNamespace = scalarKey.getNamespace();
+            if (!context.getNamespace().equals(scalarKeyNamespace))
+                writer.addAttribute("ns", scalarKeyNamespace);
         }
-        if (!scalar.getDefaultValue().isUndefined()) {
-            writer.addAttribute("value", scalar.getDefaultValue().serialize());
+        ScalarValue scalarDefaultValue = scalar.getDefaultValue();
+        if (!scalarDefaultValue.isUndefined()) {
+            writer.addAttribute("value", scalarDefaultValue.serialize());
         }
         writer.end();
     }
 
     protected static void writeChildren(XmlWriter writer, SerializingContext context, Group group) {
-        for (int i=0; i<group.getFieldCount(); i++) {
+        for (int i = 0; i < group.getFieldCount(); ++i) {
             context.serialize(writer, group.getField(i));
         }
     }
 
     protected static void writeTypeReference(XmlWriter writer, Group group, SerializingContext context) {
-        if (group.getTypeReference() != null) {
+    	QName groupTypeReference = group.getTypeReference();
+        if (groupTypeReference != null) {
             writer.start("typeRef");
-            writer.addAttribute("name", group.getTypeReference().getName());
-            if (!group.getTypeReference().getNamespace().equals(context.getNamespace()))
-                writer.addAttribute("ns", group.getTypeReference().getNamespace());
+            writer.addAttribute("name", groupTypeReference.getName());
+            if (!groupTypeReference.getNamespace().equals(context.getNamespace()))
+                writer.addAttribute("ns", groupTypeReference.getNamespace());
             writer.end();
         }
     }
     
     protected static void writeLength(XmlWriter writer, Node node, SerializingContext context) {
-        List lengthNodes = node.getChildren(FastConstants.LENGTH_FIELD);
+        List<Node> lengthNodes = node.getChildren(FastConstants.LENGTH_FIELD);
         if (!lengthNodes.isEmpty()) {
-            Node lengthNode = (Node) lengthNodes.get(0);
+            Node lengthNode = lengthNodes.get(0);
             writer.start("length");
             writer.addAttribute("name", lengthNode.getAttribute(FastConstants.LENGTH_NAME_ATTR));
             if (lengthNode.hasAttribute(FastConstants.LENGTH_NS_ATTR)) {

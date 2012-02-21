@@ -15,7 +15,7 @@ public class PerformanceResult {
     }
 
     public void finishMessage() {
-        numMessages++;
+        ++numMessages;
     }
 
     public void stop() {

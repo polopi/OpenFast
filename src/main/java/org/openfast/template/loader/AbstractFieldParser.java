@@ -40,8 +40,8 @@ public abstract class AbstractFieldParser implements FieldParser {
     }
 
     public boolean canParse(Element element, ParsingContext context) {
-        for (int i = 0; i < parseableNodeNames.length; i++)
-            if (parseableNodeNames[i].equals(element.getNodeName()))
+        for (String nodeName : parseableNodeNames)
+            if (nodeName.equals(element.getNodeName()))
                 return true;
         return false;
     }
@@ -55,12 +55,15 @@ public abstract class AbstractFieldParser implements FieldParser {
 
     protected static void parseExternalAttributes(Element element, Field field) {
         NamedNodeMap attributes = element.getAttributes();
-        for (int i = 0; i < attributes.getLength(); i++) {
+        for (int i = 0; i < attributes.getLength(); ++i) {
             Attr attribute = (Attr) attributes.item(i);
-            if (attribute.getNamespaceURI() == null || attribute.getNamespaceURI().equals("")
-                    || attribute.getNamespaceURI().equals(XMLMessageTemplateLoader.TEMPLATE_DEFINITION_NS))
+            String attributeNamespaceURI = attribute.getNamespaceURI();
+            if (attributeNamespaceURI == null || attributeNamespaceURI.isEmpty()
+                    || attributeNamespaceURI.equals(XMLMessageTemplateLoader.TEMPLATE_DEFINITION_NS)) {
                 continue;
-            field.setAttribute(new QName(attribute.getLocalName(), attribute.getNamespaceURI()), attribute.getValue());
+            }
+            
+            field.setAttribute(new QName(attribute.getLocalName(), attributeNamespaceURI), attribute.getValue());
         }
     }
 
@@ -68,17 +71,17 @@ public abstract class AbstractFieldParser implements FieldParser {
      * Find the first element item within the passed Element objects child nodes
      * 
      * @param fieldNode
-     *            The dom element object
+     *            The DOM element object
      * @return Returns the first element of the child nodes of the passed
      *         element, otherwise returns null
      */
     protected static Element getElement(Element fieldNode, int elementIndex) {
         NodeList children = fieldNode.getChildNodes();
         int elemIndex = 0;
-        for (int i = 0; i < children.getLength(); i++) {
+        for (int i = 0; i < children.getLength(); ++i) {
             Node item = children.item(i);
             if (isElement(item)) {
-                elemIndex++;
+                ++elemIndex;
                 if (elemIndex == elementIndex)
                     return ((Element) item);
             }

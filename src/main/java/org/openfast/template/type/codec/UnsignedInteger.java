@@ -43,7 +43,7 @@ public final class UnsignedInteger extends IntegerCodec {
         long value = scalarValue.toLong();
         int size = getUnsignedIntegerSize(value);
         byte[] encoded = new byte[size];
-        for (int factor = 0; factor < size; factor++) {
+        for (int factor = 0; factor < size; ++factor) {
             encoded[size - factor - 1] = (byte) ((value >> (factor * 7)) & 0x7f);
         }
         return encoded;

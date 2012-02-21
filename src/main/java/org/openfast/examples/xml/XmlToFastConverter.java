@@ -69,7 +69,7 @@ public class XmlToFastConverter {
         Message message = new Message(elementTemplate);
         message.setString(nodeNameIdx, reader.getNodeName());
         SequenceValue attributes = new SequenceValue(attributesSequence);
-        for (int i=0; i<reader.getAttributeCount(); i++) {
+        for (int i = 0; i < reader.getAttributeCount(); ++i) {
             GroupValue attribute = new GroupValue(this.attributesSequence.getGroup());
             attribute.setString(attributeNameIdx, reader.getAttributeName(i));
             attribute.setString(attributeValueIdx, reader.getAttribute(i));

@@ -3,17 +3,15 @@ package org.openfast.examples.producer;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 import org.openfast.Context;
 import org.openfast.Message;
-import org.openfast.MessageBlockWriter;
 import org.openfast.MessageOutputStream;
 import org.openfast.error.ErrorHandler;
+import org.openfast.examples.MessageBlockWriterFactory;
 import org.openfast.session.Connection;
 import org.openfast.session.Endpoint;
 import org.openfast.session.FastConnectionException;
-import org.openfast.template.TemplateRegistry;
-import org.openfast.template.loader.XMLMessageTemplateLoader;
-import org.openfast.examples.MessageBlockWriterFactory;
 
 public class MulticastFastMessageProducer extends FastMessageProducer {
     private MessageOutputStream out;
@@ -31,12 +29,12 @@ public class MulticastFastMessageProducer extends FastMessageProducer {
 		out.setBlockWriter(messageBlockWriterFactory.create());
 	}
 
-    protected void publish(List messages, List msgOutputStreams) {
+    protected void publish(List<Message> messages, List<MessageOutputStream> msgOutputStreams) {
         if(out == null) {
             return;
         }
-        for(int i = 0; i < messages.size(); ++i) {
-            out.writeMessage((Message)messages.get(i), true);
+        for(Message message : messages) {
+            out.writeMessage(message, true);
         }
         out.reset();
     }

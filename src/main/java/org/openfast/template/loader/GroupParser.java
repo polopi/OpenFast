@@ -36,10 +36,10 @@ public class GroupParser extends AbstractFieldParser {
     }
 
     /**
-     * Creates a Group object from the dom group element
+     * Creates a Group object from the DOM group element
      * 
      * @param group
-     *            The dom element object
+     *            The DOM element object
      * @param isOptional
      *            Determines if the Field is required or not for the data
      * @return Returns a newly created Group object
@@ -62,16 +62,18 @@ public class GroupParser extends AbstractFieldParser {
      * Places the nodes of the passed element into an array
      * 
      * @param template
-     *            The dom element object
-     * @return Returns a Field array of the parsed nodes of the dom element
+     *            The DOM element object
+     * @return Returns a Field array of the parsed nodes of the DOM element
      */
     protected static Field[] parseFields(Element template, ParsingContext context) {
         NodeList childNodes = template.getChildNodes();
-        List fields = new ArrayList();
-        for (int i = 0; i < childNodes.getLength(); i++) {
+        List<Field> fields = new ArrayList<Field>();
+        // TODO: The NodeList is not of type Iterable so it cannot be easily traversed in a foreach loop.
+        for (int i = 0; i < childNodes.getLength(); ++i) {
             Node item = childNodes.item(i);
             if (isElement(item)) {
-                if ("typeRef".equals(item.getNodeName()) || "length".equals(item.getNodeName()))
+            	String itemNodeName = item.getNodeName();
+                if ("typeRef".equals(itemNodeName) || "length".equals(itemNodeName))
                     continue;
                 Element element = (Element) item;
                 FieldParser fieldParser = context.getFieldParser(element);
@@ -80,16 +82,16 @@ public class GroupParser extends AbstractFieldParser {
                 fields.add(fieldParser.parse(element, context));
             }
         }
-        return (Field[]) fields.toArray(new Field[] {});
+        return fields.toArray(new Field[fields.size()]);
     }
 
     /**
-     * Finds the typeReference tag in the passed dom element object
+     * Finds the typeReference tag in the passed DOM element object
      * 
      * @param templateTag
-     *            The dom element object
+     *            The DOM element object
      * @param context 
-     * @return Returns a string of the TypeReference from the passed element dom
+     * @return Returns a string of the TypeReference from the passed element DOM
      *         object
      */
     protected static QName getTypeReference(Element templateTag, ParsingContext context) {

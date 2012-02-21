@@ -43,11 +43,9 @@ public class ByteVectorValue extends ScalarValue {
     
     public String serialize() {
         StringBuffer builder = new StringBuffer(value.length * 2);
-        for (int i = 0; i < value.length; i++) {
-            String hex = Integer.toHexString(value[i] & 0xff);
-            if (hex.length() == 1)
-                builder.append('0');
-            builder.append(hex);
+        for (byte v : value) {
+            String hex = Integer.toHexString(v & 0xff);
+            builder.append(hex.length() != 1 ? hex : '0');
         }
         return builder.toString();
     }
@@ -67,10 +65,11 @@ public class ByteVectorValue extends ScalarValue {
         if (this.length != other.length) {
             return false;
         }
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < length; ++i) {
             if (this.value[offset + i] != other.value[other.offset + i]) {
                 return false;
             }
+        }
         return true;
     }
 

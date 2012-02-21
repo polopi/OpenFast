@@ -32,14 +32,12 @@ public class MulticastOutputStream extends OutputStream {
     private MulticastSocket socket;
     private InetAddress group;
     private int port;
-	private byte[] packetBuffer;
 	private ByteBuffer writeBuffer;
 
     public MulticastOutputStream(MulticastSocket socket, int port, InetAddress group) {
         this.socket = socket;
         this.group = group;
         this.port = port;
-		packetBuffer = new byte[BUFFER_SIZE];
 		writeBuffer = ByteBuffer.allocate(BUFFER_SIZE);
 		writeBuffer.clear();
     }

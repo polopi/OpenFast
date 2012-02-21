@@ -3,16 +3,14 @@
  */
 package org.openfast.examples.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.openfast.Context;
 import org.openfast.Message;
-import org.openfast.examples.util.FastMessageConsumer;
 import org.openfast.codec.FastDecoder;
 import org.openfast.template.TemplateRegistry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
-
-import java.io.InputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
 
 /**
  * An object to decode incoming FAST messages and pas them to a FastMessageConsumer.
@@ -80,8 +78,7 @@ public class FastMessageReader {
                     //noinspection ResultOfMethodCallIgnored
                     messageIn.read(sor, 0, 20);
                     StringBuffer b = new StringBuffer("Record# " + recordNumber);
-                    for (int i = 0; i < sor.length; i++) {
-                        byte aSor = sor[i];
+                    for (byte aSor : sor) {
 /*1.5                        b.append(String.format(" %02x", aSor));
  */
                         b.append(Integer.toHexString(aSor));

@@ -33,11 +33,11 @@ public class TemplateParser extends GroupParser {
     }
 
     /**
-     * Creates a MessageTemplate object from the dom template element
+     * Creates a MessageTemplate object from the DOM template element
      * 
      * @param context
      * @param templateElement
-     *            The dom element object
+     *            The DOM element object
      * @return Returns a newly created MessageTemplate object
      */
     protected Field parse(final Element templateElement, boolean optional, final ParsingContext context) {

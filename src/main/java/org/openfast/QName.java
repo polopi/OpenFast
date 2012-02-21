@@ -38,8 +38,9 @@ public class QName implements Serializable {
     public QName(String name, String namespace) {
         if (name == null)
             throw new NullPointerException();
+        
         this.name = name;
-        this.namespace = namespace == null ? "" : namespace;
+        this.namespace = namespace != null ? namespace : "";
     }
 
     public String getNamespace() {

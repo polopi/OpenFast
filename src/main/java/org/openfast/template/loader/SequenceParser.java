@@ -59,9 +59,9 @@ public class SequenceParser extends AbstractFieldParser {
      * 
      * @param name
      * @param sequence
-     *            The dom element object
+     *            The DOM element object
      * @param sequenceName
-     *            Name of the sequence to which this lenght field belongs
+     *            Name of the sequence to which this length field belongs
      * @param optional
      *            Determines if the Scalar is required or not for the data
      * @return Returns null if there are no elements by the tag length,

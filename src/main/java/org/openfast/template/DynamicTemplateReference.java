@@ -77,7 +77,7 @@ public class DynamicTemplateReference extends Field {
     /**
      * @return Returns null
      */
-    public Class getValueType() {
+    public Class<? extends FieldValue> getValueType() {
         return null;
     }
 

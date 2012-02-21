@@ -40,6 +40,17 @@
             </roles>
             <timezone>-5</timezone>
         </developer>
+        <developer>
+            <name>Josh Seidel</name>
+            <organization>Veritian</organization>
+            <organizationUrl>
+                http://www.veritian.net/
+            </organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
     </developers>
 
     <contributors>

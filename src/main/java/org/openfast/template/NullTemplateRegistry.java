@@ -141,11 +141,12 @@ final class NullTemplateRegistry implements TemplateRegistry {
 
     public void registerAll(TemplateRegistry registry) {}
 
-    public Iterator nameIterator() {
-        return Collections.EMPTY_LIST.iterator();
+    @SuppressWarnings("unchecked")
+	public Iterator<QName> nameIterator() {
+        return (Iterator<QName>)Collections.EMPTY_LIST.iterator();
     }
 
-    public Iterator iterator() {
+    public Iterator<MessageTemplate> iterator() {
         return null;
     }
 }

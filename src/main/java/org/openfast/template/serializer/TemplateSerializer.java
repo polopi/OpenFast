@@ -24,7 +24,7 @@ public class TemplateSerializer extends AbstractFieldSerializer implements Field
 //        }
         
         writeTypeReference(writer, template, context);
-        for (int i=1; i<template.getFieldCount(); i++) {
+        for (int i = 1; i < template.getFieldCount(); ++i) {
             context.serialize(writer, template.getField(i));
         }
         writer.end();

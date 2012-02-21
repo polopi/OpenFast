@@ -41,14 +41,10 @@ public class FileFastMessageLogger implements FastMessageLogger {
         StringBuilder msgBuilder = new StringBuilder();
         MessageTemplate template = message.getTemplate();
         msgBuilder.append(template.getName()).append("[ ");
-        for (int i=1; i<template.getFieldCount(); i++) {
-            msgBuilder.append(template.getField(i).getName()).append('=');
-            if (message.isDefined(i)) {
-                msgBuilder.append(message.getString(i));
-            } else {
-                msgBuilder.append("null");
-            }
-            msgBuilder.append(' ');
+        for (int i = 1; i < template.getFieldCount(); ++i) {
+            msgBuilder.append(template.getField(i).getName()).append('=')
+            .append(message.isDefined(i) ? message.getString(i) : "null")
+            .append(' ');
         }
         msgBuilder.append(']');
         return msgBuilder.toString().getBytes();
