@@ -4,6 +4,8 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.openfast.template.Field;
 import org.openfast.template.Group;
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.Scalar;
@@ -42,24 +44,24 @@ public class XMLMessageTemplateSerializer implements MessageTemplateSerializer {
         writer.addAttribute("xmlns", "http://www.fixprotocol.org/ns/fast/td/1.1");
         context.setTemplateNamespace(templateNamespace);
         context.setNamespace(childNamespace);
-        for (int i=0; i<templates.length; i++) {
-            context.serialize(writer, templates[i]);
+        for (MessageTemplate template : templates) {
+            context.serialize(writer, template);
         }
         writer.end();
     }
     
     private String whichNamespaceIsUsedMode(MessageTemplate[] templates) {
-        Map namespaces = new HashMap();
-        for (int i=0; i<templates.length; i++) {
-            tallyNamespaceReferences(templates[i], namespaces);
+        Map<String, Integer> namespaces = new HashMap<String, Integer>();
+        for (MessageTemplate template : templates) {
+            tallyNamespaceReferences(template, namespaces);
         }
         
-        Iterator iter = namespaces.keySet().iterator();
+        Iterator<String> iter = namespaces.keySet().iterator();
         int champion = 0;
         String championNs = "";
         while (iter.hasNext()) {
-            String contender = (String) iter.next();
-            int contenderCount = ((Integer)namespaces.get(contender)).intValue();
+            String contender = iter.next();
+            int contenderCount = namespaces.get(contender).intValue();
             if (contenderCount > champion) {
                 champion = contenderCount;
                 championNs = contender;
@@ -67,43 +69,39 @@ public class XMLMessageTemplateSerializer implements MessageTemplateSerializer {
         }
         return championNs;
     }
-    private void tallyNamespaceReferences(Group group, Map namespaces) {
+    private void tallyNamespaceReferences(Group group, Map<String, Integer> namespaces) {
         int start = 0;
         if (group instanceof MessageTemplate)
             start = 1;
-        for (int i=start; i<group.getFieldCount(); i++) {
-            if (group.getField(i) instanceof Scalar) {
-                String ns = group.getField(i).getQName().getNamespace();
-                if (!namespaces.containsKey(ns)) {
-                    namespaces.put(ns, new Integer(1));
-                } else {
-                    namespaces.put(ns, new Integer(((Integer) namespaces.get(ns)).intValue() + 1));
-                }
-            } else if (group.getField(i) instanceof Group) {
-                tallyNamespaceReferences((Group) group.getField(i), namespaces);
-            } else if (group.getField(i) instanceof Sequence) {
-                tallyNamespaceReferences(((Sequence)group.getField(i)).getGroup(), namespaces);
+        
+        for (int i=start; i<group.getFieldCount(); ++i) {
+        	Field groupField = group.getField(i);
+            if (groupField instanceof Scalar) {
+                String ns = groupField.getQName().getNamespace();
+                namespaces.put(ns, namespaces.containsKey(ns) ?
+                		new Integer(namespaces.get(ns).intValue() + 1) : new Integer(1) ); 
+            } else if (groupField instanceof Group) {
+                tallyNamespaceReferences((Group) groupField, namespaces);
+            } else if (groupField instanceof Sequence) {
+                tallyNamespaceReferences(((Sequence) groupField).getGroup(), namespaces);
             }
         }
     }
     
     private String whichTemplateNamespaceIsUsedMost(MessageTemplate[] templates) {
-        Map namespaces = new HashMap();
-        for (int i=0; i<templates.length; i++) {
-            String ns = templates[i].getQName().getNamespace();
-            if (!namespaces.containsKey(ns)) {
-                namespaces.put(ns, new Integer(1));
-            } else {
-                namespaces.put(ns, new Integer(((Integer) namespaces.get(ns)).intValue() + 1));
-            }
+        Map<String, Integer> namespaces = new HashMap<String, Integer>();
+        for (MessageTemplate template : templates) {
+            String ns = template.getQName().getNamespace();
+            namespaces.put(ns, namespaces.containsKey(ns) ? 
+            	new Integer(namespaces.get(ns).intValue() + 1) : new Integer(1));
         }
         
-        Iterator iter = namespaces.keySet().iterator();
+        Iterator<String> iter = namespaces.keySet().iterator();
         int champion = 0;
         String championNs = "";
         while (iter.hasNext()) {
-            String contender = (String) iter.next();
-            int contenderCount = ((Integer)namespaces.get(contender)).intValue();
+            String contender = iter.next();
+            int contenderCount = namespaces.get(contender).intValue();
             if (contenderCount > champion) {
                 champion = contenderCount;
                 championNs = contender;

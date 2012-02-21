@@ -39,9 +39,9 @@ public class ComposedDecimalParser extends AbstractFieldParser {
 
     public boolean canParse(Element element, ParsingContext context) {
         NodeList children = element.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
+        for (int i = 0; i < children.getLength(); ++i) {
             String nodeName = children.item(i).getNodeName();
-            if (nodeName.equals("mantissa") || nodeName.equals("exponent"))
+            if ("mantissa".equals(nodeName) || "exponent".equals(nodeName))
                 return true;
         }
         return false;
@@ -51,11 +51,13 @@ public class ComposedDecimalParser extends AbstractFieldParser {
         NodeList fieldChildren = fieldNode.getChildNodes();
         Node mantissaNode = null;
         Node exponentNode = null;
-        for (int i = 0; i < fieldChildren.getLength(); i++) {
-            if ("mantissa".equals(fieldChildren.item(i).getNodeName())) {
-                mantissaNode = fieldChildren.item(i);
-            } else if ("exponent".equals(fieldChildren.item(i).getNodeName())) {
-                exponentNode = fieldChildren.item(i);
+        for (int i = 0; i < fieldChildren.getLength(); ++i) {
+        	Node node = fieldChildren.item(i);
+        	String nodeName = node.getNodeName();
+            if ("mantissa".equals(nodeName)) {
+                mantissaNode = node;
+            } else if ("exponent".equals(nodeName)) {
+                exponentNode = node;
             }
         }
         return createComposedDecimal(fieldNode, context.getName(), optional, mantissaNode, exponentNode, context);
@@ -67,7 +69,7 @@ public class ComposedDecimalParser extends AbstractFieldParser {
      * within the passed Nodes, those values are stored as well
      * 
      * @param fieldNode
-     *            The dom element object
+     *            The DOM element object
      * @param name
      *            The name of the create Scalar object
      * @param optional

@@ -1,32 +1,31 @@
 package org.openfast.examples.producer;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.openfast.Context;
 import org.openfast.Global;
 import org.openfast.Message;
-import org.openfast.MessageBlockWriter;
 import org.openfast.MessageOutputStream;
 import org.openfast.error.ErrorHandler;
+import org.openfast.examples.MessageBlockWriterFactory;
 import org.openfast.session.Connection;
 import org.openfast.session.ConnectionListener;
 import org.openfast.session.Endpoint;
 import org.openfast.session.FastConnectionException;
 import org.openfast.template.TemplateRegistry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
-import org.openfast.examples.MessageBlockWriterFactory;
 
 public class FastMessageProducer implements ConnectionListener {
     protected final Endpoint endpoint;
     protected final TemplateRegistry templateRegistry;
     protected Thread acceptThread;
-    protected List connections = new ArrayList();
+    protected List<MessageOutputStream> connections = new ArrayList<MessageOutputStream>();
     protected XmlCompressedMessageConverter converter = new XmlCompressedMessageConverter();
     protected final MessageBlockWriterFactory messageBlockWriterFactory;
 
@@ -58,7 +57,7 @@ public class FastMessageProducer implements ConnectionListener {
     }
 
     public void encode(InputStream xmlData, boolean loopForever) throws FastConnectionException, IOException {
-        List messages = converter.parse(xmlData);
+        List<Message> messages = converter.parse(xmlData);
         if(messages == null)
             throw new IllegalArgumentException("The XML data stream contains no FAST messages!");
 
@@ -73,11 +72,9 @@ public class FastMessageProducer implements ConnectionListener {
         while(loopForever);
     }
 
-    protected void publish(List messages, List msgOutputStreams) {
-        for (int i = 0; i < messages.size(); ++i) {
-            Message message = (Message) messages.get(i);
-            for (int j = 0; j < msgOutputStreams.size(); ++j) {
-                MessageOutputStream out = (MessageOutputStream)msgOutputStreams.get(j);
+    protected void publish(List<Message> messages, List<MessageOutputStream> msgOutputStreams) {
+        for (Message message : messages) {
+            for(MessageOutputStream out : msgOutputStreams) {
                 out.writeMessage(message);
             }
         }

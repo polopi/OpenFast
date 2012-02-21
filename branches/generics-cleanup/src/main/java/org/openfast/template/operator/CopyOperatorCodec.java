@@ -63,13 +63,13 @@ public class CopyOperatorCodec extends OptionallyPresentOperatorCodec {
      *         object is defined, otherwise returns null
      */
     protected ScalarValue getInitialValue(Scalar field) {
-        if (!field.getDefaultValue().isUndefined()) {
-            return field.getDefaultValue();
+    	ScalarValue defaultValue = field.getDefaultValue();
+        if (!defaultValue.isUndefined()) {
+            return defaultValue;
         }
-        if (field.isOptional()) {
-            return null;
+        if (!field.isOptional()) {
+            Global.handleError(FastConstants.D5_NO_DEFAULT_VALUE, "No default value for " + field);
         }
-        Global.handleError(FastConstants.D5_NO_DEFAULT_VALUE, "No default value for " + field);
         return null;
     }
 

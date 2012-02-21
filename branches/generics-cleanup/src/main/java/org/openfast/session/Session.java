@@ -200,8 +200,7 @@ public class Session implements ErrorHandler {
             throw new UnsupportedOperationException("The procotol " + protocol + " does not support template exchange.");
         }
         MessageTemplate[] templates = registry.getTemplates();
-        for (int i = 0; i < templates.length; i++) {
-            MessageTemplate template = templates[i];
+        for ( MessageTemplate template : templates) {
             out.writeMessage(protocol.createTemplateDefinitionMessage(template));
             out.writeMessage(protocol.createTemplateDeclarationMessage(template, registry.getId(template)));
             if (!out.getTemplateRegistry().isRegistered(template))

@@ -41,7 +41,7 @@ public class TestUtil {
         if (expected.length != actual.length)
             TestCase.fail(error);
 
-        for (int i = 0; i < expected.length; i++) {
+        for (int i = 0; i < expected.length; ++i) {
             TestCase.assertEquals(error, expected[i], actual[i]);
         }
     }

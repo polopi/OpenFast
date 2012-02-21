@@ -23,7 +23,7 @@ public class HexadecimalInputStream extends InputStream {
             int index = 0;
             while (index < numRead) {
                 if (buffer[index] == '\r' || buffer[index] == '\n') {
-                    index++;
+                    ++index;
                     continue;
                 }
                 if (index + 1 == numRead) {
@@ -32,12 +32,12 @@ public class HexadecimalInputStream extends InputStream {
                     temp[1] = (byte) in.read();
                     String data = new String(temp);
                     b[off + byteCount] = (byte) Integer.parseInt(data, 16);
-                    byteCount++;
+                    ++byteCount;
                     break;
                 }
                 String data = new String(buffer, index, 2);
                 b[off + byteCount] = (byte) Integer.parseInt(data, 16);
-                byteCount++;
+                ++byteCount;
                 index+=2;
             }
             if (eof)

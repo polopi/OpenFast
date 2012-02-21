@@ -2,8 +2,6 @@ package org.openfast.examples.util;
 
 import org.openfast.Message;
 
-import java.io.PrintStream;
-
 /**
  * An interface for objects that handle decoded FAST messages.
  */

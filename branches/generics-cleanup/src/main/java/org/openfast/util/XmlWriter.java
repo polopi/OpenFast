@@ -12,7 +12,7 @@ public class XmlWriter {
     private String indent = "";
     private boolean open;
     private boolean hasChildren;
-    private Stack elementStack = new Stack();
+    private Stack<String> elementStack = new Stack<String>();
     private boolean processingInstructionsEnabled;
     private boolean started = false;
 
@@ -52,20 +52,20 @@ public class XmlWriter {
     
     public void end() {
         unindent();
-        String nodeName = (String) elementStack.pop();
-        if (open || !hasChildren) {
-            writer.println("/>");
-        } else {
-            writer.println(indent + "</" + nodeName + ">");
-        }
+        String nodeName = elementStack.pop();
+        writer.println((open || !hasChildren) ? "/>" : (indent + "</" + nodeName + ">"));
         writer.flush();
         hasChildren = true;
         open = false;
     }
 
     private void indent() {
-        for (int i=0; i<tabSize; i++)
-            indent += " ";
+    	StringBuilder indentBuilder = new StringBuilder(tabSize + indent.length());
+    	indentBuilder.append(indent);
+        for (int i = 0; i < tabSize; ++i)
+        	indentBuilder.append(' ');
+    	
+    	indent = indentBuilder.toString();
     }
     
     private void unindent() {

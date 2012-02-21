@@ -39,8 +39,8 @@ public class Key {
     }
 
     private void checkNull() {
-        for (int i = 0; i < keys.length; i++)
-            if (keys[i] == null)
+        for (Object key : keys)
+            if (key == null)
                 throw new NullPointerException();
     }
 
@@ -52,7 +52,7 @@ public class Key {
         Key other = ((Key) obj);
         if (other.keys.length != keys.length)
             return false;
-        for (int i = 0; i < keys.length; i++)
+        for (int i = 0; i < keys.length; ++i)
             if (!other.keys[i].equals(keys[i]))
                 return false;
         return true;
@@ -60,7 +60,7 @@ public class Key {
 
     public int hashCode() {
         int hashCode = 0;
-        for (int i = 0; i < keys.length; i++)
+        for (int i = 0; i < keys.length; ++i)
             hashCode += keys[i].hashCode() * (37 ^ i);
         return hashCode;
     }

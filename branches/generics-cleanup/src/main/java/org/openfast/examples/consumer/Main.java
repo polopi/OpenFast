@@ -2,14 +2,14 @@ package org.openfast.examples.consumer;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.openfast.examples.Assert;
-import org.openfast.examples.OpenFastExample;
 import org.openfast.examples.MessageBlockReaderFactory;
+import org.openfast.examples.OpenFastExample;
 import org.openfast.session.Endpoint;
 import org.openfast.session.FastConnectionException;
-import org.openfast.session.multicast.MulticastEndpoint;
 import org.openfast.session.multicast.MulticastClientEndpoint;
 import org.openfast.session.tcp.TcpEndpoint;
 

@@ -35,7 +35,7 @@ import org.openfast.test.OpenFastTestCase;
 
 public class UtilTest extends OpenFastTestCase {
     public void testCollectionToString() {
-        Map map = new LinkedHashMap();
+        Map<String, String> map = new LinkedHashMap<String, String>();
         map.put("abc", "123");
         map.put("def", "456");
         assertEquals("{abc,def}", Util.collectionToString(map.keySet()));

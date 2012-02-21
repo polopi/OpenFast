@@ -34,7 +34,7 @@ import org.openfast.util.Key;
 
 public abstract class OperatorCodec implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static final Map OPERATOR_MAP = new HashMap();
+    private static final Map<Key, OperatorCodec> OPERATOR_MAP = new HashMap<Key, OperatorCodec>();
     protected static final OperatorCodec NONE_ALL = new NoneOperatorCodec(Operator.NONE, Type.ALL_TYPES);
     protected static final OperatorCodec CONSTANT_ALL = new ConstantOperatorCodec(Operator.CONSTANT, Type.ALL_TYPES);
     protected static final OperatorCodec DEFAULT_ALL = new DefaultOperatorCodec(Operator.DEFAULT, Type.ALL_TYPES);
@@ -56,8 +56,8 @@ public abstract class OperatorCodec implements Serializable {
      */
     protected OperatorCodec(Operator operator, Type[] types) {
         this.operator = operator;
-        for (int i = 0; i < types.length; i++) {
-            Key key = new Key(operator, types[i]);
+        for (Type type : types) {
+            Key key = new Key(operator, type);
             if (!OPERATOR_MAP.containsKey(key)) {
                 OPERATOR_MAP.put(key, this);
             }
@@ -80,7 +80,7 @@ public abstract class OperatorCodec implements Serializable {
                     + "\" is not compatible with type \"" + type + "\"");
             throw new IllegalArgumentException();
         }
-        return (OperatorCodec) OPERATOR_MAP.get(key);
+        return OPERATOR_MAP.get(key);
     }
 
     public abstract ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field);
@@ -122,10 +122,11 @@ public abstract class OperatorCodec implements Serializable {
      */
     public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar scalar, BitVectorBuilder presenceMapBuilder) {
         ScalarValue valueToEncode = getValueToEncode(value, priorValue, scalar);
-        if (valueToEncode == null)
+        if (valueToEncode == null) {
             presenceMapBuilder.skip();
-        else
+        } else {
             presenceMapBuilder.set();
+        }
         return valueToEncode;
     }
 

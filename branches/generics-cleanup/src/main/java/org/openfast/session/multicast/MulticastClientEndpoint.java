@@ -23,11 +23,9 @@ package org.openfast.session.multicast;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.net.SocketException;
 
 import org.openfast.session.Connection;
 import org.openfast.session.ConnectionListener;
-import org.openfast.session.Endpoint;
 import org.openfast.session.FastConnectionException;
 
 public class MulticastClientEndpoint extends MulticastEndpoint {

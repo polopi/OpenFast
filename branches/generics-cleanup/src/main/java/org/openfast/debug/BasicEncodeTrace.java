@@ -32,18 +32,18 @@ import org.openfast.template.Group;
 
 public class BasicEncodeTrace implements Trace {
 
-    private Stack stack = new Stack();
+    private Stack<TraceGroup> stack = new Stack<TraceGroup>();
     private PrintWriter out = new PrintWriter(System.out);
 
     public void groupStart(Group group) {
         TraceGroup traceGroup = new TraceGroup(group);
         if (!stack.isEmpty())
-            ((TraceGroup) stack.peek()).addGroup(traceGroup);
+            stack.peek().addGroup(traceGroup);
         stack.push(traceGroup);
     }
 
     public void field(Field field, FieldValue value, FieldValue encoded, byte[] encoding, int pmapIndex) {
-        ((TraceGroup) stack.peek()).addField(field, value, encoded, pmapIndex, encoding);
+        stack.peek().addField(field, value, encoded, pmapIndex, encoding);
     }
 
     public void groupEnd() {
@@ -54,12 +54,12 @@ public class BasicEncodeTrace implements Trace {
     }
 
     public void pmap(byte[] pmap) {
-        ((TraceGroup) stack.peek()).setPmap(pmap);
+        stack.peek().setPmap(pmap);
     }
 
     private class TraceGroup implements TraceNode {
 
-        private List nodes;
+        private List<TraceNode> nodes;
 
         private byte[] pmap;
 
@@ -67,7 +67,7 @@ public class BasicEncodeTrace implements Trace {
 
         public TraceGroup(Group group) {
             this.group = group;
-            this.nodes = new ArrayList(group.getFieldCount());
+            this.nodes = new ArrayList<TraceNode>(group.getFieldCount());
         }
 
         public void setPmap(byte[] pmap) {
@@ -87,8 +87,8 @@ public class BasicEncodeTrace implements Trace {
             indent += 2;
             if (pmap != null)
                 builder.append(indent(indent)).append("PMAP: ").append(ByteUtil.convertByteArrayToBitString(pmap)).append("\n");
-            for (int i = 0; i < nodes.size(); i++) {
-                ((TraceNode) nodes.get(i)).serialize(builder, indent);
+            for (int i = 0; i < nodes.size(); ++i) {
+                nodes.get(i).serialize(builder, indent);
             }
             indent -= 2;
             return builder;
@@ -135,10 +135,10 @@ public class BasicEncodeTrace implements Trace {
     }
 
     public String indent(int indent) {
-        String tab = "";
-        for (int i = 0; i < indent; i++)
-            tab += " ";
-        return tab;
+        StringBuilder tab = new StringBuilder(indent);
+        for (int i = 0; i < indent; ++i)
+            tab.append(' ');
+        return tab.toString();
     }
 
     public void setWriter(PrintWriter traceWriter) {

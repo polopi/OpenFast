@@ -28,13 +28,13 @@ import org.openfast.template.Field;
 import org.openfast.template.Group;
 
 public class ConversionContext {
-    private Map converterTemplateMap = new HashMap();
-    private List converters = new ArrayList();
+    private Map<Group, FieldInstructionConverter> converterTemplateMap = new HashMap<Group, FieldInstructionConverter>();
+    private List<FieldInstructionConverter> converters = new ArrayList<FieldInstructionConverter>();
 
     public void addFieldInstructionConverter(FieldInstructionConverter converter) {
         Group[] templateExchangeTemplates = converter.getTemplateExchangeTemplates();
-        for (int i = 0; i < templateExchangeTemplates.length; i++) {
-            converterTemplateMap.put(templateExchangeTemplates[i], converter);
+        for(Group templateExchangeTemplate : templateExchangeTemplates) {
+            converterTemplateMap.put(templateExchangeTemplate, converter);
         }
         converters.add(converter);
     }
@@ -44,7 +44,7 @@ public class ConversionContext {
     }
 
     public FieldInstructionConverter getConverter(Field field) {
-        for (int i = converters.size() - 1; i >= 0; i--) {
+        for (int i = converters.size() - 1; i >= 0; --i) {
             FieldInstructionConverter converter = (FieldInstructionConverter) converters.get(i);
             if (converter.shouldConvert(field))
                 return converter;

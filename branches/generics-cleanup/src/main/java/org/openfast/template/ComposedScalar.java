@@ -33,7 +33,7 @@ import org.openfast.template.type.Type;
 
 public class ComposedScalar extends Field {
     private static final long serialVersionUID = 1L;
-    private static final Class ScalarValueType = null;
+    private static final Class<? extends FieldValue> ScalarValueType = null;
     private Scalar[] fields;
     private ComposedValueConverter valueConverter;
     private Type type;
@@ -58,7 +58,7 @@ public class ComposedScalar extends Field {
     public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader presenceMapReader) {
         synchronized(values) {
             Arrays.fill(values, null);
-            for (int i = 0; i < fields.length; i++) {
+            for (int i = 0; i < fields.length; ++i) {
                 values[i] = fields[i].decode(in, template, context, presenceMapReader);
                 if (i == 0 && values[0] == null)
                     return null;
@@ -74,7 +74,7 @@ public class ComposedScalar extends Field {
         } else {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream(fields.length * 8);
             FieldValue[] values = valueConverter.split(value);
-            for (int i = 0; i < fields.length; i++) {
+            for (int i = 0; i < fields.length; ++i) {
                 try {
                     buffer.write(fields[i].encode(values[i], template, context, presenceMapBuilder));
                 } catch (IOException e) {
@@ -89,7 +89,7 @@ public class ComposedScalar extends Field {
         return type.getName();
     }
 
-    public Class getValueType() {
+    public Class<? extends FieldValue> getValueType() {
         return ScalarValueType;
     }
 
@@ -98,8 +98,8 @@ public class ComposedScalar extends Field {
     }
 
     public boolean usesPresenceMapBit() {
-        for (int i=0; i<fields.length; i++) {
-            if (fields[i].usesPresenceMapBit())
+        for (Field field : fields) {
+            if (field.usesPresenceMapBit())
                 return true;
         }
         return false;
@@ -123,18 +123,20 @@ public class ComposedScalar extends Field {
             return false;
         if (!other.getName().equals(getName()))
             return false;
-        for (int i = 0; i < fields.length; i++) {
-            if (!other.fields[i].getType().equals(fields[i].getType()))
+        for (int i = 0; i < fields.length; ++i) {
+        	Scalar otherField = other.fields[i];
+        	Scalar field = fields[i];
+            if (!otherField.getType().equals(field.getType()))
                 return false;
-            if (!other.fields[i].getTypeCodec().equals(fields[i].getTypeCodec()))
+            if (!otherField.getTypeCodec().equals(field.getTypeCodec()))
                 return false;
-            if (!other.fields[i].getOperator().equals(fields[i].getOperator()))
+            if (!otherField.getOperator().equals(field.getOperator()))
                 return false;
-            if (!other.fields[i].getOperatorCodec().equals(fields[i].getOperatorCodec()))
+            if (!otherField.getOperatorCodec().equals(field.getOperatorCodec()))
                 return false;
-            if (!other.fields[i].getDefaultValue().equals(fields[i].getDefaultValue()))
+            if (!otherField.getDefaultValue().equals(field.getDefaultValue()))
                 return false;
-            if (!other.fields[i].getDictionary().equals(fields[i].getDictionary()))
+            if (!otherField.getDictionary().equals(field.getDictionary()))
                 return false;
         }
         return true;
@@ -145,11 +147,14 @@ public class ComposedScalar extends Field {
     }
 
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+    	// Pre-allocate the builder size and use a rough estimate
+        StringBuilder builder = new StringBuilder(11 + fields.length * 32);
         builder.append("Composed {");
-        for (int i = 0; i < fields.length; i++)
-            builder.append(fields[i].toString()).append(", ");
-        builder.delete(builder.length() - 2, builder.length());
+        for (Scalar field : fields) {
+            builder.append(field.toString()).append(", ");
+        }
+        int length = builder.length();
+        builder.delete(length - 2, length);
         return builder.append("}").toString();
     }
 }

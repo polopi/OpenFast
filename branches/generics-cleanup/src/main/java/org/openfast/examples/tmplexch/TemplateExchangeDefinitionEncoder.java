@@ -41,8 +41,8 @@ public class TemplateExchangeDefinitionEncoder {
         context.setTemplateRegistry(registry);
         FastEncoder encoder = new FastEncoder(context);
         MessageTemplate[] templates = templateRegistry.getTemplates();
-        for (int i=0; i<templates.length; i++) {
-            Message message = SessionConstants.SCP_1_1.createTemplateDefinitionMessage(templates[i]);
+        for (MessageTemplate template : templates) {
+            Message message = SessionConstants.SCP_1_1.createTemplateDefinitionMessage(template);
             out.write(encoder.encode(message));
         }
     }

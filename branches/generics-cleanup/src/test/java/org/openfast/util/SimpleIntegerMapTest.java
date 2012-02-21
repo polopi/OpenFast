@@ -4,14 +4,14 @@ import junit.framework.TestCase;
 
 public class SimpleIntegerMapTest extends TestCase {
     public void testPut() {
-        IntegerMap map = new SimpleIntegerMap();
+        IntegerMap<Object> map = new SimpleIntegerMap<Object>();
         Object o = new Object();
         map.put(0, o);
         assertEquals(o, map.get(0));
     }
     
     public void testPutShortMiss() {
-        IntegerMap map = new SimpleIntegerMap();
+        IntegerMap<Object> map = new SimpleIntegerMap<Object>();
         Object o = new Object();
         map.put(5, o);
         Object o2 = new Object();
@@ -21,7 +21,7 @@ public class SimpleIntegerMapTest extends TestCase {
     }
     
     public void testPutLongMiss() {
-        IntegerMap map = new SimpleIntegerMap();
+        IntegerMap<Object> map = new SimpleIntegerMap<Object>();
         Object o = new Object();
         map.put(5, o);
         Object o2 = new Object();

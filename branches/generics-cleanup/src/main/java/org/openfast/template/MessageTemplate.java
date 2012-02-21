@@ -43,8 +43,8 @@ public class MessageTemplate extends Group implements FieldSet {
     }
 
     private void updateTemplateReference(Field[] fields) {
-        for (int i=0; i<fields.length; i++) {
-            fields[i].setMessageTemplate(this);
+        for (Field field : fields) {
+            field.setMessageTemplate(this);
         }
     }
 
@@ -88,7 +88,7 @@ public class MessageTemplate extends Group implements FieldSet {
     }
 
     /**
-     * Uses the superclasses encode method to encode the byte array - see
+     * Uses the super-classes encode method to encode the byte array - see
      * Group.java
      * 
      * @param message
@@ -98,10 +98,11 @@ public class MessageTemplate extends Group implements FieldSet {
      * @return Returns a byte array of the encoded message
      */
     public byte[] encode(Message message, Context context) {
-        if (!context.getTemplateRegistry().isRegistered(message.getTemplate()))
+    	MessageTemplate messageTemplate = message.getTemplate();
+        if (!context.getTemplateRegistry().isRegistered(messageTemplate))
             throw new FastException("Cannot encode message: The template " + message.getTemplate() + " has not been registered.",
                     FastConstants.D9_TEMPLATE_NOT_REGISTERED);
-        message.setInteger(0, context.getTemplateId(message.getTemplate()));
+        message.setInteger(0, context.getTemplateId(messageTemplate));
         return super.encode(message, this, context);
     }
 
@@ -137,7 +138,7 @@ public class MessageTemplate extends Group implements FieldSet {
     /**
      * @return Returns the class of the message
      */
-    public Class getValueType() {
+    public Class<? extends FieldValue> getValueType() {
         return Message.class;
     }
 
@@ -184,7 +185,7 @@ public class MessageTemplate extends Group implements FieldSet {
             return false;
         if (fields.length != other.fields.length)
             return false;
-        for (int i = 0; i < fields.length; i++) {
+        for (int i = 0; i < fields.length; ++i) {
             if (!fields[i].equals(other.fields[i]))
                 return false;
         }
@@ -193,8 +194,8 @@ public class MessageTemplate extends Group implements FieldSet {
 
     public int hashCode() {
         int hashCode = (name != null) ? name.hashCode() : 0;
-        for (int i = 0; i < fields.length; i++)
-            hashCode += fields[i].hashCode();
+        for (Field field : fields)
+            hashCode += field.hashCode();
         return hashCode;
     }
 }

@@ -172,9 +172,9 @@ public class Sequence extends Field implements FieldSet {
         int len = val.getLength();
         try {
             buffer.write(length.encode(new IntegerValue(len), template, context, presenceMapBuilder));
-            Iterator iter = val.iterator();
+            Iterator<GroupValue> iter = val.iterator();
             while (iter.hasNext()) {
-                buffer.write(group.encode((FieldValue) iter.next(), template, context));
+                buffer.write(group.encode(iter.next(), template, context));
             }
         } catch (IOException e) {
             Global.handleError(FastConstants.IO_ERROR, "An IO error occurred while encoding " + this, e);
@@ -202,7 +202,7 @@ public class Sequence extends Field implements FieldSet {
             return null;
         }
         int len = lengthValue.toInt();
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < len; ++i)
             sequenceValue.add((GroupValue) group.decode(in, template, context, BitVectorReader.INFINITE_TRUE));
         return sequenceValue;
     }
@@ -210,7 +210,7 @@ public class Sequence extends Field implements FieldSet {
     /**
      * @return Returns the class of the current SequenceValue
      */
-    public Class getValueType() {
+    public Class<? extends FieldValue> getValueType() {
         return SequenceValue.class;
     }
 

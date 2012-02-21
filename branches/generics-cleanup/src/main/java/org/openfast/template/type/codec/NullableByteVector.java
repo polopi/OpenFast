@@ -45,7 +45,7 @@ public class NullableByteVector extends NotStopBitEncodedTypeCodec {
             return null;
         int length = ((ScalarValue) decode).toInt();
         byte[] encoding = new byte[length];
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < length; ++i)
             try {
                 encoding[i] = (byte) in.read();
             } catch (IOException e) {

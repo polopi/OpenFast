@@ -22,10 +22,6 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 
 package org.openfast.impl;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.LinkedList;
 import junit.framework.TestCase;
 
 public class CmeMessageBlockReaderWriterTest extends TestCase {

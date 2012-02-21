@@ -61,13 +61,13 @@ public class Main extends OpenFastExample {
     }
 
     private static void runRepeat(PerformanceRunner performanceRunner, int repeat) {
-        for (int i=0; i<repeat; i++)
+        for (int i = 0; i < repeat; ++i)
             run(performanceRunner);
     }
 
     private static void runContinuous(PerformanceRunner performanceRunner) {
         while (true) {
-            run (performanceRunner);
+            run(performanceRunner);
         }
     }
 

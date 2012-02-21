@@ -57,7 +57,7 @@ final class TailOperatorCodec extends OperatorCodec {
             Global.handleError(FastConstants.D3_CANT_ENCODE_VALUE, "The value " + val
                     + " cannot be encoded by a tail operator with previous value " + priorValue);
         while (index < val.length && val[index] == prior[index])
-            index++;
+            ++index;
         if (val.length == index)
             return null;
         return (ScalarValue) field.getType().getValue(val, index, val.length - index);

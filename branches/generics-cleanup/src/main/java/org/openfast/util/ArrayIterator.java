@@ -22,11 +22,11 @@ package org.openfast.util;
 
 import java.util.Iterator;
 
-public class ArrayIterator implements Iterator {
-    private int position;
-    private final Object[] array;
+public class ArrayIterator<E> implements Iterator<E> {
+    private int position = 0;
+    private final E[] array;
 
-    public ArrayIterator(final Object[] array) {
+    public ArrayIterator(final E[] array) {
         this.array = array;
     }
 
@@ -34,7 +34,7 @@ public class ArrayIterator implements Iterator {
         return position < array.length;
     }
 
-    public Object next() {
+    public E next() {
         return array[position++];
     }
 

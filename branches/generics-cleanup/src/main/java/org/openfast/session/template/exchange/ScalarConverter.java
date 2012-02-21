@@ -37,8 +37,8 @@ import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
 
 public class ScalarConverter extends AbstractFieldInstructionConverter {
-    private final Map/* <Type, MessageTemplate> */TYPE_TEMPLATE_MAP = new HashMap();
-    private final Map/* <Type, MessageTemplate> */TEMPLATE_TYPE_MAP = new HashMap();
+    private final Map<Type, MessageTemplate> TYPE_TEMPLATE_MAP = new HashMap<Type, MessageTemplate>(10, 0.95f);
+    private final Map<MessageTemplate, Type> TEMPLATE_TYPE_MAP = new HashMap<MessageTemplate, Type>(10, 0.95f);
 
     public ScalarConverter() {
         TYPE_TEMPLATE_MAP.put(Type.I32, SessionControlProtocol_1_1.INT32_INSTR);
@@ -57,30 +57,34 @@ public class ScalarConverter extends AbstractFieldInstructionConverter {
         TEMPLATE_TYPE_MAP.put(SessionControlProtocol_1_1.DECIMAL_INSTR, Type.DECIMAL);
         TEMPLATE_TYPE_MAP.put(SessionControlProtocol_1_1.UNICODE_INSTR, Type.UNICODE);
         TEMPLATE_TYPE_MAP.put(SessionControlProtocol_1_1.ASCII_INSTR, Type.ASCII);
+//        TEMPLATE_TYPE_MAP is missing a STRING_INSTR, just checking symmetry with TYPE_TEMPLATE_MAP
         TEMPLATE_TYPE_MAP.put(SessionControlProtocol_1_1.BYTE_VECTOR_INSTR, Type.BYTE_VECTOR);
     }
 
     public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
-        Type type = (Type) TEMPLATE_TYPE_MAP.get(fieldDef.getGroup());
+        Type type = TEMPLATE_TYPE_MAP.get(fieldDef.getGroup());
         boolean optional = fieldDef.getBool("Optional");
-        ScalarValue initialValue = ScalarValue.UNDEFINED;
-        if (fieldDef.isDefined("InitialValue"))
-            initialValue = (ScalarValue) fieldDef.getValue("InitialValue");
+        ScalarValue initialValue = fieldDef.isDefined("InitialValue") ?
+        		(ScalarValue) fieldDef.getValue("InitialValue") : ScalarValue.UNDEFINED;
+        		
         Scalar scalar = null;
         String name = fieldDef.getString("Name");
-        String namespace = "";
-        if (fieldDef.isDefined("Ns"))
-            namespace = fieldDef.getString("Ns");
+        String namespace = fieldDef.isDefined("Ns") ? fieldDef.getString("Ns") : "";
+        
         QName qname = new QName(name, namespace);
         if (fieldDef.isDefined("Operator")) {
             GroupValue operatorGroup = fieldDef.getGroup("Operator").getGroup(0);
             Operator operator = getOperator(operatorGroup.getGroup());
             scalar = new Scalar(qname, type, operator, initialValue, optional);
-            if (operatorGroup.isDefined("Dictionary"))
+            
+            if (operatorGroup.isDefined("Dictionary")) {
                 scalar.setDictionary(operatorGroup.getString("Dictionary"));
+            }
+            
             if (operatorGroup.isDefined("Key")) {
-                String keyName = operatorGroup.getGroup("Key").getString("Name");
-                String ns = operatorGroup.getGroup("Key").getString("Ns");
+            	GroupValue keyGroup = operatorGroup.getGroup("Key");
+                String keyName = keyGroup.getString("Name");
+                String ns = keyGroup.getString("Ns");
                 scalar.setKey(new QName(keyName, ns));
             }
         } else {
@@ -94,7 +98,7 @@ public class ScalarConverter extends AbstractFieldInstructionConverter {
 
     public GroupValue convert(Field field, ConversionContext context) {
         Scalar scalar = (Scalar) field;
-        MessageTemplate scalarTemplate = (MessageTemplate) TYPE_TEMPLATE_MAP.get(scalar.getType());
+        MessageTemplate scalarTemplate = TYPE_TEMPLATE_MAP.get(scalar.getType());
         Message scalarMsg = new Message(scalarTemplate);
         setNameAndId(scalar, scalarMsg);
         scalarMsg.setInteger("Optional", scalar.isOptional() ? 1 : 0);
@@ -107,7 +111,7 @@ public class ScalarConverter extends AbstractFieldInstructionConverter {
     }
 
     public Group[] getTemplateExchangeTemplates() {
-        return (Group[]) TEMPLATE_TYPE_MAP.keySet().toArray(new Group[TEMPLATE_TYPE_MAP.size()]);
+        return TEMPLATE_TYPE_MAP.keySet().toArray(new Group[TEMPLATE_TYPE_MAP.size()]);
     }
 
     public boolean shouldConvert(Field field) {

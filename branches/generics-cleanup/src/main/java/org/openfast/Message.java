@@ -47,16 +47,18 @@ public class Message extends GroupValue {
     public boolean equals(Message message) {
         if (this.getFieldCount() != message.getFieldCount())
             return false;
-        for (int i = 1; i < message.getFieldCount(); i++)
-            if (message.getValue(i) == null) {
+        for (int i = 1; i < message.getFieldCount(); ++i) {
+        	FieldValue messageValue = message.getValue(i);
+            if (messageValue == null) {
                 if (this.getValue(i) == null) {
                     continue;
                 } else {
                     return false;
                 }
-            } else if (!message.getValue(i).equals(this.getValue(i))) {
+            } else if (!messageValue.equals(this.getValue(i))) {
                 return false;
             }
+        }
         return true;
     }
     @Override
@@ -73,7 +75,7 @@ public class Message extends GroupValue {
     @Override
     public FieldValue copy() {
         FieldValue[] copies = new FieldValue[values.length];
-        for (int i = 0; i < copies.length; i++) {
+        for (int i = 0; i < copies.length; ++i) {
             copies[i] = values[i].copy();
         }
         return new Message(template, copies);

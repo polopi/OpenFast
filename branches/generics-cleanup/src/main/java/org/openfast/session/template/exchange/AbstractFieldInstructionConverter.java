@@ -36,8 +36,9 @@ import org.openfast.template.operator.Operator;
 public abstract class AbstractFieldInstructionConverter implements FieldInstructionConverter {
     public static void setNameAndId(Field field, GroupValue fieldDef) {
         setName(field, fieldDef);
-        if (field.getId() != null)
-            fieldDef.setString("AuxId", field.getId());
+        String fieldId = field.getId();
+        if (fieldId != null)
+            fieldDef.setString("AuxId", fieldId);
     }
 
     public static void setName(Field field, GroupValue fieldDef) {
@@ -55,24 +56,27 @@ public abstract class AbstractFieldInstructionConverter implements FieldInstruct
             return null;
         MessageTemplate operatorTemplate = (MessageTemplate) OPERATOR_TEMPLATE_MAP.get(scalar.getOperator());
         GroupValue operatorMessage = new Message(operatorTemplate);
-        if (!scalar.getDictionary().equals(Dictionary.GLOBAL))
-            operatorMessage.setString("Dictionary", scalar.getDictionary());
-        if (!scalar.getKey().equals(scalar.getQName())) {
+        String dictonary = scalar.getDictionary();
+        if (!Dictionary.GLOBAL.equals(dictonary)) {
+            operatorMessage.setString("Dictionary", dictonary);
+        }
+        QName scalarKey = scalar.getKey();
+        if (!scalarKey.equals(scalar.getQName())) {
             Group key = operatorTemplate.getGroup("Key");
             GroupValue keyValue = new GroupValue(key);
-            keyValue.setString("Name", scalar.getKey().getName());
-            keyValue.setString("Ns", scalar.getKey().getNamespace());
+            keyValue.setString("Name", scalarKey.getName());
+            keyValue.setString("Ns", scalarKey.getNamespace());
             operatorMessage.setFieldValue(key, keyValue);
         }
         return operatorMessage;
     }
 
     public static Operator getOperator(Group group) {
-        return (Operator) TEMPLATE_OPERATOR_MAP.get(group);
+        return TEMPLATE_OPERATOR_MAP.get(group);
     }
 
-    private static final Map/* <Operator, MessageTemplate> */OPERATOR_TEMPLATE_MAP = new HashMap();
-    private static final Map/* <MessageTemplate, Operator> */TEMPLATE_OPERATOR_MAP = new HashMap();
+    private static final Map<Operator, MessageTemplate> OPERATOR_TEMPLATE_MAP = new HashMap<Operator, MessageTemplate>();
+    private static final Map<MessageTemplate, Operator> TEMPLATE_OPERATOR_MAP = new HashMap<MessageTemplate, Operator>();
     static {
         OPERATOR_TEMPLATE_MAP.put(Operator.CONSTANT, SessionControlProtocol_1_1.CONSTANT_OP);
         OPERATOR_TEMPLATE_MAP.put(Operator.DEFAULT, SessionControlProtocol_1_1.DEFAULT_OP);

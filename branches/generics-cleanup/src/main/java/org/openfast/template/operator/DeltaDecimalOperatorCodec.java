@@ -63,25 +63,13 @@ final class DeltaDecimalOperatorCodec extends AlwaysPresentOperatorCodec {
             Global.handleError(FastConstants.D6_MNDTRY_FIELD_NOT_PRESENT, "The field " + field + " must have a priorValue defined.");
             return null;
         }
+        // TODO: Check since val should be of type DecimalValue
         if (val == null) {
             return null;
         }
-        DecimalValue priorValue = null;
-        if (priorVal.isUndefined()) {
-            if (field.getDefaultValue().isUndefined()) {
-                priorValue = (DecimalValue) field.getBaseValue();
-            } else if (val == null) {
-                if (field.isOptional()) {
-                    return ScalarValue.NULL;
-                } else {
-                    throw new IllegalStateException("Field cannot be null.");
-                }
-            } else {
-                priorValue = (DecimalValue) field.getDefaultValue();
-            }
-        } else {
-            priorValue = (DecimalValue) priorVal;
-        }
+        DecimalValue priorValue = (DecimalValue)( !priorVal.isUndefined() ?
+        		priorVal : ( field.getDefaultValue().isUndefined() ? field.getBaseValue() : field.getDefaultValue() ) );
+        
         DecimalValue value = (DecimalValue) val;
         return new DecimalValue(value.mantissa + priorValue.mantissa, value.exponent + priorValue.exponent);
     }

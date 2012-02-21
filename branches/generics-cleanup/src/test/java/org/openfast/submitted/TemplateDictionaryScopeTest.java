@@ -11,6 +11,7 @@ import org.openfast.template.Field;
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.Scalar;
 import org.openfast.template.StaticTemplateReference;
+import org.openfast.template.TemplateRegistry;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
 import org.openfast.test.OpenFastTestCase;
@@ -38,9 +39,10 @@ public class TemplateDictionaryScopeTest extends OpenFastTestCase {
         });
 
         context = new Context();
-        context.getTemplateRegistry().register(1, nameTemplate);
-        context.getTemplateRegistry().register(2, startTemplate);
-        context.getTemplateRegistry().register(3, definitionTemplate);
+        TemplateRegistry templateRegistry = context.getTemplateRegistry();
+        templateRegistry.register(1, nameTemplate);
+        templateRegistry.register(2, startTemplate);
+        templateRegistry.register(3, definitionTemplate);
     }
     
     public void testEncodeNestedStaticTemplateReference() {

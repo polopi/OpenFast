@@ -10,7 +10,7 @@ import org.w3c.dom.NodeList;
 public class MapFieldParser implements FieldParser {
     public boolean canParse(Element element, ParsingContext context) {
         NodeList children = element.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
+        for (int i = 0; i < children.getLength(); ++i) {
             String nodeName = children.item(i).getNodeName();
             if (nodeName.equals("map"))
                 return true;

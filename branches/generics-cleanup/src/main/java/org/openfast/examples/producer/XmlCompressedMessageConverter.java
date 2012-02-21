@@ -38,16 +38,16 @@ public class XmlCompressedMessageConverter {
         this.driver = driver;
     }
 
-    public List parse(InputStream in) {
+    public List<Message> parse(InputStream in) {
         HierarchicalStreamReader reader = driver.createReader(in);
         return unmarshal(reader);
     }
 
-    public void serialize(List messages, OutputStream out) {
+    public void serialize(List<Message> messages, OutputStream out) {
         HierarchicalStreamWriter writer = driver.createWriter(out);
         writer.startNode("messages");
-        for (Iterator iter = messages.iterator(); iter.hasNext();) {
-            Message message = (Message) iter.next();
+        for (Iterator<Message> iter = messages.iterator(); iter.hasNext();) {
+            Message message = iter.next();
             marshal(message, writer, null);
         }
         writer.endNode();
@@ -63,12 +63,12 @@ public class XmlCompressedMessageConverter {
 
     private void writeGroup(HierarchicalStreamWriter writer, GroupValue groupValue) {
         Field[] fields = groupValue.getGroup().getFields();
-        for (int i=0; i<fields.length; i++) {
-            Field field = fields[i];
+        for (Field field : fields) {
             if (!groupValue.isDefined(field.getName()))
                 continue;
             if (field.getName().equals("templateId"))
                 continue;
+            
             writer.startNode(field.getName());
             if (field instanceof Group) {
                 writeGroup(writer, groupValue.getGroup(field.getName()));
@@ -78,9 +78,9 @@ public class XmlCompressedMessageConverter {
                     instanceName = field.getAttribute(INSTANCE_NAME);
                 SequenceValue sequenceValue = groupValue.getSequence(field.getName());
                 GroupValue[] seqValues = sequenceValue.getValues();
-                for (int j=0; j<seqValues.length; j++) {
+                for (GroupValue group : seqValues) {
                     writer.startNode(instanceName);
-                    writeGroup(writer, seqValues[j]);
+                    writeGroup(writer, group);
                     writer.endNode();
                 }
             } else {
@@ -90,9 +90,9 @@ public class XmlCompressedMessageConverter {
         }
     }
 
-    public List unmarshal(HierarchicalStreamReader reader) {
+    public List<Message> unmarshal(HierarchicalStreamReader reader) {
         if (reader.getNodeName().equals("messages")) {
-            List messages = new ArrayList();
+            List<Message> messages = new ArrayList<Message>();
             while (reader.hasMoreChildren()) {
                 reader.moveDown();
                 if (!templateRegistry.isRegistered(reader.getNodeName()))
@@ -112,8 +112,7 @@ public class XmlCompressedMessageConverter {
         while (reader.hasMoreChildren()) {
             reader.moveDown();
             Field field = group.getField(reader.getNodeName());
-            if(field != null)
-            {
+            if(field != null) {
                 FieldValue value = null;
                 if (field instanceof Group) {
                     Group currentGroup = (Group) field;
@@ -145,7 +144,7 @@ public class XmlCompressedMessageConverter {
         }
     }
 
-    public boolean canConvert(Class clazz) {
+    public boolean canConvert(Class<?> clazz) {
         return clazz.equals(Message.class);
     }
 

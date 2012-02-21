@@ -34,7 +34,7 @@ public class SCP_1_1_Test extends TestCase {
             public void newSession(Session session) {
                 assertEquals("client", session.getClient().getName());
                 assertEquals(SessionConstants.VENDOR_ID, session.getClient().getVendorId());
-                successfullThreadsCount++;
+                ++successfullThreadsCount;
                 notify0();
             }
         });
@@ -63,7 +63,7 @@ public class SCP_1_1_Test extends TestCase {
                 quote = session.in.readMessage();
                 assertEquals(1.0, quote.getDouble(1), .001);
                 assertEquals(2.0, quote.getDouble(2), .001);
-                successfullThreadsCount++;
+                ++successfullThreadsCount;
                 notify0();
             }
         });
@@ -106,7 +106,7 @@ public class SCP_1_1_Test extends TestCase {
         session.setErrorHandler(new ErrorHandler() {
             public void error(ErrorCode code, String message) {
                 assertEquals(SessionConstants.TEMPLATE_NOT_SUPPORTED, code);
-                successfullThreadsCount++;
+                ++successfullThreadsCount;
                 notifyAll0();
             }
             public void error(ErrorCode code, String message, Throwable t) {}
@@ -143,7 +143,7 @@ public class SCP_1_1_Test extends TestCase {
                 if (message.getTemplate().equals(ObjectMother.quoteTemplate())) {
                     assertEquals(101.3, message.getDouble(1), .1);
                     assertEquals(102.4, message.getDouble(2), .1);
-                    successfullThreadsCount++;
+                    ++successfullThreadsCount;
                     notifyAll0();
                 }
             }
@@ -176,7 +176,7 @@ public class SCP_1_1_Test extends TestCase {
                 if (message.getTemplate().equals(ObjectMother.quoteTemplate())) {
                     assertEquals(101.3, message.getDouble(1), .1);
                     assertEquals(102.4, message.getDouble(2), .1);
-                    successfullThreadsCount++;
+                    ++successfullThreadsCount;
                     synchronized (SCP_1_1_Test.this) {
                         notifyAll0();
                     }

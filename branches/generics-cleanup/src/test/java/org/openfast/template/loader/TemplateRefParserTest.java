@@ -1,7 +1,5 @@
 package org.openfast.template.loader;
 
-import org.openfast.error.FastConstants;
-import org.openfast.error.FastException;
 import org.openfast.template.DynamicTemplateReference;
 import org.openfast.template.Field;
 import org.openfast.template.MessageTemplate;

@@ -66,6 +66,7 @@ public class Scalar extends Field {
     public Scalar(String name, Type type, Operator operator, ScalarValue defaultValue, boolean optional) {
         this(new QName(name), type, operator, defaultValue, optional);
     }
+    
     public Scalar(QName name, Type type, Operator operator, ScalarValue defaultValue, boolean optional) {
         super(name, optional);
         this.operator = operator;
@@ -139,11 +140,12 @@ public class Scalar extends Field {
      *             console the name of the scalar to fail
      */
     public byte[] encode(FieldValue fieldValue, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
-        ScalarValue priorValue = (ScalarValue) context.lookup(getDictionary(), template, getKey());
+        ScalarValue priorValue = context.lookup(getDictionary(), template, getKey());
         ScalarValue value = (ScalarValue) fieldValue;
-        if (!operatorCodec.canEncode(value, this))
+        if (!operatorCodec.canEncode(value, this)) {
             Global.handleError(FastConstants.D3_CANT_ENCODE_VALUE, "The scalar " + this + " cannot encode the value " + value);
-        ScalarValue valueToEncode = operatorCodec.getValueToEncode((ScalarValue) value, priorValue, this, presenceMapBuilder);
+        }
+        ScalarValue valueToEncode = operatorCodec.getValueToEncode(value, priorValue, this, presenceMapBuilder);
         if (operator.shouldStoreValue(value)) {
             context.store(getDictionary(), template, getKey(), (ScalarValue) value);
         }
@@ -292,7 +294,7 @@ public class Scalar extends Field {
     /**
      * @return Returns the class of the current ScalarValue
      */
-    public Class getValueType() {
+    public Class<? extends FieldValue> getValueType() {
         return ScalarValue.class;
     }
     /**

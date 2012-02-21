@@ -44,7 +44,7 @@ public final class SignedInteger extends IntegerCodec {
         long longValue = ((NumericValue) value).toLong();
         int size = getSignedIntegerSize(longValue);
         byte[] encoding = new byte[size];
-        for (int factor = 0; factor < size; factor++) {
+        for (int factor = 0; factor < size; ++factor) {
             int bitMask = (factor == (size - 1)) ? 0x3f : 0x7f;
             encoding[size - factor - 1] = (byte) ((longValue >> (factor * 7)) & bitMask);
         }

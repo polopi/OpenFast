@@ -30,9 +30,9 @@ public class VariableLengthInstructionConverterTest extends TestCase {
         GroupValue fieldDef = converter.convert(bytes, context);
         Scalar converted = (Scalar) converter.convert(fieldDef, TemplateRegistry.NULL, context);
         assertEquals(bytes, converted);
-        List children = converted.getChildren(FastConstants.LENGTH_FIELD);
+        List<Node> children = converted.getChildren(FastConstants.LENGTH_FIELD);
         assertEquals(1, children.size());
-        Node lengthNode = (Node) children.get(0);
+        Node lengthNode = children.get(0);
         assertEquals("numBytes", lengthNode.getAttribute(FastConstants.LENGTH_NAME_ATTR));
     }
 
@@ -43,9 +43,9 @@ public class VariableLengthInstructionConverterTest extends TestCase {
         GroupValue fieldDef = converter.convert(message, context);
         Scalar converted = (Scalar) converter.convert(fieldDef, TemplateRegistry.NULL, context);
         assertEquals(message, converted);
-        List children = converted.getChildren(FastConstants.LENGTH_FIELD);
+        List<Node> children = converted.getChildren(FastConstants.LENGTH_FIELD);
         assertEquals(1, children.size());
-        Node lengthNode = (Node) children.get(0);
+        Node lengthNode = children.get(0);
         assertEquals("messageLength", lengthNode.getAttribute(FastConstants.LENGTH_NAME_ATTR));
     }
 }
