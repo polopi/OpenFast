@@ -26,17 +26,9 @@ public class Main extends OpenFastExample {
         options.addOption("x", XML_DATA_FILE, true, "The XML data to convert to FAST");
         options.addOption("k", WRITE_OFFSET, true, WRITE_OFFSET_DESCRIPTION);
         options.addOption("z", VARIANT, true, VARIANT_DESCRIPTION);
+        options.addOption("d", RESET, false, RESET_DESCRIPTION);
     }
-
-    public static boolean isMulticast(CommandLine cl) {
-        if (cl.hasOption(PROTOCOL)) {
-            if ("udp".equals(cl.getOptionValue(PROTOCOL))) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
+   
     /**
      * @param args
      */
@@ -77,11 +69,12 @@ public class Main extends OpenFastExample {
         try {
 			final int writeOffset = cl.hasOption(WRITE_OFFSET) ? getInteger(cl, WRITE_OFFSET) : 0;
 			final Variant variant = cl.hasOption(VARIANT) ? getVariant(cl) : Variant.DEFAULT;
-			final MessageBlockWriterFactory msgBlockWriterFactory = new MessageBlockWriterFactory(variant, writeOffset);
+			final boolean shouldResetOnEveryMessage = (cl.hasOption(RESET) || (Variant.CME == variant));
+			final MessageBlockWriterFactory msgBlockWriterFactory = new MessageBlockWriterFactory(variant, writeOffset, isMulticast(cl));
 			
 			FastMessageProducer producer = isMulticast(cl)
-                ? new MulticastFastMessageProducer(endpoint, templatesFile, msgBlockWriterFactory)
-                : new FastMessageProducer(endpoint, templatesFile, msgBlockWriterFactory);
+                ? new MulticastFastMessageProducer(endpoint, templatesFile, msgBlockWriterFactory, shouldResetOnEveryMessage)
+                : new FastMessageProducer(endpoint, templatesFile, msgBlockWriterFactory, shouldResetOnEveryMessage);
 
             producer.start();
             producer.encode(xmlDataFile);
