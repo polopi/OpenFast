@@ -26,8 +26,19 @@ public class OpenFastExample {
     protected static final String READ_OFFSET_DESCRIPTION = "The number of leading bytes that should be discarded when reading each message.";
     protected static final String WRITE_OFFSET_DESCRIPTION = "The number of leading bytes that should be appended as padding when sending each message.";
     protected static final String VARIANT_DESCRIPTION = "Enable exchange-specific behavior.  Valid values: CME";
+    protected static final String RESET = "reset";
+    protected static final String RESET_DESCRIPTION = "Enable reset of the encoder/decoder on every message.";
 
 	public enum Variant { DEFAULT, CME }
+
+    public static boolean isMulticast(CommandLine cl) {
+        if (cl.hasOption(PROTOCOL)) {
+            if ("udp".equals(cl.getOptionValue(PROTOCOL))) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     protected static CommandLine parseCommandLine(String name, String[] args, Options options) {
         try {
