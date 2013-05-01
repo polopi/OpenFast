@@ -37,7 +37,8 @@ public class ComposedDecimalParser extends AbstractFieldParser {
         super("decimal");
     }
 
-    public boolean canParse(Element element, ParsingContext context) {
+    @Override
+	public boolean canParse(Element element, ParsingContext context) {
         NodeList children = element.getChildNodes();
         for (int i = 0; i < children.getLength(); ++i) {
             String nodeName = children.item(i).getNodeName();
@@ -47,7 +48,8 @@ public class ComposedDecimalParser extends AbstractFieldParser {
         return false;
     }
 
-    protected Field parse(Element fieldNode, boolean optional, ParsingContext context) {
+    @Override
+	protected Field parse(Element fieldNode, boolean optional, ParsingContext context) {
         NodeList fieldChildren = fieldNode.getChildNodes();
         Node mantissaNode = null;
         Node exponentNode = null;
@@ -81,7 +83,7 @@ public class ComposedDecimalParser extends AbstractFieldParser {
      * @return Returns a new Scalar object with the newly create TwinValue
      *         object and TwinOperator object.
      */
-    private Field createComposedDecimal(Element fieldNode, QName name, boolean optional, Node mantissaNode, Node exponentNode,
+    private static Field createComposedDecimal(Element fieldNode, QName name, boolean optional, Node mantissaNode, Node exponentNode,
             ParsingContext context) {
         String mantissaOperator = "none";
         String exponentOperator = "none";

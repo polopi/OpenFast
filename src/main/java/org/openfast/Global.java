@@ -28,7 +28,7 @@ import org.openfast.error.ErrorHandler;
 public final class Global {
     private static ErrorHandler errorHandler = ErrorHandler.DEFAULT;
     private static int currentImplicitId = (int) (System.currentTimeMillis() % 10000);
-    private static final ThreadLocal<ByteArrayOutputStream> buffers = new ThreadLocal<ByteArrayOutputStream>();
+    private static final ThreadLocal<ByteArrayOutputStream> buffers = new ThreadLocal<>();
 
     public static void setErrorHandler(ErrorHandler handler) {
         if (handler == null) {

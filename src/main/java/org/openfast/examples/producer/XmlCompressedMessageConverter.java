@@ -92,7 +92,7 @@ public class XmlCompressedMessageConverter {
 
     public List<Message> unmarshal(HierarchicalStreamReader reader) {
         if (reader.getNodeName().equals("messages")) {
-            List<Message> messages = new ArrayList<Message>();
+            List<Message> messages = new ArrayList<>();
             while (reader.hasMoreChildren()) {
                 reader.moveDown();
                 if (!templateRegistry.isRegistered(reader.getNodeName()))

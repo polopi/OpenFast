@@ -11,7 +11,8 @@ public class TemplateRefParserTest extends OpenFastTestCase {
     private TemplateRefParser parser;
     private ParsingContext context;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         parser = new TemplateRefParser();
         context = XMLMessageTemplateLoader.createInitialContext();
     }

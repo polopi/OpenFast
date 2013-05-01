@@ -227,7 +227,7 @@ public abstract class OpenFastTestCase extends TestCase {
         assertTrue(field.isOptional());
     }
 
-    private void assertScalarField(Scalar field, Type type, String name) {
+    private static void assertScalarField(Scalar field, Type type, String name) {
         assertEquals(name, field.getName());
         assertEquals(type, field.getType());
     }

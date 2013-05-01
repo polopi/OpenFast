@@ -31,7 +31,6 @@ import org.openfast.Global;
 import org.openfast.IntegerValue;
 import org.openfast.ScalarValue;
 import org.openfast.error.FastConstants;
-import org.openfast.error.FastException;
 
 final class ByteVectorType extends TypeCodec {
     private static final long serialVersionUID = 1L;
@@ -44,7 +43,8 @@ final class ByteVectorType extends TypeCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encode(ScalarValue value) {
+    @Override
+	public byte[] encode(ScalarValue value) {
         byte[] bytes = value.getBytes();
         int lengthSize = IntegerCodec.getUnsignedIntegerSize(bytes.length);
         byte[] encoding = new byte[bytes.length + lengthSize];
@@ -61,7 +61,8 @@ final class ByteVectorType extends TypeCodec {
      * @return Returns a new ByteVectorValue object with the data stream as an
      *         array
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         int length = ((IntegerValue) TypeCodec.UINT.decode(in)).value;
         byte[] encoding = new byte[length];
         for (int i = 0; i < length; ++i)
@@ -78,16 +79,18 @@ final class ByteVectorType extends TypeCodec {
             }
         return new ByteVectorValue(encoding);
     }
-    public byte[] encodeValue(ScalarValue value) {
+    @Override
+	public byte[] encodeValue(ScalarValue value) {
         throw new UnsupportedOperationException();
     }
     /**
      * @return Returns a new ByteVectorValue object with the passed value
      */
-    public ScalarValue fromString(String value) {
+    public static ScalarValue fromString(String value) {
         return new ByteVectorValue(value.getBytes());
     }
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

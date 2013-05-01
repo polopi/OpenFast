@@ -103,12 +103,9 @@ public class PerformanceRunner implements ErrorHandler {
         }
         Assert.assertTrue(dataFile.exists() && dataFile.canRead(), "The file \"" + dataFile.getAbsolutePath() + "\" does not exist.");
         try {
-            InputStream dataIn = null;
             FileInputStream fileIn = new FileInputStream(dataFile);
-            if ("hex".equals(format))
-                dataIn = new HexadecimalInputStream(fileIn);
-            else
-                dataIn = fileIn;
+            @SuppressWarnings("resource")
+			InputStream dataIn = "hex".equals(format) ? new HexadecimalInputStream(fileIn) : fileIn;
             if (preloadData) {
                 ByteArrayOutputStream byteOut = new ByteArrayOutputStream((int) dataFile.length());
                 copy(dataIn, byteOut, 1024);
@@ -117,9 +114,7 @@ public class PerformanceRunner implements ErrorHandler {
                 return byteIn;
             }
             return new BufferedInputStream(dataIn);
-        } catch (FileNotFoundException e) {
-            error(null, "File \"" + dataFile.getAbsolutePath() + "\" could not be found.", e);
-        } catch (IOException e) {
+        } catch (IOException e) { // FileNotFoundException is also caught by IOException
             error(null, "File \"" + dataFile.getAbsolutePath() + "\" could not be found.", e);
         }
             
@@ -143,11 +138,13 @@ public class PerformanceRunner implements ErrorHandler {
         }
     }
 
-    public void error(ErrorCode code, String message) {
+    @Override
+	public void error(ErrorCode code, String message) {
         error(code, message, null);
     }
 
-    public void error(ErrorCode code, String message, Throwable t) {
+    @Override
+	public void error(ErrorCode code, String message, Throwable t) {
         if (showStacktrace && t != null)
             t.printStackTrace();
         throw new AssertionError(message);

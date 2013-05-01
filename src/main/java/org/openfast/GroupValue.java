@@ -61,7 +61,7 @@ public class GroupValue implements FieldValue {
     }
 
     public Iterator<FieldValue> iterator() {
-        return new ArrayIterator<FieldValue>(values);
+        return new ArrayIterator<>(values);
     }
 
     public int getInt(int fieldIndex) {
@@ -348,7 +348,8 @@ public class GroupValue implements FieldValue {
         return getValue(fieldName) != null;
     }
 
-    public FieldValue copy() {
+    @Override
+	public FieldValue copy() {
         FieldValue[] copies = new FieldValue[values.length];
         for (int i = 0; i < copies.length; ++i) {
             copies[i] = values[i].copy();

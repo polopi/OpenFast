@@ -35,7 +35,7 @@ import org.openfast.test.OpenFastTestCase;
 
 public class UtilTest extends OpenFastTestCase {
     public void testCollectionToString() {
-        Map<String, String> map = new LinkedHashMap<String, String>();
+        Map<String, String> map = new LinkedHashMap<>();
         map.put("abc", "123");
         map.put("def", "456");
         assertEquals("{abc,def}", Util.collectionToString(map.keySet()));
@@ -59,7 +59,7 @@ public class UtilTest extends OpenFastTestCase {
 
     }
 
-    private void putBytes(byte[] bytes, ByteBuffer buffer) {
+    private static void putBytes(byte[] bytes, ByteBuffer buffer) {
         if (!buffer.hasRemaining()) {
             buffer.clear();
             buffer.put(bytes);
@@ -84,7 +84,7 @@ public class UtilTest extends OpenFastTestCase {
         assertEquals(b("RSESM6"), apply("ESM6", tv(-1, "RS")));
         assertEquals(b("RSESM6"), apply("RSESM6", tv(0, "")));
     }
-    private String b(String string) {
+    private static String b(String string) {
         return ByteUtil.convertByteArrayToBitString(string.getBytes());
     }
 
@@ -95,13 +95,13 @@ public class UtilTest extends OpenFastTestCase {
         cal.set(Calendar.MILLISECOND, 253);
         assertEquals(cal.getTime(), Util.toTimestamp(20070110142512253L));
     }
-    private byte[] apply(String base, TwinValue diff) {
+    private static byte[] apply(String base, TwinValue diff) {
         return Util.applyDifference(new StringValue(base), diff);
     }
-    private TwinValue tv(int sub, String diff) {
+    private static TwinValue tv(int sub, String diff) {
         return new TwinValue(new IntegerValue(sub), new ByteVectorValue(diff.getBytes()));
     }
-    private ScalarValue diff(String base, String value) {
+    private static ScalarValue diff(String base, String value) {
         return Util.getDifference(value.getBytes(), base.getBytes());
     }
 }

@@ -92,7 +92,7 @@ public class DeltaByteVectorOperatorTest extends OpenFastTestCase {
         return OperatorCodec.DELTA_STRING.decodeValue(diff, priorValue, field);
     }
 
-    private TwinValue tv(int subtraction, byte[] bytes) {
+    private static TwinValue tv(int subtraction, byte[] bytes) {
         return new TwinValue(new IntegerValue(subtraction), new ByteVectorValue(bytes));
     }
 }

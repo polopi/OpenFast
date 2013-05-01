@@ -29,12 +29,13 @@ public class LocalEndpoint implements Endpoint {
     private List<LocalConnection> connections;
 
     public LocalEndpoint() {
-        connections = new ArrayList<LocalConnection>(3);
+        connections = new ArrayList<>(3);
     }
     public LocalEndpoint(LocalEndpoint server) {
         this.server = server;
     }
-    public void accept() throws FastConnectionException {
+    @Override
+	public void accept() throws FastConnectionException {
         if (!connections.isEmpty()) {
             synchronized (this) {
                 Connection connection = (Connection) connections.remove(0);
@@ -42,7 +43,8 @@ public class LocalEndpoint implements Endpoint {
             }
         }
     }
-    public Connection connect() throws FastConnectionException {
+    @Override
+	public Connection connect() throws FastConnectionException {
         LocalConnection localConnection = new LocalConnection(server, this);
         LocalConnection remoteConnection = new LocalConnection(localConnection);
         synchronized (server) {
@@ -50,8 +52,10 @@ public class LocalEndpoint implements Endpoint {
         }
         return localConnection;
     }
-    public void setConnectionListener(ConnectionListener listener) {
+    @Override
+	public void setConnectionListener(ConnectionListener listener) {
         this.listener = listener;
     }
-    public void close() {}
+    @Override
+	public void close() {}
 }

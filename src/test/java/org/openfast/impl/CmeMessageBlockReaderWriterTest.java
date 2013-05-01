@@ -33,6 +33,7 @@ public class CmeMessageBlockReaderWriterTest extends TestCase {
 		reader.readBlock(data);
 	}
 
+	@Override
 	public void setUp() {
 		reader = new CmeMessageBlockReader();
 		data = new byte[CmeConstants.PREAMBLE_LEN];

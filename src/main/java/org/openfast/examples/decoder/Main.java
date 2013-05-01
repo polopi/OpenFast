@@ -56,7 +56,8 @@ public class Main extends OpenFastExample {
         if (cl.hasOption(BLOCK)) {
             consumer.setBlockReader(new MessageBlockReader() {
                 byte[] buffer = new byte[4];
-                public boolean readBlock(InputStream in) {
+                @Override
+				public boolean readBlock(InputStream in) {
                     try {
                         int numRead = in.read(buffer);
                         if (numRead < buffer.length) {
@@ -68,7 +69,8 @@ public class Main extends OpenFastExample {
                     return true;
                 }
 
-                public void messageRead(InputStream in, Message message) {
+                @Override
+				public void messageRead(InputStream in, Message message) {
                 }
             });
         }

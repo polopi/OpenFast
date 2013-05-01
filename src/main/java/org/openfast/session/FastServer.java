@@ -42,7 +42,8 @@ public class FastServer implements ConnectionListener {
     public void listen() {
         if (serverThread == null) {
             Runnable runnable = new Runnable() {
-                public void run() {
+                @Override
+				public void run() {
                     try {
                         endpoint.accept();
                     } catch (Exception e) {
@@ -65,7 +66,8 @@ public class FastServer implements ConnectionListener {
         }
         this.errorHandler = errorHandler;
     }
-    public void onConnect(Connection connection) {
+    @Override
+	public void onConnect(Connection connection) {
         Session session = sessionProtocol.onNewConnection(serverName, connection);
         this.sessionHandler.newSession(session);
     }

@@ -44,7 +44,8 @@ public class Key {
                 throw new NullPointerException();
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if ((obj == null) || !(obj instanceof Key))
@@ -58,14 +59,16 @@ public class Key {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int hashCode = 0;
         for (int i = 0; i < keys.length; ++i)
             hashCode += keys[i].hashCode() * (37 ^ i);
         return hashCode;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return Arrays.toString(keys);
     }
 }

@@ -30,7 +30,7 @@ public class EncodingDecodingAcceptanceTest extends OpenFastTestCase {
         }
     }
 
-    private void encode(TemplateRegistry registry, MessageTemplate template, InputStream dataForTemplate) throws IOException {
+    private static void encode(TemplateRegistry registry, MessageTemplate template, InputStream dataForTemplate) throws IOException {
         Context encodingContext = new Context();
         Context decodingContext = new Context();
         encodingContext.setTemplateRegistry(registry);
@@ -48,18 +48,18 @@ public class EncodingDecodingAcceptanceTest extends OpenFastTestCase {
         }
     }
     
-    private void assertDecoding(Message message, Context decodingContext, String expected) {
+    private static void assertDecoding(Message message, Context decodingContext, String expected) {
         ByteArrayInputStream byteIn = new ByteArrayInputStream(ByteUtil.convertHexStringToByteArray(expected));
         FastDecoder decoder = new FastDecoder(decodingContext, byteIn);
         assertEquals(message, decoder.readMessage());
     }
 
-    private void assertEncoding(String expected, byte[] encoded) {
+    private static void assertEncoding(String expected, byte[] encoded) {
         String actual = ByteUtil.convertByteArrayToHexString(encoded);
         assertEquals(expected, actual);
     }
 
-    private Message createMessage(MessageTemplate template, String[] entries) {
+    private static Message createMessage(MessageTemplate template, String[] entries) {
         Message message = new Message(template);
         for (int i = 0; i < entries.length - 1; ++i) {
             message.setString(i + 1, entries[i].trim());

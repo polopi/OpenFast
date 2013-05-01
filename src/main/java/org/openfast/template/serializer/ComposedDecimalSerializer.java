@@ -8,11 +8,13 @@ import org.openfast.template.type.Type;
 import org.openfast.util.XmlWriter;
 
 public class ComposedDecimalSerializer implements FieldSerializer {
-    public boolean canSerialize(Field field) {
+    @Override
+	public boolean canSerialize(Field field) {
         return field instanceof ComposedScalar && Type.DECIMAL.equals(((ComposedScalar) field).getType());
     }
 
-    public void serialize(XmlWriter writer, Field field, SerializingContext context) {
+    @Override
+	public void serialize(XmlWriter writer, Field field, SerializingContext context) {
         ComposedScalar decimal = (ComposedScalar) field;
         Scalar exponent = decimal.getFields()[0];
         Scalar mantissa = decimal.getFields()[1];

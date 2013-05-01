@@ -20,7 +20,8 @@ public interface FastMessageLogger {
     }
 
     FastMessageLogger NULL = new FastMessageLogger() {
-        public void log(Message message, byte[] bytes, Direction direction) {
+        @Override
+		public void log(Message message, byte[] bytes, Direction direction) {
         }
     };
 

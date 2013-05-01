@@ -31,7 +31,8 @@ final class IncrementIntegerOperatorCodec extends OperatorCodec {
     IncrementIntegerOperatorCodec(Operator operator, Type[] types) {
         super(operator, types);
     }
-    public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
+    @Override
+	public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
         if (priorValue == null) {
             return value;
         }
@@ -57,10 +58,12 @@ final class IncrementIntegerOperatorCodec extends OperatorCodec {
         }
         return null;
     }
-    public ScalarValue decodeValue(ScalarValue newValue, ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeValue(ScalarValue newValue, ScalarValue previousValue, Scalar field) {
         return newValue;
     }
-    public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
         if (previousValue == null)
             return null;
         if (previousValue.isUndefined()) {
@@ -76,7 +79,8 @@ final class IncrementIntegerOperatorCodec extends OperatorCodec {
         }
         return ((NumericValue) previousValue).increment();
     }
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

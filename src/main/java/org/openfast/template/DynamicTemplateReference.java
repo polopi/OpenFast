@@ -40,7 +40,8 @@ public class DynamicTemplateReference extends Field {
     /**
      * @return Returns null
      */
-    public FieldValue createValue(String value) {
+    @Override
+	public FieldValue createValue(String value) {
         return null;
     }
 
@@ -51,7 +52,8 @@ public class DynamicTemplateReference extends Field {
      * @param present
      * @return the next message in the decoder
      */
-    public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader pmapReader) {
+    @Override
+	public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader pmapReader) {
         return new FastDecoder(context, in).readMessage();
     }
 
@@ -62,7 +64,8 @@ public class DynamicTemplateReference extends Field {
      * @param presenceMapBuilder
      * @return the encoding of the message given its template
      */
-    public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
+    @Override
+	public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
         Message message = (Message) value;
         return message.getTemplate().encode(message, context);
     }
@@ -70,36 +73,42 @@ public class DynamicTemplateReference extends Field {
     /**
      * @return Returns null
      */
-    public String getTypeName() {
+    @Override
+	public String getTypeName() {
         return null;
     }
 
     /**
      * @return Returns null
      */
-    public Class<? extends FieldValue> getValueType() {
+    @Override
+	public Class<? extends FieldValue> getValueType() {
         return null;
     }
 
     /**
      * @return Returns false
      */
-    public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
+    @Override
+	public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
         return false;
     }
 
     /**
      * @return Returns false
      */
-    public boolean usesPresenceMapBit() {
+    @Override
+	public boolean usesPresenceMapBit() {
         return false;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass().equals(this.getClass());
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         return "DynamicTemplateRef";
     }
 }

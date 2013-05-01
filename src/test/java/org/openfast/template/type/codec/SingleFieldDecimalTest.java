@@ -68,7 +68,7 @@ public class SingleFieldDecimalTest extends OpenFastTestCase {
         }
     }
 
-    private void assertEncodeDecode(double value, String bitString) {
+    private static void assertEncodeDecode(double value, String bitString) {
         assertEncodeDecode(d(value), bitString, TypeCodec.SF_SCALED_NUMBER);
     }
 }

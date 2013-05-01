@@ -22,7 +22,8 @@ public class FileFastMessageLogger implements FastMessageLogger {
         this.file = f;
     }
 
-    public void log(Message message, byte[] bytes, Direction direction) {
+    @Override
+	public void log(Message message, byte[] bytes, Direction direction) {
         try {
             createOut();
             out.write(new Date().toString().getBytes());
@@ -37,7 +38,7 @@ public class FileFastMessageLogger implements FastMessageLogger {
         }
     }
 
-    private byte[] print(Message message) {
+    private static byte[] print(Message message) {
         StringBuilder msgBuilder = new StringBuilder();
         MessageTemplate template = message.getTemplate();
         msgBuilder.append(template.getName()).append("[ ");

@@ -61,8 +61,8 @@ public class Group extends Field {
 
     public Group(QName name, Field[] fields, boolean optional) {
         super(name, optional);
-        List<Field> expandedFields = new ArrayList<Field>();
-        List<Field> staticTemplateReferences = new ArrayList<Field>();
+        List<Field> expandedFields = new ArrayList<>();
+        List<Field> staticTemplateReferences = new ArrayList<>();
         for (Field field : fields) {
             if (field instanceof StaticTemplateReference) {
                 Field[] referenceFields = ((StaticTemplateReference) field).getTemplate().getFields();
@@ -89,7 +89,7 @@ public class Group extends Field {
 
     // BAD ABSTRACTION
     private static Map<String, Field> constructInstrospectiveFields(Field[] fields) {
-        Map<String, Field> map = new HashMap<String, Field>();
+        Map<String, Field> map = new HashMap<>();
         for (Field field : fields) {
             if (field instanceof Scalar) {
                 if (field.hasChild(FastConstants.LENGTH_FIELD)) {
@@ -137,7 +137,8 @@ public class Group extends Field {
      *            The BitVector object that will be used to encode.
      * @return Returns the encoded byte array
      */
-    public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
+    @Override
+	public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
         byte[] encoding = encode(value, template, context);
         if (optional) {
             if (encoding.length != 0)
@@ -220,7 +221,8 @@ public class Group extends Field {
      * @param present
      * @return Returns a new GroupValue
      */
-    public FieldValue decode(InputStream in, Group group, Context context, BitVectorReader pmapReader) {
+    @Override
+	public FieldValue decode(InputStream in, Group group, Context context, BitVectorReader pmapReader) {
         try {
             if (!usesPresenceMapBit() || pmapReader.read()) {
                 if (context.isTraceEnabled()) {
@@ -313,14 +315,16 @@ public class Group extends Field {
      * @return Returns true if there is a PrecenceMapBit of the specified byte
      *         array and field, false otherwise
      */
-    public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
+    @Override
+	public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
         return encoding.length != 0;
     }
 
     /**
      * @return Returns the optional boolean of the MapBit
      */
-    public boolean usesPresenceMapBit() {
+    @Override
+	public boolean usesPresenceMapBit() {
         return optional;
     }
 
@@ -351,7 +355,8 @@ public class Group extends Field {
     /**
      * @return Returns the class of the GroupValue
      */
-    public Class<? extends FieldValue> getValueType() {
+    @Override
+	public Class<? extends FieldValue> getValueType() {
         return GroupValue.class;
     }
 
@@ -360,14 +365,16 @@ public class Group extends Field {
      *            The value that the fieldValue that is to be created
      * @return Returns a new GroupValue
      */
-    public FieldValue createValue(String value) {
+    @Override
+	public FieldValue createValue(String value) {
         return new GroupValue(this, new FieldValue[fields.length]);
     }
 
     /**
      * @return Returns the string 'group'
      */
-    public String getTypeName() {
+    @Override
+	public String getTypeName() {
         return "group";
     }
 
@@ -396,7 +403,7 @@ public class Group extends Field {
      * @return Returns a map object of the field array passed to it
      */
     private static Map<QName, Field> constructFieldNameMap(Field[] fields) {
-        Map<QName, Field> map = new HashMap<QName, Field>();
+        Map<QName, Field> map = new HashMap<>();
         
         for (Field field : fields) {
             map.put(field.getQName(), field);
@@ -406,7 +413,7 @@ public class Group extends Field {
     }
 
     private static Map<String, Field> constructFieldIdMap(Field[] fields) {
-        Map<String, Field> map = new HashMap<String, Field>();
+        Map<String, Field> map = new HashMap<>();
         
         for (Field field : fields) {
             map.put(field.getId(), field);
@@ -425,7 +432,7 @@ public class Group extends Field {
      * @return Returns a map object of the field array passed to it
      */
     private static Map<Field, Integer> constructFieldIndexMap(Field[] fields) {
-        Map<Field, Integer> map = new HashMap<Field, Integer>();
+        Map<Field, Integer> map = new HashMap<>();
         
         for (int i = 0; i < fields.length; ++i){
             map.put(fields[i], new Integer(i));
@@ -535,11 +542,13 @@ public class Group extends Field {
         return typeReference != null;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return name.getName();
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + Group.hashCode(fields);
@@ -548,7 +557,8 @@ public class Group extends Field {
         return result;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null || getClass() != obj.getClass())

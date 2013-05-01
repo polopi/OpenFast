@@ -75,14 +75,16 @@ public interface FastConstants {
     QName LENGTH_NS_ATTR = new QName("namespace", TEMPLATE_DEFINITION_1_1);
     QName LENGTH_ID_ATTR = new QName("id", TEMPLATE_DEFINITION_1_1);
     ErrorHandler BASIC_ERROR_HANDLER = new ErrorHandler() {
-        public void error(ErrorCode code, String message) {
+        @Override
+		public void error(ErrorCode code, String message) {
             if (REPORTABLE.equals(code.getType()))
                 System.out.println("WARNING: " + message);
             else
                 code.throwException(message);
         }
 
-        public void error(ErrorCode code, String message, Throwable t) {
+        @Override
+		public void error(ErrorCode code, String message, Throwable t) {
             if (REPORTABLE.equals(code.getType()))
                 System.out.println(message);
             else

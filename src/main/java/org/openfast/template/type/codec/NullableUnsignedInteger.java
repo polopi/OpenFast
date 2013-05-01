@@ -39,7 +39,8 @@ public final class NullableUnsignedInteger extends IntegerCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue v) {
+    @Override
+	public byte[] encodeValue(ScalarValue v) {
         if (v.isNull()) {
             return TypeCodec.NULL_VALUE_ENCODING;
         }
@@ -53,7 +54,8 @@ public final class NullableUnsignedInteger extends IntegerCodec {
      *            The InputStream to be decoded
      * @return Returns a NumericValue object
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         NumericValue value = (NumericValue) TypeCodec.UINT.decode(in);
         if (value.equals(0)) {
             return null;
@@ -64,11 +66,13 @@ public final class NullableUnsignedInteger extends IntegerCodec {
     /**
      * @return Returns true
      */
-    public boolean isNullable() {
+    @Override
+	public boolean isNullable() {
         return true;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

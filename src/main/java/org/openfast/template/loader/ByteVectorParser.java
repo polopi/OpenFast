@@ -27,7 +27,8 @@ public class ByteVectorParser extends VariableLengthScalarParser {
         super("byteVector");
     }
 
-    public boolean canParse(Element element, ParsingContext context) {
+    @Override
+	public boolean canParse(Element element, ParsingContext context) {
         return "byteVector".equals(element.getNodeName());
     }
 }

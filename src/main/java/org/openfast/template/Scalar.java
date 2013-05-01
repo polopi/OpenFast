@@ -139,7 +139,8 @@ public class Scalar extends Field {
      *             RuntimeException if the encoding fails - will print to
      *             console the name of the scalar to fail
      */
-    public byte[] encode(FieldValue fieldValue, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
+    @Override
+	public byte[] encode(FieldValue fieldValue, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
         ScalarValue priorValue = context.lookup(getDictionary(), template, getKey());
         ScalarValue value = (ScalarValue) fieldValue;
         if (!operatorCodec.canEncode(value, this)) {
@@ -194,13 +195,15 @@ public class Scalar extends Field {
     /**
      * @return Returns true
      */
-    public boolean usesPresenceMapBit() {
+    @Override
+	public boolean usesPresenceMapBit() {
         return operatorCodec.usesPresenceMapBit(optional);
     }
     /**
      * @return Returns true if the byte array has a length
      */
-    public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
+    @Override
+	public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
         return operatorCodec.isPresenceMapBitSet(encoding, fieldValue);
     }
     /**
@@ -217,7 +220,8 @@ public class Scalar extends Field {
      *         decodes the previousValue and returns the FieldValue object after
      *         decoding
      */
-    public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader presenceMapReader) {
+    @Override
+	public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader presenceMapReader) {
         try {
             ScalarValue previousValue = null;
             if (operator.usesDictionary()) {
@@ -227,15 +231,16 @@ public class Scalar extends Field {
             ScalarValue value;
             int pmapIndex = presenceMapReader.getIndex();
             if (isPresent(presenceMapReader)) {
+            	InputStream inLocal = in;
                 if (context.isTraceEnabled())
-                    in = new RecordingInputStream(in);
+                	inLocal = new RecordingInputStream(inLocal);
                 if (!operatorCodec.shouldDecodeType()) {
                     return operatorCodec.decodeValue(null, null, this);
                 }
-                ScalarValue decodedValue = typeCodec.decode(in);
+                ScalarValue decodedValue = typeCodec.decode(inLocal);
                 value = decodeValue(decodedValue, previousValue);
                 if (context.isTraceEnabled())
-                    context.getDecodeTrace().field(this, value, decodedValue, ((RecordingInputStream) in).getBuffer(), pmapIndex);
+                    context.getDecodeTrace().field(this, value, decodedValue, ((RecordingInputStream) inLocal).getBuffer(), pmapIndex);
             } else {
                 value = decode(previousValue);
             }
@@ -256,7 +261,7 @@ public class Scalar extends Field {
      * @param type
      *            The type to be validated
      */
-    private void validateDecodedValueIsCorrectForType(ScalarValue value, Type type) {
+    private static void validateDecodedValueIsCorrectForType(ScalarValue value, Type type) {
         if (value == null)
             return;
         type.validateValue(value);
@@ -267,7 +272,7 @@ public class Scalar extends Field {
      * @param type
      *            The type to be validated
      */
-    private void validateDictionaryTypeAgainstFieldType(ScalarValue previousValue, Type type) {
+    private static void validateDictionaryTypeAgainstFieldType(ScalarValue previousValue, Type type) {
         if (previousValue == null || previousValue.isUndefined())
             return;
         if (!type.isValueOf(previousValue)) {
@@ -288,13 +293,15 @@ public class Scalar extends Field {
     /**
      * @return Returns the string 'Scalar [name=X, operator=X, dictionary=X]'
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return "Scalar [name=" + name.getName() + ", operator=" + operator + ", type=" + type + ", dictionary=" + dictionary + "]";
     }
     /**
      * @return Returns the class of the current ScalarValue
      */
-    public Class<? extends FieldValue> getValueType() {
+    @Override
+	public Class<? extends FieldValue> getValueType() {
         return ScalarValue.class;
     }
     /**
@@ -302,13 +309,15 @@ public class Scalar extends Field {
      *            Creates a FieldValue of the passed value
      * @return Returns the FieldValue object with the passed value
      */
-    public FieldValue createValue(String value) {
+    @Override
+	public FieldValue createValue(String value) {
         return type.getValue(value);
     }
     /**
      * @return Returns the string 'scalar'
      */
-    public String getTypeName() {
+    @Override
+	public String getTypeName() {
         return "scalar";
     }
     /**
@@ -328,7 +337,8 @@ public class Scalar extends Field {
     public String serialize(ScalarValue value) {
         return type.serialize(value);
     }
-    public boolean equals(Object other) {
+    @Override
+	public boolean equals(Object other) {
         if (other == this)
             return true;
         if (other == null || !(other instanceof Scalar))
@@ -346,7 +356,7 @@ public class Scalar extends Field {
         equals = equals && equals(id, other.id);
         return equals;
     }
-    private boolean equals(Object o, Object o2) {
+    private static boolean equals(Object o, Object o2) {
         if (o == null) {
             if (o2 == null)
                 return true;
@@ -354,7 +364,8 @@ public class Scalar extends Field {
         }
         return o.equals(o2);
     }
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return name.hashCode() + type.hashCode() + typeCodec.hashCode() + operator.hashCode() + operatorCodec.hashCode()
                 + initialValue.hashCode() + dictionary.hashCode();
     }

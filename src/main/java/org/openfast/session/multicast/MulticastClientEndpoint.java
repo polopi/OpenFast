@@ -37,7 +37,8 @@ public class MulticastClientEndpoint extends MulticastEndpoint {
     	super(port, group, ifaddr);
     }
     
-    public Connection connect() throws FastConnectionException {
+    @Override
+	public Connection connect() throws FastConnectionException {
         try {
             MulticastSocket socket = createSocket();
             InetAddress groupAddress = InetAddress.getByName(group);
@@ -49,10 +50,12 @@ public class MulticastClientEndpoint extends MulticastEndpoint {
         }
     }
 
-    public void accept() throws FastConnectionException {
+    @Override
+	public void accept() throws FastConnectionException {
         throw new UnsupportedOperationException();
     }
-    public void setConnectionListener(ConnectionListener listener) {
+    @Override
+	public void setConnectionListener(ConnectionListener listener) {
         throw new UnsupportedOperationException();
     }
 }

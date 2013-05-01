@@ -35,18 +35,22 @@ final class ConstantOperatorCodec extends OperatorCodec {
     /**
      * 
      */
-    public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field, BitVectorBuilder presenceMapBuilder) {
+    @Override
+	public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field, BitVectorBuilder presenceMapBuilder) {
         if (field.isOptional())
             presenceMapBuilder.setOnValueSkipOnNull(value);
         return null; // Never encode constant value.
     }
-    public ScalarValue decodeValue(ScalarValue newValue, ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeValue(ScalarValue newValue, ScalarValue previousValue, Scalar field) {
         return field.getDefaultValue();
     }
-    public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
+    @Override
+	public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
         return fieldValue != null;
     }
-    public boolean shouldDecodeType() {
+    @Override
+	public boolean shouldDecodeType() {
         return false;
     }
     /**
@@ -54,7 +58,8 @@ final class ConstantOperatorCodec extends OperatorCodec {
      * @param field
      * @return
      */
-    public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
         if (!field.isOptional()) {
             return field.getDefaultValue();
         }
@@ -63,18 +68,22 @@ final class ConstantOperatorCodec extends OperatorCodec {
     /**
      * @return Returns the passed optional boolean
      */
-    public boolean usesPresenceMapBit(boolean optional) {
+    @Override
+	public boolean usesPresenceMapBit(boolean optional) {
         return optional;
     }
-    public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
+    @Override
+	public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
         throw new UnsupportedOperationException();
     }
-    public boolean canEncode(ScalarValue value, Scalar field) {
+    @Override
+	public boolean canEncode(ScalarValue value, Scalar field) {
         if (field.isOptional() && value == null)
             return true;
         return field.getDefaultValue().equals(value);
     }
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

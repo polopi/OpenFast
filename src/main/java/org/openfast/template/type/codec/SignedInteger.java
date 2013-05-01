@@ -43,7 +43,8 @@ public final class SignedInteger extends IntegerCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue value) {
+    @Override
+	public byte[] encodeValue(ScalarValue value) {
         long longValue = ((NumericValue) value).toLong();
         int size = getSignedIntegerSize(longValue);
         byte[] encoding = new byte[size];
@@ -64,7 +65,8 @@ public final class SignedInteger extends IntegerCodec {
      *            The InputStream to be decoded
      * @return the decoded value from the fast input stream
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         long value = 0;
         try {
             int byt = in.read();
@@ -91,7 +93,8 @@ public final class SignedInteger extends IntegerCodec {
         return createValue(value);
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

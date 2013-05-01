@@ -44,7 +44,8 @@ final class DeltaStringOperatorCodec extends AlwaysPresentOperatorCodec {
      * @param field
      * @return
      */
-    public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
+    @Override
+	public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
         if (value == null) {
             return ScalarValue.NULL;
         }
@@ -64,7 +65,8 @@ final class DeltaStringOperatorCodec extends AlwaysPresentOperatorCodec {
      * @return Returns null if the passed ScalarValue objects are null,
      *         otherwise
      */
-    public ScalarValue decodeValue(ScalarValue newValue, ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeValue(ScalarValue newValue, ScalarValue previousValue, Scalar field) {
         if ((newValue == null) || newValue.isNull()) {
             return null;
         }
@@ -78,11 +80,13 @@ final class DeltaStringOperatorCodec extends AlwaysPresentOperatorCodec {
         return field.getType().getValue(bytes);
     }
 
-    public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
         throw new IllegalStateException("As of FAST v1.1 Delta values must be present in stream");
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

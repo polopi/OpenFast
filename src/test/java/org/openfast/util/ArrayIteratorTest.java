@@ -6,7 +6,7 @@ public class ArrayIteratorTest extends TestCase {
 
 	public void testNext() {
 		String[] values = new String[] { "a", "b", "c" };
-		ArrayIterator<String> iter = new ArrayIterator<String>(values);
+		ArrayIterator<String> iter = new ArrayIterator<>(values);
 		assertTrue(iter.hasNext());
 		assertEquals(values[0], iter.next());
 		assertTrue(iter.hasNext());
@@ -19,7 +19,7 @@ public class ArrayIteratorTest extends TestCase {
 
 	public void testRemove() {
 		try {
-			new ArrayIterator<String>(new String[] { "a" }).remove();
+			new ArrayIterator<>(new String[] { "a" }).remove();
 			fail();
 		} catch (UnsupportedOperationException e) {
 			

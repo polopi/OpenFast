@@ -35,7 +35,8 @@ public class RecordingInputStream extends InputStream {
         this.in = inputStream;
     }
     
-    public int read() throws IOException {
+    @Override
+	public int read() throws IOException {
         int read = in.read();
         buffer[index++] = (byte) read;
         // Buffer overflow patch submitted by Erik Svensson
@@ -47,7 +48,8 @@ public class RecordingInputStream extends InputStream {
         return read;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return ByteUtil.convertByteArrayToBitString(buffer, index);
     }
 

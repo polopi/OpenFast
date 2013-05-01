@@ -35,7 +35,8 @@ public class OpraFeedTest extends OpenFastTestCase {
     private final class OpraBlockReader implements MessageBlockReader {
         private int bytesLeft;
 
-        public boolean readBlock(InputStream in) {
+        @Override
+		public boolean readBlock(InputStream in) {
             try {
                 if (bytesLeft == 0) {
                     bytesLeft = ((in.read() << 24) + (in.read() << 16) + (in.read() << 8) + (in.read() << 0));
@@ -55,7 +56,8 @@ public class OpraFeedTest extends OpenFastTestCase {
             }
         }
 
-        public void messageRead(InputStream in, Message message) {
+        @Override
+		public void messageRead(InputStream in, Message message) {
         }
     }
 

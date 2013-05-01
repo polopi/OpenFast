@@ -30,24 +30,28 @@ import org.openfast.template.StaticTemplateReference;
 import org.openfast.template.TemplateRegistry;
 
 public class StaticTemplateReferenceConverter extends AbstractFieldInstructionConverter {
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    @Override
+	public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
         QName name = new QName(fieldDef.getString("Name"), fieldDef.getString("Ns"));
         if (!templateRegistry.isDefined(name))
             throw new IllegalStateException("Referenced template " + name + " not defined.");
         return new StaticTemplateReference(templateRegistry.get(name));
     }
 
-    public GroupValue convert(Field field, ConversionContext context) {
+    @Override
+	public GroupValue convert(Field field, ConversionContext context) {
         Message strDef = new Message(SessionControlProtocol_1_1.STAT_TEMP_REF_INSTR);
         setNameAndId(field, strDef);
         return strDef;
     }
 
-    public boolean shouldConvert(Field field) {
+    @Override
+	public boolean shouldConvert(Field field) {
         return field.getClass().equals(StaticTemplateReference.class);
     }
 
-    public Group[] getTemplateExchangeTemplates() {
+    @Override
+	public Group[] getTemplateExchangeTemplates() {
         return new Group[] { SessionControlProtocol_1_1.STAT_TEMP_REF_INSTR };
     }
 }

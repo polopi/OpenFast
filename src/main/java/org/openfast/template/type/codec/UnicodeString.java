@@ -43,7 +43,8 @@ final class UnicodeString extends NotStopBitEncodedTypeCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue value) {
+    @Override
+	public byte[] encodeValue(ScalarValue value) {
         try {
             byte[] utf8encoding = ((StringValue) value).value.getBytes("UTF8");
             return TypeCodec.BYTE_VECTOR.encode(new ByteVectorValue(utf8encoding));
@@ -59,7 +60,8 @@ final class UnicodeString extends NotStopBitEncodedTypeCodec {
      *            The InputStream to be decoded
      * @return Returns a new StringValue object with the data stream as a String
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         ByteVectorValue value = (ByteVectorValue) TypeCodec.BYTE_VECTOR.decode(in);
         try {
             return new StringValue(new String(value.value, "UTF8"));
@@ -71,7 +73,7 @@ final class UnicodeString extends NotStopBitEncodedTypeCodec {
     /**
      * @return Returns a new StringValue object with the passed value
      */
-    public ScalarValue fromString(String value) {
+    public static ScalarValue fromString(String value) {
         return new StringValue(value);
     }
 
@@ -79,7 +81,7 @@ final class UnicodeString extends NotStopBitEncodedTypeCodec {
      * 
      * @return Returns a new StringValue with a default value
      */
-    public ScalarValue getDefaultValue() {
+    public static ScalarValue getDefaultValue() {
         return new StringValue("");
     }
 }

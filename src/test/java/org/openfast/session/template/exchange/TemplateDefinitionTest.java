@@ -19,7 +19,8 @@ public class TemplateDefinitionTest extends OpenFastTestCase {
     private Context context;
     private FastEncoder encoder;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         converter = new ScalarConverter();
         conversionContext = SessionControlProtocol_1_1.createInitialContext();
         context = new Context();

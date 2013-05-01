@@ -42,7 +42,8 @@ public final class UnsignedInteger extends IntegerCodec {
      *            The value to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue scalarValue) {
+    @Override
+	public byte[] encodeValue(ScalarValue scalarValue) {
         long value = scalarValue.toLong();
         int size = getUnsignedIntegerSize(value);
         byte[] encoded = new byte[size];
@@ -58,7 +59,8 @@ public final class UnsignedInteger extends IntegerCodec {
      *            The InputStream to be decoded
      * @return the decoded value from the fast input stream
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         long value = 0;
         int byt;
         try {
@@ -77,7 +79,8 @@ public final class UnsignedInteger extends IntegerCodec {
         return createValue(value);
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && getClass() == obj.getClass();
     }
 }

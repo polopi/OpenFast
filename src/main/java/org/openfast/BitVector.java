@@ -67,7 +67,8 @@ public class BitVector {
         return ((bytes[fieldIndex / 7] & (1 << (6 - (fieldIndex % 7)))) > 0);
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if ((obj == null) || !(obj instanceof BitVector)) {
             return false;
         }
@@ -86,7 +87,8 @@ public class BitVector {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return bytes.hashCode();
     }
 
@@ -94,7 +96,8 @@ public class BitVector {
         return (bytes.length > 1) && ((bytes[bytes.length - 1] & VALUE_BITS_SET) == 0);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return "BitVector [" + ByteUtil.convertByteArrayToBitString(bytes) + "]";
     }
 

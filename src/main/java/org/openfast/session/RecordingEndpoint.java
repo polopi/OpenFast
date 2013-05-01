@@ -35,17 +35,20 @@ public class RecordingEndpoint implements Endpoint, ConnectionListener {
         underlyingEndpoint.setConnectionListener(this);
     }
 
-    public void accept() throws FastConnectionException {
+    @Override
+	public void accept() throws FastConnectionException {
         underlyingEndpoint.accept();
     }
 
-    public Connection connect() throws FastConnectionException {
+    @Override
+	public Connection connect() throws FastConnectionException {
         final Connection connection = underlyingEndpoint.connect();
         Connection connectionWrapper = new RecordingConnection(connection);
         return connectionWrapper;
     }
 
-    public void setConnectionListener(ConnectionListener listener) {
+    @Override
+	public void setConnectionListener(ConnectionListener listener) {
         this.listener = listener;
     }
 
@@ -62,25 +65,30 @@ public class RecordingEndpoint implements Endpoint, ConnectionListener {
             }
         }
 
-        public void close() {
+        @Override
+		public void close() {
             System.out.println("IN: " + new String(recordingInputStream.toString()));
             System.out.println("OUT: " + new String(recordingOutputStream.toString()));
         }
 
-        public InputStream getInputStream() throws IOException {
+        @Override
+		public InputStream getInputStream() throws IOException {
             return recordingInputStream;
         }
 
-        public OutputStream getOutputStream() throws IOException {
+        @Override
+		public OutputStream getOutputStream() throws IOException {
             return recordingOutputStream;
         }
     }
 
-    public void close() {
+    @Override
+	public void close() {
         underlyingEndpoint.close();
     }
 
-    public void onConnect(Connection connection) {
+    @Override
+	public void onConnect(Connection connection) {
         listener.onConnect(new RecordingConnection(connection));
     }
 }

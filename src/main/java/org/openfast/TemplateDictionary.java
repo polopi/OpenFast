@@ -28,9 +28,10 @@ import java.util.Map;
 
 
 public class TemplateDictionary implements Dictionary {
-    protected Map<Group, Map<QName, ScalarValue>> table = new HashMap<Group, Map<QName, ScalarValue>>();
+    protected Map<Group, Map<QName, ScalarValue>> table = new HashMap<>();
 
-    public ScalarValue lookup(Group template, QName key, QName applicationType) {
+    @Override
+	public ScalarValue lookup(Group template, QName key, QName applicationType) {
         if (!table.containsKey(template)) {
             return ScalarValue.UNDEFINED;
         }
@@ -42,11 +43,13 @@ public class TemplateDictionary implements Dictionary {
         return ScalarValue.UNDEFINED;
     }
 
-    public void reset() {
+    @Override
+	public void reset() {
         table.clear();
     }
 
-    public void store(Group group, QName applicationType, QName key, ScalarValue valueToEncode) {
+    @Override
+	public void store(Group group, QName applicationType, QName key, ScalarValue valueToEncode) {
         if (!table.containsKey(group)) {
             table.put(group, new HashMap<QName, ScalarValue>());
         }
@@ -54,7 +57,8 @@ public class TemplateDictionary implements Dictionary {
         table.get(group).put(key, valueToEncode);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         StringBuilder builder = new StringBuilder();
         Iterator<Group> templateIterator = table.keySet().iterator();
         while (templateIterator.hasNext()) {

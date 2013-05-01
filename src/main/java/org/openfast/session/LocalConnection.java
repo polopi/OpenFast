@@ -42,7 +42,8 @@ public class LocalConnection implements Connection {
             throw new RuntimeException(e);
         }
     }
-    public void close() {
+    @Override
+	public void close() {
         try {
             in.close();
         } catch (IOException e) {}
@@ -50,10 +51,12 @@ public class LocalConnection implements Connection {
             out.close();
         } catch (IOException e) {}
     }
-    public InputStream getInputStream() throws IOException {
+    @Override
+	public InputStream getInputStream() throws IOException {
         return in;
     }
-    public OutputStream getOutputStream() throws IOException {
+    @Override
+	public OutputStream getOutputStream() throws IOException {
         return out;
     }
 }

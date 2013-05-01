@@ -18,7 +18,8 @@ public class VariableLengthInstructionConverterTest extends TestCase {
     private VariableLengthInstructionConverter converter;
     private ConversionContext context;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         converter = new VariableLengthInstructionConverter();
         context = SessionControlProtocol_1_1.createInitialContext();
     }

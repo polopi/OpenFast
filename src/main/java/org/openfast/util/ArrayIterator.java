@@ -30,15 +30,18 @@ public class ArrayIterator<E> implements Iterator<E> {
         this.array = array;
     }
 
-    public boolean hasNext() {
+    @Override
+	public boolean hasNext() {
         return position < array.length;
     }
 
-    public E next() {
+    @Override
+	public E next() {
         return array[position++];
     }
 
-    public void remove() {
+    @Override
+	public void remove() {
         throw new UnsupportedOperationException();
     }
 }

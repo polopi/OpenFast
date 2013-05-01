@@ -38,7 +38,9 @@ public class MessageBlockReaderFactory {
 			return MessageBlockReader.NULL;
 
 		return new MessageBlockReader() {
+			@Override
 			public void messageRead(InputStream in, Message message) { }
+			@Override
 			public boolean readBlock(InputStream in) {
 				try {
 					in.skip(offset);

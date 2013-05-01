@@ -31,7 +31,7 @@ public class ComposedDecimalTest extends OpenFastTestCase {
         assertEquals(d(942755, -2), scalar.decode(bitStream(encoding), template, new Context(), pmapReader("11000000")));
     }
 
-    private BitVectorReader pmapReader(String bits) {
+    private static BitVectorReader pmapReader(String bits) {
         return new BitVectorReader(new BitVector(ByteUtil.convertBitStringToFastByteArray(bits)));
     }
 

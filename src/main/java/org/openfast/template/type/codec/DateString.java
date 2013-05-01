@@ -40,7 +40,8 @@ public class DateString extends TypeCodec {
         formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
 
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         try {
             return new DateValue(formatter.parse(TypeCodec.ASCII.decode(in).toString()));
         } catch (ParseException e) {
@@ -49,11 +50,13 @@ public class DateString extends TypeCodec {
         }
     }
 
-    public byte[] encodeValue(ScalarValue value) {
+    @Override
+	public byte[] encodeValue(ScalarValue value) {
         return TypeCodec.ASCII.encode(new StringValue(formatter.format(((DateValue) value).value)));
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

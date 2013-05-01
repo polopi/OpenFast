@@ -65,7 +65,7 @@ public class DeltaStringOperatorTest extends OpenFastTestCase {
         assertEquals(string("YZBCEF"), decode(tv(0, "F"), string("YZBCE")));
     }
 
-    private ByteVectorValue str2bv(String string) {
+    private static ByteVectorValue str2bv(String string) {
         return new ByteVectorValue(string.getBytes());
     }
 
@@ -100,7 +100,7 @@ public class DeltaStringOperatorTest extends OpenFastTestCase {
         return OperatorCodec.DELTA_STRING.decodeValue(diff, priorValue, field);
     }
 
-    private TwinValue tv(int subtraction, String diff) {
+    private static TwinValue tv(int subtraction, String diff) {
         return new TwinValue(new IntegerValue(subtraction), str2bv(diff));
     }
 }

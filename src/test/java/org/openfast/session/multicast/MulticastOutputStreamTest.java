@@ -41,16 +41,18 @@ public class MulticastOutputStreamTest extends TestCase {
     MulticastOutputStream multicastOutputStream;
 
     public class MockMulticastSocket extends MulticastSocket {
-        public Deque<DatagramPacket> packetsSent = new LinkedList<DatagramPacket>();
+        public Deque<DatagramPacket> packetsSent = new LinkedList<>();
         
         public MockMulticastSocket(int port) throws IOException {
             super(port);
         }
 
-        public void send(DatagramPacket packet) throws IOException {
+        @Override
+		public void send(DatagramPacket packet) throws IOException {
             packetsSent.addLast(packet);
         }
 
+		@Override
 		public String toString() {
 			StringBuffer msg = new StringBuffer("\nPackets Sent {");
 			for(Object ix: packetsSent) {
@@ -68,7 +70,8 @@ public class MulticastOutputStreamTest extends TestCase {
 		assertTrue(msg, Arrays.equals(expected, actualData));
     }
 
-    public void setUp() throws Exception {
+    @Override
+	public void setUp() throws Exception {
         port = 4242;
         group = InetAddress.getByName("230.0.0.1");
         socket = new MockMulticastSocket(port);

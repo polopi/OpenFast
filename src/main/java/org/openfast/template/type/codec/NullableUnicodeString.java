@@ -43,7 +43,8 @@ final class NullableUnicodeString extends NotStopBitEncodedTypeCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue value) {
+    @Override
+	public byte[] encodeValue(ScalarValue value) {
         if (value.isNull())
             return TypeCodec.NULLABLE_BYTE_VECTOR_TYPE.encodeValue(ScalarValue.NULL);
         try {
@@ -62,7 +63,8 @@ final class NullableUnicodeString extends NotStopBitEncodedTypeCodec {
      * @return Returns a new StringValue object with the data stream as its
      *         parameters
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         ScalarValue decodedValue = TypeCodec.NULLABLE_BYTE_VECTOR_TYPE.decode(in);
         if (decodedValue == null)
             return null;
@@ -77,7 +79,7 @@ final class NullableUnicodeString extends NotStopBitEncodedTypeCodec {
     /**
      * @return Returns a new StringValue object with the passed value
      */
-    public ScalarValue fromString(String value) {
+    public static ScalarValue fromString(String value) {
         return new StringValue(value);
     }
 
@@ -85,11 +87,12 @@ final class NullableUnicodeString extends NotStopBitEncodedTypeCodec {
      * 
      * @return Returns a new StringValue object with a default value
      */
-    public ScalarValue getDefaultValue() {
+    public static ScalarValue getDefaultValue() {
         return new StringValue("");
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

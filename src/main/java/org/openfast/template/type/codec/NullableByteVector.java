@@ -39,7 +39,8 @@ public class NullableByteVector extends NotStopBitEncodedTypeCodec {
      * @return Returns a new ByteVectorValue object with the data stream as an
      *         array
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         ScalarValue decode = TypeCodec.NULLABLE_UNSIGNED_INTEGER.decode(in);
         if (decode == null)
             return null;
@@ -67,7 +68,8 @@ public class NullableByteVector extends NotStopBitEncodedTypeCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue value) {
+    @Override
+	public byte[] encodeValue(ScalarValue value) {
         if (value.isNull())
             return TypeCodec.NULLABLE_UNSIGNED_INTEGER.encodeValue(ScalarValue.NULL);
         ByteVectorValue byteVectorValue = (ByteVectorValue) value;
@@ -94,7 +96,8 @@ public class NullableByteVector extends NotStopBitEncodedTypeCodec {
         return new ByteVectorValue(value.getBytes());
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

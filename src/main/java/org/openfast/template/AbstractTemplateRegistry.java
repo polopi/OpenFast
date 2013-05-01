@@ -28,27 +28,33 @@ import org.openfast.QName;
 public abstract class AbstractTemplateRegistry implements TemplateRegistry {
     private List<TemplateRegisteredListener> listeners = Collections.emptyList();
 
-    public MessageTemplate get(String name) {
+    @Override
+	public MessageTemplate get(String name) {
         return get(new QName(name, ""));
     }
 
-    public int getId(String name) {
+    @Override
+	public int getId(String name) {
         return getId(new QName(name, ""));
     }
 
-    public boolean isDefined(String name) {
+    @Override
+	public boolean isDefined(String name) {
         return isDefined(new QName(name, ""));
     }
 
-    public boolean isRegistered(String name) {
+    @Override
+	public boolean isRegistered(String name) {
         return isRegistered(new QName(name, ""));
     }
 
-    public void register(int templateId, String name) {
+    @Override
+	public void register(int templateId, String name) {
         register(templateId, new QName(name, ""));
     }
 
-    public void remove(String name) {
+    @Override
+	public void remove(String name) {
         remove(new QName(name, ""));
     }
 
@@ -57,13 +63,15 @@ public abstract class AbstractTemplateRegistry implements TemplateRegistry {
             listener.templateRegistered(template, id);
     }
 
-    public void addTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener) {
+    @Override
+	public void addTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener) {
         if (this.listeners == Collections.EMPTY_LIST)
-            this.listeners = new ArrayList<TemplateRegisteredListener>(3);
+            this.listeners = new ArrayList<>(3);
         this.listeners.add(templateRegisteredListener);
     }
 
-    public void removeTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener) {
+    @Override
+	public void removeTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener) {
         this.listeners.remove(templateRegisteredListener);
     }
 }

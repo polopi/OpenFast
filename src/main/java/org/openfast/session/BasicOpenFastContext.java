@@ -10,35 +10,43 @@ public class BasicOpenFastContext implements OpenFastContext {
 
     private FastMessageLogger logger;
 
-    public MessageTemplate getTemplate(int templateId) {
+    @Override
+	public MessageTemplate getTemplate(int templateId) {
         return null;
     }
 
-    public int getTemplateId(MessageTemplate template) {
+    @Override
+	public int getTemplateId(MessageTemplate template) {
         return 0;
     }
 
-    public TemplateRegistry getTemplateRegistry() {
+    @Override
+	public TemplateRegistry getTemplateRegistry() {
         return null;
     }
 
-    public void registerTemplate(int templateId, MessageTemplate template) {
+    @Override
+	public void registerTemplate(int templateId, MessageTemplate template) {
 
     }
 
-    public void setErrorHandler(ErrorHandler errorHandler) {
+    @Override
+	public void setErrorHandler(ErrorHandler errorHandler) {
 
     }
 
-    public void setTemplateRegistry(TemplateRegistry registry) {
+    @Override
+	public void setTemplateRegistry(TemplateRegistry registry) {
 
     }
 
-    public FastMessageLogger getLogger() {
+    @Override
+	public FastMessageLogger getLogger() {
         return this.logger != null ? this.logger : FastMessageLogger.NULL;
     }
 
-    public void setLogger(FastMessageLogger logger) {
+    @Override
+	public void setLogger(FastMessageLogger logger) {
         this.logger = logger;
     }
 

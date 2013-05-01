@@ -1,7 +1,7 @@
 package org.openfast.impl;
 
-import java.io.IOException;
 import java.io.InputStream;
+
 import org.openfast.Message;
 import org.openfast.MessageBlockReader;
 import org.openfast.template.type.codec.TypeCodec;
@@ -10,9 +10,11 @@ public class CmeTcpReplayMessageBlockReader implements MessageBlockReader {
 	CmeMessageBlockReader preambleReader = new CmeMessageBlockReader();
     long lengthIndicator = 0;
 
+	@Override
 	public void messageRead(InputStream in, Message message) {
 	}
 
+	@Override
 	public boolean readBlock(InputStream in) {
         lengthIndicator = TypeCodec.UINT.decode(in).toLong();
         return preambleReader.readBlock(in);

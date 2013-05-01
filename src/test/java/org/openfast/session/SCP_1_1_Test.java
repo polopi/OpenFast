@@ -20,18 +20,21 @@ public class SCP_1_1_Test extends TestCase {
     private FastClient client;
     int successfullThreadsCount = 0;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         serverEndpoint = new LocalEndpoint();
         server = new FastServer("server", SessionConstants.SCP_1_1, serverEndpoint);
         clientEndpoint = new RecordingEndpoint(new LocalEndpoint(serverEndpoint));
         client = new FastClient("client", SessionConstants.SCP_1_1, clientEndpoint);
     }
-    protected void tearDown() throws Exception {
+    @Override
+	protected void tearDown() throws Exception {
         server.close();
     }
     public void IGNOREtestSessionEstablishment() throws Exception {
         server.setSessionHandler(new SessionHandler() {
-            public void newSession(Session session) {
+            @Override
+			public void newSession(Session session) {
                 assertEquals("client", session.getClient().getName());
                 assertEquals(SessionConstants.VENDOR_ID, session.getClient().getVendorId());
                 ++successfullThreadsCount;
@@ -48,7 +51,8 @@ public class SCP_1_1_Test extends TestCase {
     }
     public void IGNOREtestSessionReset() throws Exception {
         server.setSessionHandler(new SessionHandler() {
-            public void newSession(Session session) {
+            @Override
+			public void newSession(Session session) {
                 session.in.registerTemplate(1, ObjectMother.quoteTemplate());
                 wait0(MAX_TIMEOUT);
                 Message quote = session.in.readMessage();
@@ -92,7 +96,8 @@ public class SCP_1_1_Test extends TestCase {
     public void testEmpty() {}
     public void IGNOREtestAlert() throws FastConnectionException, IOException {
         server.setSessionHandler(new SessionHandler() {
-            public void newSession(Session session) {
+            @Override
+			public void newSession(Session session) {
                 wait0(MAX_TIMEOUT);
                 session.setListening(true);
                 session.setErrorHandler(ErrorHandler.NULL);
@@ -104,12 +109,14 @@ public class SCP_1_1_Test extends TestCase {
         server.listen();
         Session session = client.connect();
         session.setErrorHandler(new ErrorHandler() {
-            public void error(ErrorCode code, String message) {
+            @Override
+			public void error(ErrorCode code, String message) {
                 assertEquals(SessionConstants.TEMPLATE_NOT_SUPPORTED, code);
                 ++successfullThreadsCount;
                 notifyAll0();
             }
-            public void error(ErrorCode code, String message, Throwable t) {}
+            @Override
+			public void error(ErrorCode code, String message, Throwable t) {}
         });
         session.out.registerTemplate(1, ObjectMother.quoteTemplate());
         session.out.writeMessage(ObjectMother.quote(1.0, 2.0));
@@ -122,7 +129,8 @@ public class SCP_1_1_Test extends TestCase {
     }
     public void IGNOREtestTemplateExchange() throws Exception {
         server.setSessionHandler(new SessionHandler() {
-            public void newSession(Session session) {
+            @Override
+			public void newSession(Session session) {
                 session.setListening(true);
                 TemplateRegistry registry = new BasicTemplateRegistry();
                 registry.register(24, ObjectMother.quoteTemplate());
@@ -139,7 +147,8 @@ public class SCP_1_1_Test extends TestCase {
         server.listen();
         Session session = client.connect();
         session.setMessageHandler(new MessageListener() {
-            public void onMessage(Session session, Message message) {
+            @Override
+			public void onMessage(Session session, Message message) {
                 if (message.getTemplate().equals(ObjectMother.quoteTemplate())) {
                     assertEquals(101.3, message.getDouble(1), .1);
                     assertEquals(102.4, message.getDouble(2), .1);
@@ -156,7 +165,8 @@ public class SCP_1_1_Test extends TestCase {
     // TODO - Figure out why these tests occasionally fail
     public void IGNOREtestReceiveTemplateDefinitionWithTemplateId() throws Exception {
         server.setSessionHandler(new SessionHandler() {
-            public void newSession(Session session) {
+            @Override
+			public void newSession(Session session) {
                 session.setListening(true);
                 Message templateDef = SessionConstants.SCP_1_1.createTemplateDefinitionMessage(ObjectMother.quoteTemplate());
                 templateDef.setInteger("TemplateId", 24);
@@ -172,7 +182,8 @@ public class SCP_1_1_Test extends TestCase {
         server.listen();
         Session session = client.connect();
         session.setMessageHandler(new MessageListener() {
-            public void onMessage(Session session, Message message) {
+            @Override
+			public void onMessage(Session session, Message message) {
                 if (message.getTemplate().equals(ObjectMother.quoteTemplate())) {
                     assertEquals(101.3, message.getDouble(1), .1);
                     assertEquals(102.4, message.getDouble(2), .1);

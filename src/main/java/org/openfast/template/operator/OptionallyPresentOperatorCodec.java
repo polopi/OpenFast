@@ -42,7 +42,8 @@ public abstract class OptionallyPresentOperatorCodec extends OperatorCodec {
      * @param field
      * @return the value that should be used if no value is present in the fast stream 
      */
-    public ScalarValue decodeEmptyValue(ScalarValue priorValue, Scalar field) {
+    @Override
+	public ScalarValue decodeEmptyValue(ScalarValue priorValue, Scalar field) {
         if (priorValue == ScalarValue.UNDEFINED) {
             return getInitialValue(field);
         }
@@ -56,7 +57,8 @@ public abstract class OptionallyPresentOperatorCodec extends OperatorCodec {
      * @param field
      * @return the value that should be encoded over the fast stream given the previous value for this field
      */
-    public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
+    @Override
+	public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
         if (value != null) {
             return getValueToEncode(value, priorValue, field.getDefaultValue());
         }

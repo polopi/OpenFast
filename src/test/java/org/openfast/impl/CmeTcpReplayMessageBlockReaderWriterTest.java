@@ -22,13 +22,12 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 
 package org.openfast.impl;
 
-import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.LinkedList;
+
 import junit.framework.TestCase;
+
 import org.openfast.Message;
 import org.openfast.ScalarValue;
 import org.openfast.template.Field;

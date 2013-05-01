@@ -15,6 +15,7 @@ public class ScalarParserTest extends OpenFastTestCase {
 	private ScalarParser parser;
 	private ParsingContext context;
 
+	@Override
 	protected void setUp() throws Exception {
 		parser = new ScalarParser();
 		context = XMLMessageTemplateLoader.createInitialContext();

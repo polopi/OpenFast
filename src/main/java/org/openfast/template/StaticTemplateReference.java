@@ -44,39 +44,48 @@ public class StaticTemplateReference extends Field {
         this.template = null;
     }
 
-    public FieldValue createValue(String value) {
+    @Override
+	public FieldValue createValue(String value) {
         return null;
     }
 
-    public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader pmapReader) {
+    @Override
+	public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader pmapReader) {
         return null;
     }
 
-    public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
+    @Override
+	public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
         return null;
     }
 
-    public String getTypeName() {
+    @Override
+	public String getTypeName() {
         return null;
     }
 
-    public Class<? extends FieldValue> getValueType() {
+    @Override
+	public Class<? extends FieldValue> getValueType() {
         return null;
     }
 
-    public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
+    @Override
+	public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
         return false;
     }
 
-    public boolean usesPresenceMapBit() {
+    @Override
+	public boolean usesPresenceMapBit() {
         return false;
     }
 
-    public MessageTemplate getTemplate() {
+    @Override
+	public MessageTemplate getTemplate() {
         return template;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == this)
             return true;
         if (obj == null || obj.getClass() != this.getClass())

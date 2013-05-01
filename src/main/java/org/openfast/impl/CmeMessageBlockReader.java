@@ -11,9 +11,11 @@ public class CmeMessageBlockReader implements MessageBlockReader {
 	long lastSeqNum;
 	int lastSubId;
 
+	@Override
 	public void messageRead(InputStream in, Message message) {
 	}
 
+	@Override
 	public boolean readBlock(InputStream in) {
 		try {
 			if(in.read(data) == -1)

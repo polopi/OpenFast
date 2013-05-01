@@ -15,7 +15,8 @@ public class ComposedDecimalParserTest extends OpenFastTestCase {
     private FieldParser parser;
     private ParsingContext context;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         parser = new ComposedDecimalParser();
         context = XMLMessageTemplateLoader.createInitialContext();
     }

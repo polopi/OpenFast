@@ -334,10 +334,12 @@ public class XMLMessageTemplateLoaderTest extends OpenFastTestCase {
     	}
     	loader.addFieldParser(new FieldParser() {
 
+			@Override
 			public boolean canParse(Element element, ParsingContext context) {
 				return element.getNodeName().equals("array");
 			}
 
+			@Override
 			public Field parse(Element fieldNode, ParsingContext context) {
 				return new Array(new QName(fieldNode.getAttribute("name"), ""), false);
 			}});

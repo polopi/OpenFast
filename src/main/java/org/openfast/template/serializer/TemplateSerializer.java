@@ -5,7 +5,8 @@ import org.openfast.template.MessageTemplate;
 import org.openfast.util.XmlWriter;
 
 public class TemplateSerializer extends AbstractFieldSerializer implements FieldSerializer {
-    public void serialize(XmlWriter writer, Field field, SerializingContext context) {
+    @Override
+	public void serialize(XmlWriter writer, Field field, SerializingContext context) {
         MessageTemplate template = (MessageTemplate) field;
         writer.start("template");
         writer.addAttribute("name", template.getName());
@@ -30,7 +31,8 @@ public class TemplateSerializer extends AbstractFieldSerializer implements Field
         writer.end();
     }
 
-    public boolean canSerialize(Field field) {
+    @Override
+	public boolean canSerialize(Field field) {
         return field instanceof MessageTemplate;
     }
 }

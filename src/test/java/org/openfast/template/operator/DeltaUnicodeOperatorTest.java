@@ -96,7 +96,7 @@ public class DeltaUnicodeOperatorTest extends OpenFastTestCase {
         return OperatorCodec.DELTA_STRING.decodeValue(diff, priorValue, field);
     }
 
-    private TwinValue tv(int subtraction, String diff) {
+    private static TwinValue tv(int subtraction, String diff) {
         return new TwinValue(new IntegerValue(subtraction), new ByteVectorValue(diff.getBytes()));
     }
 }

@@ -13,6 +13,7 @@ public class CmeMessageBlockWriter implements MessageBlockWriter {
 	byte[] data = new byte[CmeConstants.PREAMBLE_LEN];
 
 	/** Note: the CME Channel Sub ID (the fifth byte of the preamble) will always be zero. */
+	@Override
 	public void writeBlockLength(OutputStream out, Message message, byte[] encodedMessage) throws IOException {
 		out.write(writeBlockLength(data, message.getLong("MsgSeqNum"), 0));
 	}

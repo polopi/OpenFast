@@ -56,13 +56,14 @@ import org.openfast.template.type.Type;
 public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
     public static final String NAMESPACE = "http://www.fixprotocol.org/ns/fast/scp/1.1";
     private static final QName RESET_PROPERTY = new QName("reset", NAMESPACE);
-    private static final Map<MessageTemplate, SessionMessageHandler> messageHandlers = new HashMap<MessageTemplate, SessionMessageHandler>();
+    private static final Map<MessageTemplate, SessionMessageHandler> messageHandlers = new HashMap<>();
     private final ConversionContext initialContext = createInitialContext();
 
     protected SessionControlProtocol_1_1() {
         messageHandlers.put(FAST_ALERT_TEMPLATE, ALERT_HANDLER);
         messageHandlers.put(TEMPLATE_DEFINITION, new SessionMessageHandler() {
-            public void handleMessage(Session session, Message message) {
+            @Override
+			public void handleMessage(Session session, Message message) {
                 MessageTemplate template = createTemplateFromMessage(message, session.in.getTemplateRegistry());
                 session.addDynamicTemplateDefinition(template);
                 if (message.isDefined("TemplateId"))
@@ -70,7 +71,8 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
             }
         });
         messageHandlers.put(TEMPLATE_DECLARATION, new SessionMessageHandler() {
-            public void handleMessage(Session session, Message message) {
+            @Override
+			public void handleMessage(Session session, Message message) {
                 session.registerDynamicTemplate(getQName(message), message.getInt("TemplateId"));
             }
         });
@@ -91,16 +93,19 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
         String ns = message.getString("Ns");
         return new QName(name, ns);
     }
-    public void configureSession(Session session) {
+    @Override
+	public void configureSession(Session session) {
         registerSessionTemplates(session.in.getTemplateRegistry());
         registerSessionTemplates(session.out.getTemplateRegistry());
         session.in.addMessageHandler(FAST_RESET_TEMPLATE, RESET_HANDLER);
         session.out.addMessageHandler(FAST_RESET_TEMPLATE, RESET_HANDLER);
     }
-    public void registerSessionTemplates(TemplateRegistry registry) {
+    @Override
+	public void registerSessionTemplates(TemplateRegistry registry) {
         registry.registerAll(TEMPLATE_REGISTRY);
     }
-    public Session connect(String senderName, Connection connection, TemplateRegistry inboundRegistry,
+    @Override
+	public Session connect(String senderName, Connection connection, TemplateRegistry inboundRegistry,
             TemplateRegistry outboundRegistry, MessageListener messageListener, SessionListener sessionListener) {
         Session session = new Session(connection, this, inboundRegistry, outboundRegistry);
         configureSession(session);
@@ -115,10 +120,12 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
         session.setClient(new BasicClient(serverName, vendorId));
         return session;
     }
-    public void onError(Session session, ErrorCode code, String message) {
+    @Override
+	public void onError(Session session, ErrorCode code, String message) {
         session.out.writeMessage(createFastAlertMessage(code));
     }
-    public Session onNewConnection(String serverName, Connection connection) {
+    @Override
+	public Session onNewConnection(String serverName, Connection connection) {
         Session session = new Session(connection, this, TemplateRegistry.NULL, TemplateRegistry.NULL);
         Message message = session.in.readMessage();
         String clientName = message.getString(1);
@@ -140,33 +147,39 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
         alert.setString(4, code.getDescription());
         return alert;
     }
-    public void handleMessage(Session session, Message message) {
+    @Override
+	public void handleMessage(Session session, Message message) {
         if (!messageHandlers.containsKey(message.getTemplate()))
             return;
         ((SessionMessageHandler) messageHandlers.get(message.getTemplate())).handleMessage(session, message);
     }
-    public boolean isProtocolMessage(Message message) {
+    @Override
+	public boolean isProtocolMessage(Message message) {
         if (message == null)
             return false;
         return messageHandlers.containsKey(message.getTemplate());
     }
-    public boolean supportsTemplateExchange() {
+    @Override
+	public boolean supportsTemplateExchange() {
         return true;
     }
-    public Message createTemplateDeclarationMessage(MessageTemplate messageTemplate, int templateId) {
+    @Override
+	public Message createTemplateDeclarationMessage(MessageTemplate messageTemplate, int templateId) {
         Message declaration = new Message(TEMPLATE_DECLARATION);
         AbstractFieldInstructionConverter.setName(messageTemplate, declaration);
         declaration.setInteger("TemplateId", templateId);
         return declaration;
     }
-    public Message createTemplateDefinitionMessage(MessageTemplate messageTemplate) {
+    @Override
+	public Message createTemplateDefinitionMessage(MessageTemplate messageTemplate) {
         Message templateDefinition = GroupConverter.convert(messageTemplate, new Message(TEMPLATE_DEFINITION), initialContext);
         int reset = messageTemplate.hasAttribute(RESET_PROPERTY) ? 1 : 0;
         templateDefinition.setInteger("Reset", reset);
         return templateDefinition;
     }
 
-    public MessageTemplate createTemplateFromMessage(Message templateDef, TemplateRegistry registry) {
+    @Override
+	public MessageTemplate createTemplateFromMessage(Message templateDef, TemplateRegistry registry) {
         String name = templateDef.getString("Name");
         String namespace = "";
         if (templateDef.isDefined("Ns"))
@@ -225,7 +238,8 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
     public static final Message RESET = new Message(FAST_RESET_TEMPLATE) {
         private static final long serialVersionUID = 1L;
 
-        public void setFieldValue(int fieldIndex, FieldValue value) {
+        @Override
+		public void setFieldValue(int fieldIndex, FieldValue value) {
             throw new IllegalStateException("Cannot set values on a fast reserved message.");
         }
     };
@@ -237,13 +251,15 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
      * *********************************************
      */
     private static final MessageHandler RESET_HANDLER = new MessageHandler() {
-        public void handleMessage(Message readMessage, Context context, Coder coder) {
+        @Override
+		public void handleMessage(Message readMessage, Context context, Coder coder) {
             if (readMessage.getTemplate().hasAttribute(RESET_PROPERTY))
                 coder.reset();
         }
     };
     private static final SessionMessageHandler ALERT_HANDLER = new SessionMessageHandler() {
-        public void handleMessage(Session session, Message message) {
+        @Override
+		public void handleMessage(Session session, Message message) {
             ErrorCode alertCode = ErrorCode.getAlertCode(message);
             if (alertCode.equals(SessionConstants.CLOSE)) {
                 session.close(alertCode);
@@ -424,7 +440,8 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
             }
         }
     }
-    public Message getCloseMessage() {
+    @Override
+	public Message getCloseMessage() {
         return CLOSE;
     }
 

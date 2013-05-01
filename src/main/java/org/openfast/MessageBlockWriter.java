@@ -6,7 +6,8 @@ import java.io.OutputStream;
 public interface MessageBlockWriter {
 
     MessageBlockWriter NULL = new MessageBlockWriter() {
-        public void writeBlockLength(OutputStream out, Message message, byte[] encodedMessage) throws IOException {
+        @Override
+		public void writeBlockLength(OutputStream out, Message message, byte[] encodedMessage) throws IOException {
 		}
 	};
 

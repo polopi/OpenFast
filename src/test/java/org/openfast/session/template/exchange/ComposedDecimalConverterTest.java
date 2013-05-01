@@ -19,6 +19,7 @@ public class ComposedDecimalConverterTest extends TestCase {
 	private ConversionContext context;
 	private ComposedScalar decimal;
 
+	@Override
 	protected void setUp() throws Exception {
 		converter = new ComposedDecimalConverter();
 		context = SessionControlProtocol_1_1.createInitialContext();

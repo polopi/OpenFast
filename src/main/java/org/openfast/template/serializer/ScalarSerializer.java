@@ -8,11 +8,13 @@ import org.openfast.util.XmlWriter;
 
 public class ScalarSerializer extends AbstractFieldSerializer implements FieldSerializer {
 
-    public boolean canSerialize(Field field) {
+    @Override
+	public boolean canSerialize(Field field) {
         return field instanceof Scalar;
     }
 
-    public void serialize(XmlWriter writer, Field field, SerializingContext context) {
+    @Override
+	public void serialize(XmlWriter writer, Field field, SerializingContext context) {
         Scalar scalar = writeStart(writer, field, context);
         writeEnd(writer, context, scalar);
     }
@@ -32,7 +34,7 @@ public class ScalarSerializer extends AbstractFieldSerializer implements FieldSe
         return scalar;
     }
 
-    private String getNodeName(Scalar scalar) {
+    private static String getNodeName(Scalar scalar) {
         String nodeName = scalar.getType().getName();
         if (scalar.getType() instanceof StringType)
             nodeName = "string";

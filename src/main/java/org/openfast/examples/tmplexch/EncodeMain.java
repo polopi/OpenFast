@@ -49,10 +49,7 @@ public class EncodeMain extends OpenFastExample {
                 if (!outFile.exists())
                     outFile.createNewFile();
                 out = new FileOutputStream(outFile);
-            } catch (FileNotFoundException e) {
-                System.out.println("Unable to create output file.");
-                System.exit(1);
-            } catch (IOException e) {
+            } catch (IOException e) { // FileNotFoundException is already caught by IOException
                 System.out.println("Unable to create output file.");
                 System.exit(1);
             }

@@ -46,10 +46,7 @@ public class DecodeMain extends OpenFastExample {
             } catch (AssertionError e) {
                 System.out.println(e.getMessage());
                 displayHelp("consumer", options);
-            } catch (FileNotFoundException e) {
-                System.out.println("Unable to create output file.");
-                System.exit(1);
-            } catch (IOException e) {
+            } catch (IOException e) { // FileNotFoundException is already caught by IOException
                 System.out.println("Unable to create output file.");
                 System.exit(1);
             }
@@ -63,10 +60,7 @@ public class DecodeMain extends OpenFastExample {
             Assert.assertTrue(!inFile.isDirectory(), "The fast encoded data file \"" + inFile.getAbsolutePath() + "\" is a directory.");
             Assert.assertTrue(inFile.canRead(), "The fast encoded data file \"" + inFile.getAbsolutePath() + "\" is not readable.");
             fastIn = new FileInputStream(inFile);
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to open data file.");
-            System.exit(1);
-        } catch (IOException e) {
+        } catch (IOException e) { // FileNotFoundException is already caught by IOException
             System.out.println("Unable to open data file.");
             System.exit(1);
         }

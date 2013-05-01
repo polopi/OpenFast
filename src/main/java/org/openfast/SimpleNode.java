@@ -15,31 +15,36 @@ public class SimpleNode implements Node {
         this.name = nodeName;
     }
 
-    public void addNode(Node node) {
+    @Override
+	public void addNode(Node node) {
         if (nodes.isEmpty())
-            nodes = new ArrayList<Node>(3);
+            nodes = new ArrayList<>(3);
         nodes.add(node);
     }
 
-    public List<Node> getNodes() {
+    @Override
+	public List<Node> getNodes() {
         return nodes;
     }
 
-    public String getAttribute(QName name) {
+    @Override
+	public String getAttribute(QName name) {
         return attributes.get(name);
     }
 
-    public Map<QName, String> getAttributes() {
+    @Override
+	public Map<QName, String> getAttributes() {
         return attributes;
     }
 
-    public List<Node> getChildren(QName name) {
+    @Override
+	public List<Node> getChildren(QName name) {
         List<Node> children = Collections.emptyList();
         for (int i = 0; i < nodes.size() && name != null; ++i) {
             Node child = (Node)nodes.get(i);
             if (name.equals(child.getNodeName())) {
                 if (children.isEmpty()) {
-                    children = new ArrayList<Node>();
+                    children = new ArrayList<>();
                 }
                 children.add(nodes.get(i));
             }
@@ -47,22 +52,26 @@ public class SimpleNode implements Node {
         return children;
     }
 
-    public QName getNodeName() {
+    @Override
+	public QName getNodeName() {
         return name;
     }
 
-    public void setAttribute(QName name, String value) {
+    @Override
+	public void setAttribute(QName name, String value) {
         if (attributes.isEmpty()) {
-            attributes = new HashMap<QName, String>();
+            attributes = new HashMap<>();
         }
         attributes.put(name, value);
     }
 
-    public boolean hasAttribute(QName name) {
+    @Override
+	public boolean hasAttribute(QName name) {
         return attributes.containsKey(name);
     }
 
-    public boolean hasChild(QName name) {
+    @Override
+	public boolean hasChild(QName name) {
         for (int i = 0; i < nodes.size() && name != null; ++i) {
             Node child = (Node)nodes.get(i);
             if (name.equals(child.getNodeName())) {

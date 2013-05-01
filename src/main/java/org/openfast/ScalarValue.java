@@ -59,7 +59,8 @@ public class ScalarValue implements FieldValue {
         return false;
     }
 
-    public FieldValue copy() {
+    @Override
+	public FieldValue copy() {
         return this; // immutable objects don't need actual copies.
     }
 

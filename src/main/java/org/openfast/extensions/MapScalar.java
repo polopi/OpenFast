@@ -20,11 +20,13 @@ public class MapScalar extends Field {
         super(name, key, optional);
     }
 
-    public FieldValue createValue(String value) {
+    @Override
+	public FieldValue createValue(String value) {
         return null;
     }
 
-    public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader presenceMapReader) {
+    @Override
+	public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader presenceMapReader) {
         boolean newDefinition = presenceMapReader.read();
         int index = TypeCodec.UINT.decode(in).toInt();
         if (index == 0) {
@@ -37,7 +39,8 @@ public class MapScalar extends Field {
         return value;
     }
 
-    public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
+    @Override
+	public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
         if (context.getCache(getKey()).containsValue(value)) {
             int index = context.getCache(getKey()).getIndex(value);
             byte[] encoded = TypeCodec.UINT.encode(new IntegerValue(index));
@@ -52,19 +55,23 @@ public class MapScalar extends Field {
         }
     }
 
-    public String getTypeName() {
+    @Override
+	public String getTypeName() {
         return null;
     }
 
-    public Class<? extends FieldValue> getValueType() {
+    @Override
+	public Class<? extends FieldValue> getValueType() {
         return null;
     }
 
-    public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
+    @Override
+	public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
         return false;
     }
 
-    public boolean usesPresenceMapBit() {
+    @Override
+	public boolean usesPresenceMapBit() {
         return true;
     }
 }

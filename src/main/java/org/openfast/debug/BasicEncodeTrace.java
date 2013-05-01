@@ -32,28 +32,32 @@ import org.openfast.template.Group;
 
 public class BasicEncodeTrace implements Trace {
 
-    private Stack<TraceGroup> stack = new Stack<TraceGroup>();
+    private Stack<TraceGroup> stack = new Stack<>();
     private PrintWriter out = new PrintWriter(System.out);
 
-    public void groupStart(Group group) {
+    @Override
+	public void groupStart(Group group) {
         TraceGroup traceGroup = new TraceGroup(group);
         if (!stack.isEmpty())
             stack.peek().addGroup(traceGroup);
         stack.push(traceGroup);
     }
 
-    public void field(Field field, FieldValue value, FieldValue encoded, byte[] encoding, int pmapIndex) {
+    @Override
+	public void field(Field field, FieldValue value, FieldValue encoded, byte[] encoding, int pmapIndex) {
         stack.peek().addField(field, value, encoded, pmapIndex, encoding);
     }
 
-    public void groupEnd() {
+    @Override
+	public void groupEnd() {
         TraceGroup group = (TraceGroup) stack.pop();
         if (stack.isEmpty()) {
             out.println(group);
         }
     }
 
-    public void pmap(byte[] pmap) {
+    @Override
+	public void pmap(byte[] pmap) {
         stack.peek().setPmap(pmap);
     }
 
@@ -67,7 +71,7 @@ public class BasicEncodeTrace implements Trace {
 
         public TraceGroup(Group group) {
             this.group = group;
-            this.nodes = new ArrayList<TraceNode>(group.getFieldCount());
+            this.nodes = new ArrayList<>(group.getFieldCount());
         }
 
         public void setPmap(byte[] pmap) {
@@ -82,19 +86,21 @@ public class BasicEncodeTrace implements Trace {
             nodes.add(traceGroup);
         }
 
-        public StringBuilder serialize(StringBuilder builder, int indent) {
-            builder.append(indent(indent)).append(group.getName()).append("\n");
-            indent += 2;
+        @Override
+		public StringBuilder serialize(StringBuilder builder, int indent) {
+			builder.append(indent(indent)).append(group.getName()).append("\n");
+			int indentValue = indent + 2;
             if (pmap != null)
-                builder.append(indent(indent)).append("PMAP: ").append(ByteUtil.convertByteArrayToBitString(pmap)).append("\n");
+                builder.append(indent(indentValue)).append("PMAP: ").append(ByteUtil.convertByteArrayToBitString(pmap)).append("\n");
             for (int i = 0; i < nodes.size(); ++i) {
-                nodes.get(i).serialize(builder, indent);
+                nodes.get(i).serialize(builder, indentValue);
             }
-            indent -= 2;
+            indentValue -= 2;
             return builder;
         }
 
-        public String toString() {
+        @Override
+		public String toString() {
             return serialize(new StringBuilder(), 0).toString();
         }
     }
@@ -118,7 +124,8 @@ public class BasicEncodeTrace implements Trace {
             this.encoding = encoding;
         }
 
-        public StringBuilder serialize(StringBuilder builder, int indent) {
+        @Override
+		public StringBuilder serialize(StringBuilder builder, int indent) {
             builder.append(indent(indent));
             builder.append(field.getName()).append("[");
             if (field.usesPresenceMapBit())

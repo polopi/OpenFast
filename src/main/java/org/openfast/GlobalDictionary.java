@@ -28,9 +28,10 @@ import java.util.Map;
 
 
 public class GlobalDictionary implements Dictionary {
-    protected Map<QName, ScalarValue> table = new HashMap<QName, ScalarValue>();
+    protected Map<QName, ScalarValue> table = new HashMap<>();
 
-    public ScalarValue lookup(Group template, QName key, QName applicationType) {
+    @Override
+	public ScalarValue lookup(Group template, QName key, QName applicationType) {
         if (!table.containsKey(key)) {
             return ScalarValue.UNDEFINED;
         }
@@ -38,15 +39,18 @@ public class GlobalDictionary implements Dictionary {
         return table.get(key);
     }
 
-    public void store(Group group, QName applicationType, QName key, ScalarValue value) {
+    @Override
+	public void store(Group group, QName applicationType, QName key, ScalarValue value) {
         table.put(key, value);
     }
 
-    public void reset() {
+    @Override
+	public void reset() {
         table.clear();
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         StringBuilder builder = new StringBuilder();
         Iterator<QName> keyIterator = table.keySet().iterator();
         while (keyIterator.hasNext()) {

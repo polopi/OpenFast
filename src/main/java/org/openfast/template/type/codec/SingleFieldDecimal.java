@@ -45,7 +45,8 @@ final class SingleFieldDecimal extends TypeCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue v) {
+    @Override
+	public byte[] encodeValue(ScalarValue v) {
         if (v == ScalarValue.NULL) {
             return TypeCodec.NULL_VALUE_ENCODING;
         }
@@ -70,7 +71,8 @@ final class SingleFieldDecimal extends TypeCodec {
      *            The InputStream to be decoded
      * @return Returns a decimalValue object with the data stream
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         int exponent = TypeCodec.INTEGER.decode(in).toInt();
         if (Math.abs(exponent) > 63) {
             Global.handleError(FastConstants.R1_LARGE_DECIMAL, "Encountered exponent of size " + exponent);
@@ -88,7 +90,7 @@ final class SingleFieldDecimal extends TypeCodec {
      *            The value as a string to be converted
      * @return Returns a new DecimalValue object
      */
-    public ScalarValue fromString(String value) {
+    public static ScalarValue fromString(String value) {
         return new DecimalValue(Double.parseDouble(value));
     }
 
@@ -96,11 +98,12 @@ final class SingleFieldDecimal extends TypeCodec {
      * 
      * @return Returns a new DecimalValue object with a default value
      */
-    public ScalarValue getDefaultValue() {
+    public static ScalarValue getDefaultValue() {
         return new DecimalValue(0.0);
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

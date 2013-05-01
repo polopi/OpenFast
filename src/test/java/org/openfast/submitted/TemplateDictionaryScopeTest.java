@@ -22,7 +22,8 @@ public class TemplateDictionaryScopeTest extends OpenFastTestCase {
     private MessageTemplate definitionTemplate;
     private Context context;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         Scalar ns = new Scalar("Ns", Type.STRING, Operator.COPY, ScalarValue.UNDEFINED, false);
         ns.setDictionary(Dictionary.TEMPLATE);
         Scalar name = new Scalar("Name", Type.STRING, Operator.COPY, ScalarValue.UNDEFINED, false);

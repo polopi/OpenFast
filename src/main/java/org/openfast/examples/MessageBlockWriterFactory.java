@@ -39,6 +39,7 @@ public class MessageBlockWriterFactory {
 
 		return new MessageBlockWriter() {
 			final byte[] PREAMBLE = new byte[offset];
+			@Override
 			public void writeBlockLength(OutputStream out, Message message, byte[] data) throws IOException {
 				try {
 					out.write(PREAMBLE);

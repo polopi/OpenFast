@@ -28,9 +28,10 @@ import org.openfast.template.Group;
 
 public class ApplicationTypeDictionary implements Dictionary {
 
-    private Map<QName, Map<QName, ScalarValue>> dictionary = new HashMap<QName, Map<QName, ScalarValue>>();
+    private Map<QName, Map<QName, ScalarValue>> dictionary = new HashMap<>();
 
-    public ScalarValue lookup(Group template, QName key, QName applicationType) {
+    @Override
+	public ScalarValue lookup(Group template, QName key, QName applicationType) {
         if (dictionary.containsKey(template.getTypeReference())) {
         	Map<QName, ScalarValue> applicationTypeMap = dictionary.get(template.getTypeReference());
             if (applicationTypeMap.containsKey(key))
@@ -39,11 +40,13 @@ public class ApplicationTypeDictionary implements Dictionary {
         return ScalarValue.UNDEFINED;
     }
 
-    public void reset() {
-        dictionary = new HashMap<QName, Map<QName, ScalarValue>>();
+    @Override
+	public void reset() {
+        dictionary = new HashMap<>();
     }
 
-    public void store(Group group, QName applicationType, QName key, ScalarValue value) {
+    @Override
+	public void store(Group group, QName applicationType, QName key, ScalarValue value) {
         if (!dictionary.containsKey(group.getTypeReference())) {
             dictionary.put(group.getTypeReference(), new HashMap<QName, ScalarValue>());
         }
@@ -51,7 +54,8 @@ public class ApplicationTypeDictionary implements Dictionary {
         applicationTypeDictionary.put(key, value);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         StringBuilder builder = new StringBuilder();
         Iterator<QName> templateIterator = dictionary.keySet().iterator();
         while (templateIterator.hasNext()) {

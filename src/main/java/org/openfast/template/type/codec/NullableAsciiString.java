@@ -23,16 +23,15 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.template.type.codec;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.openfast.ByteUtil;
 import org.openfast.Global;
 import org.openfast.ScalarValue;
 import org.openfast.StringValue;
 import org.openfast.error.FastConstants;
-import org.openfast.error.FastException;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 final class NullableAsciiString extends TypeCodec {
     private static final long serialVersionUID = 1L;
@@ -48,7 +47,8 @@ final class NullableAsciiString extends TypeCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue value) {
+    @Override
+	public byte[] encodeValue(ScalarValue value) {
         if (value.isNull()) {
             return TypeCodec.NULL_VALUE_ENCODING;
         }
@@ -68,7 +68,8 @@ final class NullableAsciiString extends TypeCodec {
      *            The InputStream to be decoded
      * @return Returns a new StringValue object with the data stream as a String
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         int byt;
         ByteArrayOutputStream buffer = Global.getBuffer();
         try {
@@ -108,7 +109,7 @@ final class NullableAsciiString extends TypeCodec {
      * @return Returns a new StringValue object with the passed string as its
      *         parameter
      */
-    public ScalarValue fromString(String value) {
+    public static ScalarValue fromString(String value) {
         return new StringValue(value);
     }
 
@@ -116,18 +117,20 @@ final class NullableAsciiString extends TypeCodec {
      * 
      * @return Returns an empty StringValue object
      */
-    public ScalarValue getDefaultValue() {
+    public static ScalarValue getDefaultValue() {
         return new StringValue("");
     }
 
     /**
      * @return Returns true
      */
-    public boolean isNullable() {
+    @Override
+	public boolean isNullable() {
         return true;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

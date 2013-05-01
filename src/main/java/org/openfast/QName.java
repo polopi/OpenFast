@@ -51,7 +51,8 @@ public class QName implements Serializable {
         return name;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == this)
             return true;
         if (obj == null || obj.getClass() != this.getClass())
@@ -60,11 +61,13 @@ public class QName implements Serializable {
         return other.namespace.equals(namespace) && other.name.equals(name);
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return name.hashCode() + 31 * namespace.hashCode();
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         if (namespace.equals(""))
             return name;
         return name + "[" + namespace + "]";

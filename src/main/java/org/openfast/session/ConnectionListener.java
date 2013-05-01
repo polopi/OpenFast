@@ -22,7 +22,8 @@ package org.openfast.session;
 
 public interface ConnectionListener {
     ConnectionListener NULL = new ConnectionListener() {
-            public void onConnect(Connection connection) {
+            @Override
+			public void onConnect(Connection connection) {
             }
         };
 

@@ -33,7 +33,8 @@ import org.openfast.template.MessageTemplate;
 import org.openfast.template.TemplateRegistry;
 
 public class GroupConverter extends AbstractFieldInstructionConverter {
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    @Override
+	public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
         String name = fieldDef.getString("Name");
         String namespace = "";
         if (fieldDef.isDefined("Ns"))
@@ -55,18 +56,21 @@ public class GroupConverter extends AbstractFieldInstructionConverter {
         return group;
     }
 
-    public GroupValue convert(Field field, ConversionContext context) {
+    @Override
+	public GroupValue convert(Field field, ConversionContext context) {
         Group group = (Group) field;
         Message groupMsg = convert(group, new Message(SessionControlProtocol_1_1.GROUP_INSTR), context);
         groupMsg.setBool("Optional", field.isOptional());
         return groupMsg;
     }
 
-    public boolean shouldConvert(Field field) {
+    @Override
+	public boolean shouldConvert(Field field) {
         return field.getClass().equals(Group.class);
     }
 
-    public Group[] getTemplateExchangeTemplates() {
+    @Override
+	public Group[] getTemplateExchangeTemplates() {
         return new Group[] { SessionControlProtocol_1_1.GROUP_INSTR };
     }
 

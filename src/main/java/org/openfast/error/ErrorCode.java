@@ -25,7 +25,7 @@ import java.util.Map;
 import org.openfast.Message;
 
 public class ErrorCode {
-    private static final Map<Integer, ErrorCode> ALERT_CODES = new HashMap<Integer, ErrorCode>();
+    private static final Map<Integer, ErrorCode> ALERT_CODES = new HashMap<>();
     private final int code;
     private final String shortName;
     private final String description;
@@ -69,11 +69,13 @@ public class ErrorCode {
         return type;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return shortName + ": " + description;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof ErrorCode))

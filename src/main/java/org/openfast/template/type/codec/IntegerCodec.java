@@ -118,7 +118,8 @@ public abstract class IntegerCodec extends TypeCodec {
         return 10;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }
