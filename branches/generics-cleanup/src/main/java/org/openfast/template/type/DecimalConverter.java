@@ -32,7 +32,8 @@ public class DecimalConverter implements ComposedValueConverter {
     private static final FieldValue[] NULL_SET = new FieldValue[] { null, null };
     private static final FieldValue[] UNDEFINED_SET = new FieldValue[] { ScalarValue.UNDEFINED, ScalarValue.UNDEFINED };
 
-    public FieldValue[] split(FieldValue value) {
+    @Override
+	public FieldValue[] split(FieldValue value) {
         if (value == null)
             return NULL_SET;
         else if (value == ScalarValue.UNDEFINED)
@@ -41,7 +42,8 @@ public class DecimalConverter implements ComposedValueConverter {
         return new FieldValue[] { new IntegerValue(decimal.exponent), new LongValue(decimal.mantissa) };
     }
 
-    public FieldValue compose(FieldValue[] values) {
+    @Override
+	public FieldValue compose(FieldValue[] values) {
         if (values[0] == null)
             return null;
         if (values[0] == ScalarValue.UNDEFINED)

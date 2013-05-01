@@ -34,7 +34,8 @@ final class TailOperatorCodec extends OperatorCodec {
         super(operator, types);
     }
 
-    public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
+    @Override
+	public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
         if (value == null) {
             if (priorValue == null)
                 return null;
@@ -45,17 +46,18 @@ final class TailOperatorCodec extends OperatorCodec {
         if (priorValue == null) {
             return value;
         }
+        ScalarValue priorValueLocal = priorValue;
         if (priorValue.isUndefined()) {
-            priorValue = field.getBaseValue();
+        	priorValueLocal = field.getBaseValue();
         }
         int index = 0;
         byte[] val = value.getBytes();
-        byte[] prior = priorValue.getBytes();
+        byte[] prior = priorValueLocal.getBytes();
         if (val.length > prior.length)
             return value;
         if (val.length < prior.length)
             Global.handleError(FastConstants.D3_CANT_ENCODE_VALUE, "The value " + val
-                    + " cannot be encoded by a tail operator with previous value " + priorValue);
+                    + " cannot be encoded by a tail operator with previous value " + priorValueLocal);
         while (index < val.length && val[index] == prior[index])
             ++index;
         if (val.length == index)
@@ -63,7 +65,8 @@ final class TailOperatorCodec extends OperatorCodec {
         return (ScalarValue) field.getType().getValue(val, index, val.length - index);
     }
 
-    public ScalarValue decodeValue(ScalarValue newValue, ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeValue(ScalarValue newValue, ScalarValue previousValue, Scalar field) {
         StringValue base;
         if ((previousValue == null) && !field.isOptional()) {
             Global.handleError(FastConstants.D6_MNDTRY_FIELD_NOT_PRESENT, "");
@@ -86,7 +89,8 @@ final class TailOperatorCodec extends OperatorCodec {
         return new StringValue(root + delta);
     }
 
-    public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
         ScalarValue value = previousValue;
         if (value != null && value.isUndefined())
             value = (field.getDefaultValue().isUndefined()) ? null : field.getDefaultValue();
@@ -95,7 +99,8 @@ final class TailOperatorCodec extends OperatorCodec {
         return value;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

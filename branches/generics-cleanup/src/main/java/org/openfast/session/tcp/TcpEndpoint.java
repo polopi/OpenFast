@@ -44,18 +44,18 @@ public class TcpEndpoint implements Endpoint {
         this(port);
         this.host = host;
     }
-    public Connection connect() throws FastConnectionException {
+    @Override
+	public Connection connect() throws FastConnectionException {
         try {
             Socket socket = new Socket(host, port);
             Connection connection = new TcpConnection(socket);
             return connection;
-        } catch (UnknownHostException e) {
-            throw new FastConnectionException(e);
-        } catch (IOException e) {
+        } catch (IOException e) { // UnknownHostException already caught by IOException
             throw new FastConnectionException(e);
         }
     }
-    public void accept() throws FastConnectionException {
+    @Override
+	public void accept() throws FastConnectionException {
         closed = false;
         try {
             serverSocket = new ServerSocket(port);
@@ -72,10 +72,12 @@ public class TcpEndpoint implements Endpoint {
                 throw new FastConnectionException(e);
         }
     }
-    public void setConnectionListener(ConnectionListener listener) {
+    @Override
+	public void setConnectionListener(ConnectionListener listener) {
         this.connectionListener = listener;
     }
-    public void close() {
+    @Override
+	public void close() {
         closed = true;
         if (serverSocket != null)
             try {
@@ -83,7 +85,8 @@ public class TcpEndpoint implements Endpoint {
             } catch (IOException e) {}
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         return host + ":" + port;
     }
 }

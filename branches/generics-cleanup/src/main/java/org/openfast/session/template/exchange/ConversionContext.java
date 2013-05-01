@@ -28,8 +28,8 @@ import org.openfast.template.Field;
 import org.openfast.template.Group;
 
 public class ConversionContext {
-    private Map<Group, FieldInstructionConverter> converterTemplateMap = new HashMap<Group, FieldInstructionConverter>();
-    private List<FieldInstructionConverter> converters = new ArrayList<FieldInstructionConverter>();
+    private Map<Group, FieldInstructionConverter> converterTemplateMap = new HashMap<>();
+    private List<FieldInstructionConverter> converters = new ArrayList<>();
 
     public void addFieldInstructionConverter(FieldInstructionConverter converter) {
         Group[] templateExchangeTemplates = converter.getTemplateExchangeTemplates();

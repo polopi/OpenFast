@@ -35,7 +35,7 @@ final class DecimalType extends SimpleType {
     }
 
     /**
-     * Get the approprivate codec for the passed operator
+     * Get the appropriate codec for the passed operator
      * 
      * @param operator
      *            The operator object in which the codec is trying to get
@@ -43,7 +43,8 @@ final class DecimalType extends SimpleType {
      *            Determines if the Field is required or not for the data
      * @return Returns the codec if the field is required
      */
-    public TypeCodec getCodec(Operator operator, boolean optional) {
+    @Override
+	public TypeCodec getCodec(Operator operator, boolean optional) {
         return super.getCodec(operator, optional);
     }
 
@@ -51,7 +52,8 @@ final class DecimalType extends SimpleType {
      * @param value
      * @return
      */
-    protected ScalarValue getVal(String value) {
+    @Override
+	protected ScalarValue getVal(String value) {
         try {
             return new DecimalValue(Double.parseDouble(value));
         } catch (NumberFormatException e) {
@@ -62,9 +64,10 @@ final class DecimalType extends SimpleType {
     }
 
     /**
-     * @return Returns a new DecimalValue with a defualt value
+     * @return Returns a new DecimalValue with a default value
      */
-    public ScalarValue getDefaultValue() {
+    @Override
+	public ScalarValue getDefaultValue() {
         return new DecimalValue(0.0);
     }
 
@@ -78,7 +81,8 @@ final class DecimalType extends SimpleType {
      * @return Returns true if the previousValue is an instance of DecimalValue,
      *         false otherwise
      */
-    public boolean isValueOf(ScalarValue previousValue) {
+    @Override
+	public boolean isValueOf(ScalarValue previousValue) {
         return previousValue instanceof DecimalValue;
     }
 }

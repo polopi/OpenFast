@@ -17,7 +17,8 @@ public class SequenceConverterTest extends TestCase {
     private SequenceConverter converter;
     private ConversionContext context;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         converter = new SequenceConverter();
         context = SessionControlProtocol_1_1.createInitialContext();
     }

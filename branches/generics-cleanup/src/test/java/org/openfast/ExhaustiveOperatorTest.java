@@ -51,7 +51,8 @@ public class ExhaustiveOperatorTest extends TestCase {
     private PipedOutputStream out;
     private FastDecoder decoder;
 
-    public void setUp() throws Exception {
+    @Override
+	public void setUp() throws Exception {
         out = new PipedOutputStream();
         in = new PipedInputStream(out);
         encodingContext = new Context();

@@ -14,7 +14,8 @@ public class ScalarConverterTest extends TestCase {
     private ScalarConverter converter;
     private ConversionContext context;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         converter = new ScalarConverter();
         context = SessionControlProtocol_1_1.createInitialContext();
     }

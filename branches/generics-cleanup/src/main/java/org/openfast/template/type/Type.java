@@ -32,7 +32,7 @@ import org.openfast.util.Util;
 
 public abstract class Type implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final static Map<String, Type> TYPE_NAME_MAP = new LinkedHashMap<String, Type>();
+    private final static Map<String, Type> TYPE_NAME_MAP = new LinkedHashMap<>();
     private final String name;
 
     public Type(String typeName) {
@@ -62,7 +62,8 @@ public abstract class Type implements Serializable {
     /**
      * @return Returns the name as a string
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return name;
     }
     public String serialize(ScalarValue value) {
@@ -85,34 +86,40 @@ public abstract class Type implements Serializable {
     public final static Type STRING = new StringType("string", TypeCodec.ASCII, TypeCodec.NULLABLE_ASCII) {
         private static final long serialVersionUID = 1L;
 
-        public ScalarValue getValue(byte[] bytes) {
+        @Override
+		public ScalarValue getValue(byte[] bytes) {
             return new StringValue(new String(bytes));
         }
-        public ScalarValue getValue(byte[] bytes, int offset, int length) {
+        @Override
+		public ScalarValue getValue(byte[] bytes, int offset, int length) {
             return new StringValue(new String(bytes, offset, length));
         }
     };
     public final static Type ASCII = new StringType("ascii", TypeCodec.ASCII, TypeCodec.NULLABLE_ASCII) {
         private static final long serialVersionUID = 1L;
 
-        public ScalarValue getValue(byte[] bytes) {
+        @Override
+		public ScalarValue getValue(byte[] bytes) {
             return new StringValue(new String(bytes));
         }
-        public ScalarValue getValue(byte[] bytes, int offset, int length) {
+        @Override
+		public ScalarValue getValue(byte[] bytes, int offset, int length) {
             return new StringValue(new String(bytes, offset, length));
         }
     };
     public final static Type UNICODE = new StringType("unicode", TypeCodec.UNICODE, TypeCodec.NULLABLE_UNICODE) {
         private static final long serialVersionUID = 1L;
 
-        public ScalarValue getValue(byte[] bytes) {
+        @Override
+		public ScalarValue getValue(byte[] bytes) {
             try {
                 return new StringValue(new String(bytes, "UTF8"));
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }
         }
-        public ScalarValue getValue(byte[] bytes, int offset, int length) {
+        @Override
+		public ScalarValue getValue(byte[] bytes, int offset, int length) {
             try {
                 return new StringValue(new String(bytes, offset, length, "UTF8"));
             } catch (UnsupportedEncodingException e) {
@@ -129,12 +136,14 @@ public abstract class Type implements Serializable {
     public static Map<String, Type> getRegisteredTypeMap() {
         return TYPE_NAME_MAP;
     }
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == null)
             return false;
         return obj.getClass().equals(this.getClass());
     }
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return name.hashCode();
     }
     public ScalarValue getValue(byte[] bytes) {

@@ -6,11 +6,13 @@ import org.openfast.template.Sequence;
 import org.openfast.util.XmlWriter;
 
 public class SequenceSerializer extends AbstractFieldSerializer implements FieldSerializer {
-    public boolean canSerialize(Field field) {
+    @Override
+	public boolean canSerialize(Field field) {
         return field instanceof Sequence;
     }
 
-    public void serialize(XmlWriter writer, Field field, SerializingContext context) {
+    @Override
+	public void serialize(XmlWriter writer, Field field, SerializingContext context) {
         Sequence sequence = (Sequence) field;
         writer.start("sequence");
         writeCommonAttributes(writer, field, context);

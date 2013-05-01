@@ -16,7 +16,8 @@ public class SimpleIntegerMap<E> implements IntegerMap<E> {
         this.incSize = size;
     }
     
-    public void put(int key, E object) {
+    @Override
+	public void put(int key, E object) {
         adjust(key);
         table[key - firstKey] = object;
     }
@@ -40,7 +41,8 @@ public class SimpleIntegerMap<E> implements IntegerMap<E> {
         }
     }
 
-    public E get(int key) {
+    @Override
+	public E get(int key) {
         if (undefined(key))
             return null;
         return table[key-firstKey];
@@ -50,13 +52,15 @@ public class SimpleIntegerMap<E> implements IntegerMap<E> {
         return table == null || key < firstKey || key >= table.length + firstKey;
     }
 
-    public boolean containsKey(int key) {
+    @Override
+	public boolean containsKey(int key) {
         if (undefined(key))
             return false;
         return table[key-firstKey] != null;
     }
 
-    public E remove(int key) {
+    @Override
+	public E remove(int key) {
         if (undefined(key))
             return null;
         E removed = table[key-firstKey];

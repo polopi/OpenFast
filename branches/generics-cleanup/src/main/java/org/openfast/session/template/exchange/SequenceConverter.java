@@ -36,7 +36,8 @@ import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
 
 public class SequenceConverter extends AbstractFieldInstructionConverter {
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    @Override
+	public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
         String name = fieldDef.getString("Name");
         String ns = fieldDef.getString("Ns");
         QName qname = new QName(name, ns);
@@ -76,7 +77,8 @@ public class SequenceConverter extends AbstractFieldInstructionConverter {
         return sequence;
     }
 
-    public GroupValue convert(Field field, ConversionContext context) {
+    @Override
+	public GroupValue convert(Field field, ConversionContext context) {
         Sequence sequence = (Sequence) field;
         Message seqDef = GroupConverter.convert(sequence.getGroup(), new Message(SessionControlProtocol_1_1.SEQUENCE_INSTR), context);
         seqDef.setBool("Optional", sequence.isOptional());
@@ -105,11 +107,13 @@ public class SequenceConverter extends AbstractFieldInstructionConverter {
         return seqDef;
     }
 
-    public boolean shouldConvert(Field field) {
+    @Override
+	public boolean shouldConvert(Field field) {
         return field.getClass().equals(Sequence.class);
     }
 
-    public Group[] getTemplateExchangeTemplates() {
+    @Override
+	public Group[] getTemplateExchangeTemplates() {
         return new Group[] { SessionControlProtocol_1_1.SEQUENCE_INSTR };
     }
 }

@@ -33,11 +33,13 @@ import org.w3c.dom.NodeList;
 
 public class SequenceParser extends AbstractFieldParser {
     private ScalarParser sequenceLengthParser = new ScalarParser("length") {
-        protected Type getType(Element fieldNode, ParsingContext context) {
+        @Override
+		protected Type getType(Element fieldNode, ParsingContext context) {
             return Type.U32;
         }
 
-        protected QName getName(Element fieldNode, ParsingContext context) {
+        @Override
+		protected QName getName(Element fieldNode, ParsingContext context) {
             if (context.getName() == null)
                 return Global.createImplicitName(context.getParent().getName());
             return context.getName();
@@ -48,7 +50,8 @@ public class SequenceParser extends AbstractFieldParser {
         super("sequence");
     }
 
-    protected Field parse(Element sequenceElement, boolean optional, ParsingContext context) {
+    @Override
+	protected Field parse(Element sequenceElement, boolean optional, ParsingContext context) {
         Sequence sequence = new Sequence(context.getName(), parseSequenceLengthField(context.getName(), sequenceElement, optional,
                 context), GroupParser.parseFields(sequenceElement, context), optional);
         GroupParser.parseMore(sequenceElement, sequence.getGroup(), context);

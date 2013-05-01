@@ -30,7 +30,8 @@ public class BasicDecodeTrace implements Trace {
     private String indent = "";
     private PrintWriter out = new PrintWriter(System.out);
 
-    public void groupStart(Group group) {
+    @Override
+	public void groupStart(Group group) {
         print(group);
         moveDown();
     }
@@ -49,11 +50,13 @@ public class BasicDecodeTrace implements Trace {
         out.flush();
     }
 
-    public void groupEnd() {
+    @Override
+	public void groupEnd() {
         moveUp();
     }
 
-    public void field(Field field, FieldValue value, FieldValue decodedValue, byte[] encoding, int pmapIndex) {
+    @Override
+	public void field(Field field, FieldValue value, FieldValue decodedValue, byte[] encoding, int pmapIndex) {
         StringBuilder scalarDecode = new StringBuilder();
         scalarDecode.append(field.getName()).append(": ");
         scalarDecode.append(ByteUtil.convertByteArrayToHexString(encoding));
@@ -61,7 +64,8 @@ public class BasicDecodeTrace implements Trace {
         print(scalarDecode);
     }
 
-    public void pmap(byte[] bytes) {
+    @Override
+	public void pmap(byte[] bytes) {
         print("PMAP: " + ByteUtil.convertByteArrayToHexString(bytes));
     }
 

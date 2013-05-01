@@ -33,12 +33,14 @@ public class RecordingOutputStream extends OutputStream {
         this.out = outputStream;
     }
 
-    public void write(int b) throws IOException {
+    @Override
+	public void write(int b) throws IOException {
         buffer[index++] = (byte) b;
         out.write(b);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return ByteUtil.convertByteArrayToBitString(buffer, index);
     }
 

@@ -34,7 +34,8 @@ final class DeltaIntegerOperatorCodec extends AlwaysPresentOperatorCodec {
         super(operator, types);
     }
 
-    public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
+    @Override
+	public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar field) {
         if (priorValue == null) {
             Global.handleError(FastConstants.D6_MNDTRY_FIELD_NOT_PRESENT, "The field " + field + " must have a priorValue defined.");
             return null;
@@ -48,14 +49,16 @@ final class DeltaIntegerOperatorCodec extends AlwaysPresentOperatorCodec {
             }
         }
 
+        ScalarValue priorValueLocal = priorValue;
         if (priorValue.isUndefined()) {
-            priorValue = field.getBaseValue();
+        	priorValueLocal = field.getBaseValue();
         }
 
-        return ((NumericValue) value).subtract((NumericValue) priorValue);
+        return ((NumericValue) value).subtract((NumericValue) priorValueLocal);
     }
 
-    public ScalarValue decodeValue(ScalarValue newValue, ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeValue(ScalarValue newValue, ScalarValue previousValue, Scalar field) {
         if (previousValue == null) {
             Global.handleError(FastConstants.D6_MNDTRY_FIELD_NOT_PRESENT, "The field " + field + " must have a priorValue defined.");
             return null;
@@ -65,18 +68,20 @@ final class DeltaIntegerOperatorCodec extends AlwaysPresentOperatorCodec {
             return null;
         }
 
+        ScalarValue previousValueLocal = previousValue;
         if (previousValue.isUndefined()) {
             if (field.getDefaultValue().isUndefined()) {
-                previousValue = field.getBaseValue();
+            	previousValueLocal = field.getBaseValue();
             } else {
-                previousValue = field.getDefaultValue();
+            	previousValueLocal = field.getDefaultValue();
             }
         }
 
-        return ((NumericValue) newValue).add((NumericValue) previousValue);
+        return ((NumericValue) newValue).add((NumericValue) previousValueLocal);
     }
 
-    public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
         if (previousValue.isUndefined()) {
             if (field.getDefaultValue().isUndefined()) {
                 if (field.isOptional()) {
@@ -92,7 +97,8 @@ final class DeltaIntegerOperatorCodec extends AlwaysPresentOperatorCodec {
         return previousValue;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

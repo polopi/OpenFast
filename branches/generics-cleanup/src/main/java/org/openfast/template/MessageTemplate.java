@@ -48,7 +48,8 @@ public class MessageTemplate extends Group implements FieldSet {
         }
     }
 
-    public boolean usesPresenceMap() {
+    @Override
+	public boolean usesPresenceMap() {
         return true;
     }
 
@@ -76,14 +77,16 @@ public class MessageTemplate extends Group implements FieldSet {
      *            The index to find the field
      * @return Returns the index of the field object
      */
-    public Field getField(int index) {
+    @Override
+	public Field getField(int index) {
         return fields[index];
     }
 
     /**
      * @return Returns the length of the fields as an int
      */
-    public int getFieldCount() {
+    @Override
+	public int getFieldCount() {
         return fields.length;
     }
 
@@ -138,11 +141,13 @@ public class MessageTemplate extends Group implements FieldSet {
     /**
      * @return Returns the class of the message
      */
-    public Class<? extends FieldValue> getValueType() {
+    @Override
+	public Class<? extends FieldValue> getValueType() {
         return Message.class;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return name.getName();
     }
 
@@ -150,14 +155,16 @@ public class MessageTemplate extends Group implements FieldSet {
      * @return Creates a new Message object with the specified FieldValue and
      *         the passed string value
      */
-    public FieldValue createValue(String value) {
+    @Override
+	public FieldValue createValue(String value) {
         return new Message(this);
     }
 
     /**
      * @return Returns the field array
      */
-    public Field[] getFields() {
+    @Override
+	public Field[] getFields() {
         return fields;
     }
 
@@ -172,7 +179,8 @@ public class MessageTemplate extends Group implements FieldSet {
         return f;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !(obj instanceof MessageTemplate))
@@ -192,7 +200,8 @@ public class MessageTemplate extends Group implements FieldSet {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int hashCode = (name != null) ? name.hashCode() : 0;
         for (Field field : fields)
             hashCode += field.hashCode();

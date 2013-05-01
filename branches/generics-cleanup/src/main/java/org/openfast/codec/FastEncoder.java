@@ -47,7 +47,8 @@ public class FastEncoder implements Coder {
         context.newMessage(template);
         return template.encode(message, context);
     }
-    public void reset() {
+    @Override
+	public void reset() {
         context.reset();
     }
     public void registerTemplate(int templateId, MessageTemplate template) {
@@ -55,7 +56,7 @@ public class FastEncoder implements Coder {
     }
     public void addTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener) {
         if (listeners.isEmpty()) {
-            listeners = new ArrayList<TemplateRegisteredListener>();
+            listeners = new ArrayList<>();
         }
         listeners.add(templateRegisteredListener);
     }

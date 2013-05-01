@@ -25,128 +25,154 @@ import java.util.Iterator;
 import org.openfast.QName;
 
 final class NullTemplateRegistry implements TemplateRegistry {
-    public void addTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener) {}
+    @Override
+	public void addTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener) {}
 
-    public MessageTemplate get(int templateId) {
+    @Override
+	public MessageTemplate get(int templateId) {
         return null;
     }
 
-    public MessageTemplate get(String templateName) {
+    @Override
+	public MessageTemplate get(String templateName) {
         return null;
     }
 
-    public int getTemplateId(String templateName) {
+    public static int getTemplateId(String templateName) {
         return 0;
     }
 
-    public int getTemplateId(MessageTemplate template) {
+	public static int getTemplateId(MessageTemplate template) {
         return 0;
     }
 
-    public MessageTemplate[] getTemplates() {
+    @Override
+	public MessageTemplate[] getTemplates() {
         return new MessageTemplate[] {};
     }
 
-    public boolean isRegistered(String templateName) {
+    @Override
+	public boolean isRegistered(String templateName) {
         return false;
     }
 
-    public boolean isRegistered(int templateId) {
+    @Override
+	public boolean isRegistered(int templateId) {
         return false;
     }
 
-    public boolean isRegistered(MessageTemplate template) {
+    @Override
+	public boolean isRegistered(MessageTemplate template) {
         return false;
     }
 
-    public void register(int templateId, MessageTemplate template) {}
+    @Override
+	public void register(int templateId, MessageTemplate template) {}
 
-    public void remove(String name) {}
+    @Override
+	public void remove(String name) {}
 
-    public void remove(MessageTemplate template) {}
+    @Override
+	public void remove(MessageTemplate template) {}
 
-    public void remove(int id) {}
+    @Override
+	public void remove(int id) {}
 
     public void add(MessageTemplate template) {}
 
-    public void define(MessageTemplate template) {}
+    @Override
+	public void define(MessageTemplate template) {}
 
-    public MessageTemplate getTemplate(String name) {
+    public static MessageTemplate getTemplate(String name) {
         return null;
     }
 
-    public MessageTemplate getTemplate(QName name) {
+    public static MessageTemplate getTemplate(QName name) {
         return null;
     }
 
-    public MessageTemplate getTemplate(int id) {
+    public static MessageTemplate getTemplate(int id) {
         return null;
     }
 
-    public boolean hasTemplate(String name) {
+    public static boolean hasTemplate(String name) {
         return false;
     }
 
-    public boolean hasTemplate(QName name) {
+    public static boolean hasTemplate(QName name) {
         return false;
     }
 
-    public boolean hasTemplate(int id) {
+    public static boolean hasTemplate(int id) {
         return false;
     }
 
-    public boolean isDefined(MessageTemplate template) {
+    public static boolean isDefined(MessageTemplate template) {
         return false;
     }
 
-    public MessageTemplate[] toArray() {
+    public static MessageTemplate[] toArray() {
         return null;
     }
 
-    public MessageTemplate get(QName name) {
+    @Override
+	public MessageTemplate get(QName name) {
         return null;
     }
 
-    public int getId(String name) {
+    @Override
+	public int getId(String name) {
         return 0;
     }
 
-    public int getId(MessageTemplate template) {
+    @Override
+	public int getId(MessageTemplate template) {
         return 0;
     }
 
-    public boolean isDefined(QName name) {
+    @Override
+	public boolean isDefined(QName name) {
         return false;
     }
 
-    public boolean isDefined(String name) {
+    @Override
+	public boolean isDefined(String name) {
         return false;
     }
 
-    public void register(int templateId, QName name) {}
+    @Override
+	public void register(int templateId, QName name) {}
 
-    public void register(int templateId, String name) {}
+    @Override
+	public void register(int templateId, String name) {}
 
-    public void removeTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener) {}
+    @Override
+	public void removeTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener) {}
 
-    public int getId(QName name) {
+    @Override
+	public int getId(QName name) {
         return 0;
     }
 
-    public boolean isRegistered(QName name) {
+    @Override
+	public boolean isRegistered(QName name) {
         return false;
     }
 
-    public void remove(QName name) {}
+    @Override
+	public void remove(QName name) {}
 
-    public void registerAll(TemplateRegistry registry) {}
+    @Override
+	public void registerAll(TemplateRegistry registry) {}
 
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
 	public Iterator<QName> nameIterator() {
         return (Iterator<QName>)Collections.EMPTY_LIST.iterator();
     }
 
-    public Iterator<MessageTemplate> iterator() {
+    @Override
+	public Iterator<MessageTemplate> iterator() {
         return null;
     }
 }

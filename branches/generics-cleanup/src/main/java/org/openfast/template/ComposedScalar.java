@@ -51,11 +51,13 @@ public class ComposedScalar extends Field {
         this.values = new FieldValue[fields.length];
     }
 
-    public FieldValue createValue(String value) {
+    @Override
+	public FieldValue createValue(String value) {
         return type.getValue(value);
     }
 
-    public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader presenceMapReader) {
+    @Override
+	public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader presenceMapReader) {
         synchronized(values) {
             Arrays.fill(values, null);
             for (int i = 0; i < fields.length; ++i) {
@@ -67,7 +69,8 @@ public class ComposedScalar extends Field {
         }
     }
 
-    public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
+    @Override
+	public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
         if (value == null) {
             // Only encode null in the first field.
             return fields[0].encode(null, template, context, presenceMapBuilder);
@@ -85,19 +88,23 @@ public class ComposedScalar extends Field {
         }
     }
 
-    public String getTypeName() {
+    @Override
+	public String getTypeName() {
         return type.getName();
     }
 
-    public Class<? extends FieldValue> getValueType() {
+    @Override
+	public Class<? extends FieldValue> getValueType() {
         return ScalarValueType;
     }
 
-    public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
+    @Override
+	public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
         return false;
     }
 
-    public boolean usesPresenceMapBit() {
+    @Override
+	public boolean usesPresenceMapBit() {
         for (Field field : fields) {
             if (field.usesPresenceMapBit())
                 return true;
@@ -113,7 +120,8 @@ public class ComposedScalar extends Field {
         return fields;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == this)
             return true;
         if (obj == null || !obj.getClass().equals(ComposedScalar.class))
@@ -142,11 +150,13 @@ public class ComposedScalar extends Field {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return name.hashCode();
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
     	// Pre-allocate the builder size and use a rough estimate
         StringBuilder builder = new StringBuilder(11 + fields.length * 32);
         builder.append("Composed {");

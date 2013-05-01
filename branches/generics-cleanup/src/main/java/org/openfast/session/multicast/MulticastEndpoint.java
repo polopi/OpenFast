@@ -62,8 +62,10 @@ public abstract class MulticastEndpoint implements Endpoint {
         }
     }
 
-    public String toString() {
-        return new StringBuilder(getClass().getName())
+    @Override
+	public String toString() {
+        return new StringBuilder(38)
+        	.append(getClass().getName())
             .append("[").append("group=").append(group)
             .append(",").append("port=").append(port)
             .append(",").append("ifaddr=").append(ifaddr)
@@ -71,8 +73,12 @@ public abstract class MulticastEndpoint implements Endpoint {
             .toString();
     }
 
-    public abstract Connection connect() throws FastConnectionException;
-    public void accept() throws FastConnectionException { }
-    public void setConnectionListener(ConnectionListener listener) { }
-    public void close() {}
+    @Override
+	public abstract Connection connect() throws FastConnectionException;
+    @Override
+	public void accept() throws FastConnectionException { }
+    @Override
+	public void setConnectionListener(ConnectionListener listener) { }
+    @Override
+	public void close() {}
 }

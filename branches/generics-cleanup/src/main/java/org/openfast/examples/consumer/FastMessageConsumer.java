@@ -50,7 +50,8 @@ public class FastMessageConsumer {
         MessageBlockReader msgBlockReader = messageBlockReaderFactory.create();
 		msgInStream.setBlockReader(msgBlockReader);
 		Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
+            @Override
+			public void run() {
                 connection.close();
             }
         });

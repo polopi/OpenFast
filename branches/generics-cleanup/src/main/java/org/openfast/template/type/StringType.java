@@ -36,12 +36,13 @@ public class StringType extends SimpleType {
      * @param value
      * @return StringValue of given value
      */
-    public ScalarValue getVal(String value) {
+    @Override
+	public ScalarValue getVal(String value) {
         return new StringValue(value);
     }
 
     /**
-     * Get the approprivate codec for the passed operator
+     * Get the appropriate codec for the passed operator
      * 
      * @param operator
      *            The operator object in which the codec is trying to get
@@ -49,7 +50,8 @@ public class StringType extends SimpleType {
      *            Determines if the Field is required or not for the data
      * @return Returns the codec if the field is required
      */
-    public TypeCodec getCodec(Operator operator, boolean optional) {
+    @Override
+	public TypeCodec getCodec(Operator operator, boolean optional) {
         if (operator == Operator.DELTA)
             return (optional) ? TypeCodec.NULLABLE_STRING_DELTA : TypeCodec.STRING_DELTA;
         return super.getCodec(operator, optional);
@@ -58,7 +60,8 @@ public class StringType extends SimpleType {
     /**
      * @return Returns a new StringValue object with empty string as the value
      */
-    public ScalarValue getDefaultValue() {
+    @Override
+	public ScalarValue getDefaultValue() {
         return new StringValue("");
     }
 
@@ -70,7 +73,8 @@ public class StringType extends SimpleType {
      * @return Returns true if the passed value is an instance of an integer or
      *         long
      */
-    public boolean isValueOf(ScalarValue previousValue) {
+    @Override
+	public boolean isValueOf(ScalarValue previousValue) {
         return previousValue instanceof StringValue;
     }
 }

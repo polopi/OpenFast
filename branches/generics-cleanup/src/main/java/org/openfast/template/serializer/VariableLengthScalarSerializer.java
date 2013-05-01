@@ -7,7 +7,8 @@ import org.openfast.util.XmlWriter;
 
 public class VariableLengthScalarSerializer extends ScalarSerializer implements FieldSerializer {
 
-    public boolean canSerialize(Field field) {
+    @Override
+	public boolean canSerialize(Field field) {
         if (!(field instanceof Scalar)) {
             return false;
         }
@@ -18,7 +19,8 @@ public class VariableLengthScalarSerializer extends ScalarSerializer implements 
                Type.BYTE_VECTOR.equals(scalar.getType());
     }
     
-    public void serialize(XmlWriter writer, Field field, SerializingContext context) {
+    @Override
+	public void serialize(XmlWriter writer, Field field, SerializingContext context) {
         Scalar scalar = writeStart(writer, field, context);
         if (scalar.getType().equals(Type.UNICODE))
             writer.addAttribute("charset", "unicode");

@@ -40,7 +40,8 @@ import org.openfast.test.TestUtil;
 public class ScalarTest extends OpenFastTestCase {
     private Context context;
 
-    public void setUp() {
+    @Override
+	public void setUp() {
         context = new Context();
     }
 

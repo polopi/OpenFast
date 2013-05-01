@@ -28,7 +28,8 @@ public class BitVectorValue extends ScalarValue {
         this.value = value;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if ((obj == null) || !(obj instanceof BitVectorValue)) {
             return false;
         }
@@ -40,7 +41,8 @@ public class BitVectorValue extends ScalarValue {
         return other.value.equals(this.value);
     }
     
-    public int hashCode() {
+    @Override
+	public int hashCode() {
     	return value.hashCode();
     }
 }

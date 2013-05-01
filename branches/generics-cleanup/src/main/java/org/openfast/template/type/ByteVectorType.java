@@ -36,14 +36,16 @@ final class ByteVectorType extends SimpleType {
      * @param value
      * @return
      */
-    protected ScalarValue getVal(String value) {
+    @Override
+	protected ScalarValue getVal(String value) {
         return new ByteVectorValue(ByteUtil.convertHexStringToByteArray(value));
     }
 
     /**
      * @return Returns the default value
      */
-    public ScalarValue getDefaultValue() {
+    @Override
+	public ScalarValue getDefaultValue() {
         return new ByteVectorValue(new byte[] {});
     }
 
@@ -57,14 +59,17 @@ final class ByteVectorType extends SimpleType {
      * @return Returns true if the previousValue is an instance of
      *         ByteVectorValue, false otherwise
      */
-    public boolean isValueOf(ScalarValue previousValue) {
+    @Override
+	public boolean isValueOf(ScalarValue previousValue) {
         return previousValue instanceof ByteVectorValue;
     }
     
-    public ScalarValue getValue(byte[] bytes) {
+    @Override
+	public ScalarValue getValue(byte[] bytes) {
         return new ByteVectorValue(bytes);
     }
-    public ScalarValue getValue(byte[] bytes, int offset, int length) {
+    @Override
+	public ScalarValue getValue(byte[] bytes, int offset, int length) {
         return new ByteVectorValue(bytes, offset, length);
     }
 }

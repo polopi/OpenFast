@@ -30,19 +30,21 @@ import org.openfast.util.IntegerMap;
 import org.openfast.util.SimpleIntegerMap;
 
 public class BasicTemplateRegistry extends AbstractTemplateRegistry {
-    private final Map<QName, MessageTemplate> nameMap = new HashMap<QName, MessageTemplate>();
-    private final IntegerMap<MessageTemplate> idMap = new SimpleIntegerMap<MessageTemplate>();
-    private final Map<MessageTemplate, Integer> templateMap = new HashMap<MessageTemplate, Integer>();
-    private final List<MessageTemplate> templates = new ArrayList<MessageTemplate>();
+    private final Map<QName, MessageTemplate> nameMap = new HashMap<>();
+    private final IntegerMap<MessageTemplate> idMap = new SimpleIntegerMap<>();
+    private final Map<MessageTemplate, Integer> templateMap = new HashMap<>();
+    private final List<MessageTemplate> templates = new ArrayList<>();
 
-    public void register(int id, MessageTemplate template) {
+    @Override
+	public void register(int id, MessageTemplate template) {
         define(template);
         Integer tid = new Integer(id);
         idMap.put(id, template);
         templateMap.put(template, tid);
         notifyTemplateRegistered(template, id);
     }
-    public void register(int id, QName name) {
+    @Override
+	public void register(int id, QName name) {
         if (!nameMap.containsKey(name))
             throw new IllegalArgumentException("The template named " + name + " is not defined.");
         Integer tid = new Integer(id);
@@ -51,61 +53,75 @@ public class BasicTemplateRegistry extends AbstractTemplateRegistry {
         idMap.put(id, template);
         notifyTemplateRegistered(template, id);
     }
-    public void define(MessageTemplate template) {
+    @Override
+	public void define(MessageTemplate template) {
         if (!templates.contains(template)) {
             nameMap.put(template.getQName(), template);
             templates.add(template);
         }
     }
-    public int getId(QName name) {
+    @Override
+	public int getId(QName name) {
         MessageTemplate template = nameMap.get(name);
         if (template == null || !templateMap.containsKey(template))
             return -1;
         return templateMap.get(template).intValue();
     }
-    public MessageTemplate get(int templateId) {
+    @Override
+	public MessageTemplate get(int templateId) {
         return idMap.get(templateId);
     }
-    public MessageTemplate get(QName name) {
+    @Override
+	public MessageTemplate get(QName name) {
         return nameMap.get(name);
     }
-    public int getId(MessageTemplate template) {
+    @Override
+	public int getId(MessageTemplate template) {
         if (!isRegistered(template))
             return -1;
         return templateMap.get(template).intValue();
     }
-    public boolean isRegistered(QName name) {
+    @Override
+	public boolean isRegistered(QName name) {
         return nameMap.containsKey(name);
     }
-    public boolean isRegistered(int templateId) {
+    @Override
+	public boolean isRegistered(int templateId) {
         return idMap.containsKey(templateId);
     }
-    public boolean isRegistered(MessageTemplate template) {
+    @Override
+	public boolean isRegistered(MessageTemplate template) {
         return templateMap.containsKey(template);
     }
-    public boolean isDefined(QName name) {
+    @Override
+	public boolean isDefined(QName name) {
         return nameMap.containsKey(name);
     }
-    public MessageTemplate[] getTemplates() {
+    @Override
+	public MessageTemplate[] getTemplates() {
         return templates.toArray(new MessageTemplate[templates.size()]);
     }
-    public void remove(QName name) {
+    @Override
+	public void remove(QName name) {
         MessageTemplate template = nameMap.remove(name);
         int id = templateMap.remove(template).intValue();
         idMap.remove(id);
         templates.remove(template);
     }
-    public void remove(MessageTemplate template) {
+    @Override
+	public void remove(MessageTemplate template) {
         int id = templateMap.remove(template).intValue();
         nameMap.remove(template.getName());
         idMap.remove(id);
     }
-    public void remove(int id) {
+    @Override
+	public void remove(int id) {
         MessageTemplate template = idMap.remove(id);
         templateMap.remove(template);
         nameMap.remove(template.getName());
     }
-    public void registerAll(TemplateRegistry registry) {
+    @Override
+	public void registerAll(TemplateRegistry registry) {
         if (registry == null) return;
         MessageTemplate[] templates = registry.getTemplates();
         if (templates == null) return;
@@ -113,10 +129,12 @@ public class BasicTemplateRegistry extends AbstractTemplateRegistry {
             register(registry.getId(template), template);
         }
     }
-    public Iterator<QName> nameIterator() {
+    @Override
+	public Iterator<QName> nameIterator() {
         return nameMap.keySet().iterator();
     }
-    public Iterator<MessageTemplate> iterator() {
+    @Override
+	public Iterator<MessageTemplate> iterator() {
         return templates.iterator();
     }
 }

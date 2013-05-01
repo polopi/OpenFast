@@ -40,7 +40,8 @@ public class TemplateParser extends GroupParser {
      *            The DOM element object
      * @return Returns a newly created MessageTemplate object
      */
-    protected Field parse(final Element templateElement, boolean optional, final ParsingContext context) {
+    @Override
+	protected Field parse(final Element templateElement, boolean optional, final ParsingContext context) {
         final QName templateName = getTemplateName(templateElement, context);
         try {
             final Field[] fields = parseFields(templateElement, context);
@@ -66,7 +67,7 @@ public class TemplateParser extends GroupParser {
         return messageTemplate;
     }
 
-    private QName getTemplateName(Element templateElement, ParsingContext context) {
+    private static QName getTemplateName(Element templateElement, ParsingContext context) {
         return new QName(templateElement.getAttribute("name"), context.getTemplateNamespace());
     }
 }

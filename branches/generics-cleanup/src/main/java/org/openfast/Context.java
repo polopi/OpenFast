@@ -47,14 +47,14 @@ import org.openfast.util.UnboundedCache;
 public class Context implements OpenFastContext {
     private TemplateRegistry templateRegistry = new BasicTemplateRegistry();
     private int lastTemplateId;
-    private final Map<String, Dictionary> dictionaries = new HashMap<String, Dictionary>();
+    private final Map<String, Dictionary> dictionaries = new HashMap<>();
     private ErrorHandler errorHandler = ErrorHandler.DEFAULT;
     private QName currentApplicationType;
     private final List<TemplateRegisteredListener> listeners = Collections.emptyList();
     private boolean traceEnabled;
     private Trace encodeTrace;
     private Trace decodeTrace;
-    private final Map<QName, Cache> caches = new HashMap<QName, Cache>();
+    private final Map<QName, Cache> caches = new HashMap<>();
     private final OpenFastContext parentContext;
     private FastMessageLogger logger = null;
 
@@ -67,14 +67,16 @@ public class Context implements OpenFastContext {
         dictionaries.put("template", new TemplateDictionary());
         dictionaries.put("type", new ApplicationTypeDictionary());
     }
-    public int getTemplateId(MessageTemplate template) {
+    @Override
+	public int getTemplateId(MessageTemplate template) {
         if (!templateRegistry.isRegistered(template)) {
             errorHandler.error(FastConstants.D9_TEMPLATE_NOT_REGISTERED, "The template " + template + " has not been registered.");
             return 0;
         }
         return templateRegistry.getId(template);
     }
-    public MessageTemplate getTemplate(int templateId) {
+    @Override
+	public MessageTemplate getTemplate(int templateId) {
         if (!templateRegistry.isRegistered(templateId)) {
             errorHandler.error(FastConstants.D9_TEMPLATE_NOT_REGISTERED, "The template with id " + templateId
                     + " has not been registered.");
@@ -82,7 +84,8 @@ public class Context implements OpenFastContext {
         }
         return templateRegistry.get(templateId);
     }
-    public void registerTemplate(int templateId, MessageTemplate template) {
+    @Override
+	public void registerTemplate(int templateId, MessageTemplate template) {
         templateRegistry.register(templateId, template);
         Iterator<TemplateRegisteredListener> iter = listeners.iterator();
         while (iter.hasNext()) {
@@ -116,7 +119,8 @@ public class Context implements OpenFastContext {
             dict.reset();
         }
     }
-    public void setErrorHandler(ErrorHandler errorHandler) {
+    @Override
+	public void setErrorHandler(ErrorHandler errorHandler) {
         this.errorHandler = errorHandler;
     }
     public void newMessage(MessageTemplate template) {
@@ -125,10 +129,12 @@ public class Context implements OpenFastContext {
     public void setCurrentApplicationType(QName name) {
         currentApplicationType = name;
     }
-    public TemplateRegistry getTemplateRegistry() {
+    @Override
+	public TemplateRegistry getTemplateRegistry() {
         return templateRegistry;
     }
-    public void setTemplateRegistry(TemplateRegistry registry) {
+    @Override
+	public void setTemplateRegistry(TemplateRegistry registry) {
         this.templateRegistry = registry;
     }
     public boolean isTraceEnabled() {
@@ -171,14 +177,16 @@ public class Context implements OpenFastContext {
         }
         caches.get(key).store(index, value);
     }
-    public FastMessageLogger getLogger() {
+    @Override
+	public FastMessageLogger getLogger() {
         if (logger == null) {
             return parentContext.getLogger();
         }
         return logger;
     }
 
-    public void setLogger(FastMessageLogger logger) {
+    @Override
+	public void setLogger(FastMessageLogger logger) {
         this.logger = logger;
     }
 }

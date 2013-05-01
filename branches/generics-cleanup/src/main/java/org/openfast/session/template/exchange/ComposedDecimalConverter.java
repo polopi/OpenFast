@@ -36,7 +36,8 @@ import org.openfast.template.operator.Operator;
 import org.openfast.util.Util;
 
 public class ComposedDecimalConverter extends AbstractFieldInstructionConverter {
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    @Override
+	public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
         QName name = new QName(fieldDef.getString("Name"), fieldDef.getString("Ns"));
         boolean optional = fieldDef.getBool("Optional");
         Operator exponentOperator = Operator.NONE;
@@ -64,7 +65,8 @@ public class ComposedDecimalConverter extends AbstractFieldInstructionConverter 
         return composedDecimal;
     }
 
-    public GroupValue convert(Field field, ConversionContext context) {
+    @Override
+	public GroupValue convert(Field field, ConversionContext context) {
         ComposedScalar composedScalar = (ComposedScalar) field;
         Message message = new Message(SessionControlProtocol_1_1.COMP_DECIMAL_INSTR);
         setNameAndId(field, message);
@@ -78,7 +80,7 @@ public class ComposedDecimalConverter extends AbstractFieldInstructionConverter 
         return message;
     }
 
-    private GroupValue createComponent(Scalar component, String componentName) {
+    private static GroupValue createComponent(Scalar component, String componentName) {
         Group componentGroup = SessionControlProtocol_1_1.COMP_DECIMAL_INSTR.getGroup(componentName);
         GroupValue componentDef = new GroupValue(componentGroup);
         GroupValue componentOperatorDef = createOperator(component);
@@ -92,11 +94,13 @@ public class ComposedDecimalConverter extends AbstractFieldInstructionConverter 
         return componentDef;
     }
 
-    public boolean shouldConvert(Field field) {
+    @Override
+	public boolean shouldConvert(Field field) {
         return field.getClass().equals(ComposedScalar.class);
     }
 
-    public Group[] getTemplateExchangeTemplates() {
+    @Override
+	public Group[] getTemplateExchangeTemplates() {
         return new Group[] { SessionControlProtocol_1_1.COMP_DECIMAL_INSTR };
     }
 }

@@ -1,7 +1,6 @@
 package org.openfast.submitted;
 
 import java.io.ByteArrayOutputStream;
-import java.util.List;
 
 import junit.framework.TestCase;
 

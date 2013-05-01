@@ -14,6 +14,7 @@ public class DynamicTemplateReferenceTest extends OpenFastTestCase {
 	private Message name;
 	private Context context;
 
+	@Override
 	protected void setUp() throws Exception {
 		nameTemplate = template("<template>" +
 						"  <string name=\"name\"/>" +

@@ -27,6 +27,8 @@ public abstract class NumericValue extends ScalarValue {
     public abstract NumericValue subtract(NumericValue priorValue);
     public abstract NumericValue add(NumericValue addend);
     public abstract boolean equals(int value);
-    public abstract long toLong();
-    public abstract int toInt();
+    @Override
+	public abstract long toLong();
+    @Override
+	public abstract int toInt();
 }

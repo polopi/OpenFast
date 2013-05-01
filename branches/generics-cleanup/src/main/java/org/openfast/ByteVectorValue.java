@@ -37,11 +37,13 @@ public class ByteVectorValue extends ScalarValue {
         this.length = length;
     }
 
-    public byte[] getBytes() {
+    @Override
+	public byte[] getBytes() {
         return value;
     }
     
-    public String serialize() {
+    @Override
+	public String serialize() {
         StringBuffer builder = new StringBuffer(value.length * 2);
         for (byte v : value) {
             String hex = Integer.toHexString(v & 0xff);
@@ -50,11 +52,13 @@ public class ByteVectorValue extends ScalarValue {
         return builder.toString();
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return new String(value, offset, length);
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if ((obj == null) || !(obj instanceof ByteVectorValue)) {
             return false;
         }
@@ -73,7 +77,8 @@ public class ByteVectorValue extends ScalarValue {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return value.hashCode();
     }
 }

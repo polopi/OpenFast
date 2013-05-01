@@ -25,7 +25,7 @@ public class FastMessageProducer implements ConnectionListener {
     protected final Endpoint endpoint;
     protected final TemplateRegistry templateRegistry;
     protected Thread acceptThread;
-    protected List<MessageOutputStream> connections = new ArrayList<MessageOutputStream>();
+    protected List<MessageOutputStream> connections = new ArrayList<>();
     protected XmlCompressedMessageConverter converter = new XmlCompressedMessageConverter();
     protected final MessageBlockWriterFactory messageBlockWriterFactory;
     protected final boolean shouldResetOnEveryMessage;
@@ -91,7 +91,8 @@ public class FastMessageProducer implements ConnectionListener {
         if (acceptThread != null) return;
         endpoint.setConnectionListener(this);
         acceptThread = new Thread("Producer Accept Thread") {
-            public void run() {
+            @Override
+			public void run() {
                 try {
                     endpoint.accept();
                 } catch (FastConnectionException e) {
@@ -106,7 +107,8 @@ public class FastMessageProducer implements ConnectionListener {
         endpoint.close();
     }
 
-    public void onConnect(Connection connection) {
+    @Override
+	public void onConnect(Connection connection) {
         synchronized(connections) {
             Context context = new Context();
             context.setErrorHandler(ErrorHandler.NULL);

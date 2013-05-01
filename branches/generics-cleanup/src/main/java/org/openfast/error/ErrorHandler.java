@@ -22,20 +22,24 @@ package org.openfast.error;
 
 public interface ErrorHandler {
     public static final ErrorHandler DEFAULT = new ErrorHandler() {
-            public void error(ErrorCode code, String message) {
+            @Override
+			public void error(ErrorCode code, String message) {
                 code.throwException(message);
             }
 
-            public void error(ErrorCode code, String message, Throwable t) {
+            @Override
+			public void error(ErrorCode code, String message, Throwable t) {
                 throw new FastException(message, code, t);
             }
         };
 
     public static final ErrorHandler NULL = new ErrorHandler() {
-            public void error(ErrorCode code, String message) {
+            @Override
+			public void error(ErrorCode code, String message) {
             }
 
-            public void error(ErrorCode code, String message, Throwable t) {
+            @Override
+			public void error(ErrorCode code, String message, Throwable t) {
             }
         };
 

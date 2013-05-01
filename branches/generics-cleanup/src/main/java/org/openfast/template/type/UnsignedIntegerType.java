@@ -31,7 +31,7 @@ public class UnsignedIntegerType extends IntegerType {
     }
 
     /**
-     * Get the approprivate codec for the passed operator
+     * Get the appropriate codec for the passed operator
      * 
      * @param operator
      *            The operator object in which the codec is trying to get
@@ -39,7 +39,8 @@ public class UnsignedIntegerType extends IntegerType {
      *            Determines if the Field is required or not for the data
      * @return Returns the codec if the field is required
      */
-    public TypeCodec getCodec(Operator operator, boolean optional) {
+    @Override
+	public TypeCodec getCodec(Operator operator, boolean optional) {
         if (operator.equals(Operator.DELTA))
             if (optional)
                 return TypeCodec.NULLABLE_INTEGER;

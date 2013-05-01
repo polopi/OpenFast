@@ -39,14 +39,16 @@ public abstract class AbstractFieldParser implements FieldParser {
         this.parseableNodeNames = nodeNames;
     }
 
-    public boolean canParse(Element element, ParsingContext context) {
+    @Override
+	public boolean canParse(Element element, ParsingContext context) {
         for (String nodeName : parseableNodeNames)
             if (nodeName.equals(element.getNodeName()))
                 return true;
         return false;
     }
 
-    public final Field parse(Element fieldNode, ParsingContext parent) {
+    @Override
+	public final Field parse(Element fieldNode, ParsingContext parent) {
         boolean optional = "optional".equals(fieldNode.getAttribute("presence"));
         return parse(fieldNode, optional, new ParsingContext(fieldNode, parent));
     }

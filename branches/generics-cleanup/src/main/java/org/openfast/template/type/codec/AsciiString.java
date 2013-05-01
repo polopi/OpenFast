@@ -47,7 +47,8 @@ final class AsciiString extends TypeCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue value) {
+    @Override
+	public byte[] encodeValue(ScalarValue value) {
         if ((value == null) || value.isNull()) {
             throw new IllegalStateException("Only nullable strings can represent null values.");
         }
@@ -68,7 +69,8 @@ final class AsciiString extends TypeCodec {
      *            The InputStream to be decoded
      * @return Returns a new StringValue object with the data stream as a String
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         int byt;
         ByteArrayOutputStream buffer = Global.getBuffer();
         try {
@@ -99,11 +101,12 @@ final class AsciiString extends TypeCodec {
     /**
      * @return Returns a new StringValue object with the passed value
      */
-    public ScalarValue fromString(String value) {
+    public static ScalarValue fromString(String value) {
         return new StringValue(value);
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

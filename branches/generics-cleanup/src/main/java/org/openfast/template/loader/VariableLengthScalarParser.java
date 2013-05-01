@@ -31,7 +31,8 @@ public class VariableLengthScalarParser extends ScalarParser {
         super(nodeName);
     }
 
-    public Field parse(Element fieldNode, boolean optional, ParsingContext context) {
+    @Override
+	public Field parse(Element fieldNode, boolean optional, ParsingContext context) {
         Scalar scalar = (Scalar) super.parse(fieldNode, optional, context);
         Element element = getElement(fieldNode, 1);
         if (element != null && element.getNodeName().equals("length")) {
@@ -47,7 +48,8 @@ public class VariableLengthScalarParser extends ScalarParser {
         return scalar;
     }
 
-    protected Element getOperatorElement(Element fieldNode) {
+    @Override
+	protected Element getOperatorElement(Element fieldNode) {
         Element operatorElement = super.getOperatorElement(fieldNode);
         if (operatorElement != null && operatorElement.getNodeName().equals("length"))
             return getElement(fieldNode, 2);

@@ -22,7 +22,7 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 
 package org.openfast.test;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
 
 import org.openfast.ByteUtil;
 
@@ -39,10 +39,10 @@ public class TestUtil {
         "> but was:<" + ByteUtil.convertByteArrayToBitString(actual) +
         ">";
         if (expected.length != actual.length)
-            TestCase.fail(error);
+            Assert.fail(error);
 
         for (int i = 0; i < expected.length; ++i) {
-            TestCase.assertEquals(error, expected[i], actual[i]);
+            Assert.assertEquals(error, expected[i], actual[i]);
         }
     }
 }

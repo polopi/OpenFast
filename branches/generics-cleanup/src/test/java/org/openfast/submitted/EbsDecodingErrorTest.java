@@ -32,7 +32,8 @@ import org.openfast.test.OpenFastTestCase;
 public class EbsDecodingErrorTest extends OpenFastTestCase {
     private Context context;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         XMLMessageTemplateLoader loader = new XMLMessageTemplateLoader();
         loader.setLoadTemplateIdFromAuxId(true);
         loader.load(resource("EBS/templates.xml"));

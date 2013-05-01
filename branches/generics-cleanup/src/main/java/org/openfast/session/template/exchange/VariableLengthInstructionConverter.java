@@ -33,7 +33,8 @@ import org.openfast.template.type.Type;
 import org.openfast.util.Util;
 
 public class VariableLengthInstructionConverter extends ScalarConverter {
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    @Override
+	public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
         Scalar scalar = (Scalar) super.convert(fieldDef, templateRegistry, context);
         if (fieldDef.isDefined("Length")) {
             GroupValue lengthDef = fieldDef.getGroup("Length");
@@ -47,7 +48,8 @@ public class VariableLengthInstructionConverter extends ScalarConverter {
         return scalar;
     }
 
-    public GroupValue convert(Field field, ConversionContext context) {
+    @Override
+	public GroupValue convert(Field field, ConversionContext context) {
         Scalar scalar = (Scalar) field;
         GroupValue fieldDef = super.convert(field, context);
         if (scalar.hasChild(FastConstants.LENGTH_FIELD)) {
@@ -62,14 +64,16 @@ public class VariableLengthInstructionConverter extends ScalarConverter {
         return fieldDef;
     }
 
-    public boolean shouldConvert(Field field) {
+    @Override
+	public boolean shouldConvert(Field field) {
         if (!field.getClass().equals(Scalar.class))
             return false;
         Type type = ((Scalar) field).getType();
         return type.equals(Type.BYTE_VECTOR) || type.equals(Type.UNICODE);
     }
 
-    public Group[] getTemplateExchangeTemplates() {
+    @Override
+	public Group[] getTemplateExchangeTemplates() {
         return new Group[] { SessionControlProtocol_1_1.BYTE_VECTOR_INSTR, SessionControlProtocol_1_1.UNICODE_INSTR };
     }
 }

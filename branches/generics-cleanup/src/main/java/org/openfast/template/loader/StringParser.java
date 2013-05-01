@@ -27,11 +27,13 @@ public class StringParser extends VariableLengthScalarParser {
         super("string");
     }
 
-    public boolean canParse(Element element, ParsingContext context) {
+    @Override
+	public boolean canParse(Element element, ParsingContext context) {
         return element.getNodeName().equals("string");
     }
 
-    protected String getTypeName(Element fieldNode) {
+    @Override
+	protected String getTypeName(Element fieldNode) {
         if (fieldNode.hasAttribute("charset"))
             return fieldNode.getAttribute("charset");
         return "ascii";

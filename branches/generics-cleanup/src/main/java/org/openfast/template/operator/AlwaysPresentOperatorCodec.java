@@ -35,15 +35,18 @@ public abstract class AlwaysPresentOperatorCodec extends OperatorCodec {
     /**
      * @return Returns false
      */
-    public boolean usesPresenceMapBit(boolean optional) {
+    @Override
+	public boolean usesPresenceMapBit(boolean optional) {
         return false;
     }
 
-    public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar scalar, BitVectorBuilder presenceMapBuilder) {
+    @Override
+	public ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, Scalar scalar, BitVectorBuilder presenceMapBuilder) {
         return getValueToEncode(value, priorValue, scalar);
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

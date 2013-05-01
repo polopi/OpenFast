@@ -40,10 +40,11 @@ public abstract class IntegerType extends SimpleType {
     }
     /**
      * @param value
-     * @return either longvalue or integervalue depending on size of parsed
+     * @return either LongValue or IntegerValue depending on size of parsed
      *         number
      */
-    protected ScalarValue getVal(String value) {
+    @Override
+	protected ScalarValue getVal(String value) {
         long longValue;
         try {
             longValue = Long.parseLong(value);
@@ -60,7 +61,8 @@ public abstract class IntegerType extends SimpleType {
     /**
      * @return Returns a default value
      */
-    public ScalarValue getDefaultValue() {
+    @Override
+	public ScalarValue getDefaultValue() {
         return new IntegerValue(0);
     }
     /**
@@ -71,7 +73,8 @@ public abstract class IntegerType extends SimpleType {
      * @return Returns true if the passed value is an instance of an integer or
      *         long
      */
-    public boolean isValueOf(ScalarValue previousValue) {
+    @Override
+	public boolean isValueOf(ScalarValue previousValue) {
         return previousValue instanceof IntegerValue || previousValue instanceof LongValue;
     }
     /**
@@ -81,7 +84,8 @@ public abstract class IntegerType extends SimpleType {
      *            The ScalarValue object to be validated
      * 
      */
-    public void validateValue(ScalarValue value) {
+    @Override
+	public void validateValue(ScalarValue value) {
         if (value == null || value.isUndefined())
             return;
         if (value.toLong() > maxValue || value.toLong() < minValue) {

@@ -11,7 +11,8 @@ public class HexadecimalInputStream extends InputStream {
         this.in = in;
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
+    @Override
+	public int read(byte[] b, int off, int len) throws IOException {
         if (buffer.length < len * 2) {
             buffer = new byte[len * 2];
         }
@@ -46,11 +47,13 @@ public class HexadecimalInputStream extends InputStream {
         return byteCount;
     }
     
-    public int read() throws IOException {
+    @Override
+	public int read() throws IOException {
         throw new UnsupportedOperationException();
     }
     
-    public void close() throws IOException {
+    @Override
+	public void close() throws IOException {
         in.close();
     }
 }

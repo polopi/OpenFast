@@ -31,7 +31,8 @@ abstract class AbstractSessionControlProtocol implements SessionProtocol {
         private static final long serialVersionUID = 1L;
     };
 
-    public Message getResetMessage() {
+    @Override
+	public Message getResetMessage() {
         return RESET;
     }
 }

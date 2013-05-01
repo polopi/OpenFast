@@ -8,7 +8,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class MapFieldParser implements FieldParser {
-    public boolean canParse(Element element, ParsingContext context) {
+    @Override
+	public boolean canParse(Element element, ParsingContext context) {
         NodeList children = element.getChildNodes();
         for (int i = 0; i < children.getLength(); ++i) {
             String nodeName = children.item(i).getNodeName();
@@ -18,7 +19,8 @@ public class MapFieldParser implements FieldParser {
         return false;
     }
 
-    public Field parse(Element fieldNode, ParsingContext context) {
+    @Override
+	public Field parse(Element fieldNode, ParsingContext context) {
         String key = fieldNode.hasAttribute("key") ? fieldNode.getAttribute("key") : null;
         boolean optional = "optional".equals(fieldNode.getAttribute("presence"));
         String name = fieldNode.getAttribute("name");

@@ -32,7 +32,8 @@ import org.openfast.util.Util;
 public class MillisecondsSinceMidnight extends TypeCodec {
     private static final long serialVersionUID = 1L;
 
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         int millisecondsSinceMidnight = TypeCodec.INTEGER.decode(in).toInt();
         Calendar cal = Calendar.getInstance();
         cal.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -50,13 +51,15 @@ public class MillisecondsSinceMidnight extends TypeCodec {
         return new DateValue(cal.getTime());
     }
 
-    public byte[] encodeValue(ScalarValue value) {
+    @Override
+	public byte[] encodeValue(ScalarValue value) {
         Date date = ((DateValue) value).value;
         int millisecondsSinceMidnight = Util.millisecondsSinceMidnight(date);
         return TypeCodec.INTEGER.encodeValue(new IntegerValue(millisecondsSinceMidnight));
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

@@ -40,7 +40,8 @@ public class MulticastConnection implements Connection {
         this.group = group;
     }
 
-    public void close() {
+    @Override
+	public void close() {
         try {
             socket.leaveGroup(group);
             socket.close();
@@ -49,11 +50,13 @@ public class MulticastConnection implements Connection {
         }
     }
 
-    public InputStream getInputStream() throws IOException {
+    @Override
+	public InputStream getInputStream() throws IOException {
         return new MulticastInputStream(socket);
     }
 
-    public OutputStream getOutputStream() throws IOException {
+    @Override
+	public OutputStream getOutputStream() throws IOException {
         if(outputStream == null)
             outputStream = new MulticastOutputStream(socket, port, group);
         return outputStream;

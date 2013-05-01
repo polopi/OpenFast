@@ -43,16 +43,20 @@ public class DateType extends Type {
         this.dateFormatter = dateFormat;
         this.dateCodec = dateCodec;
     }
-    public ScalarValue getDefaultValue() {
+    @Override
+	public ScalarValue getDefaultValue() {
         return new DateValue(new Date(0));
     }
-    public boolean isValueOf(ScalarValue previousValue) {
+    @Override
+	public boolean isValueOf(ScalarValue previousValue) {
         return previousValue instanceof DateValue;
     }
-    public TypeCodec getCodec(Operator operator, boolean optional) {
+    @Override
+	public TypeCodec getCodec(Operator operator, boolean optional) {
         return dateCodec;
     }
-    public ScalarValue getValue(String value) {
+    @Override
+	public ScalarValue getValue(String value) {
         if (value == null)
             return ScalarValue.UNDEFINED;
         try {
@@ -61,17 +65,20 @@ public class DateType extends Type {
             throw new RuntimeException(e);
         }
     }
-    public String serialize(ScalarValue value) {
+    @Override
+	public String serialize(ScalarValue value) {
         return dateFormatter.format(((DateValue) value).value);
     }
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((dateCodec == null) ? 0 : dateCodec.hashCode());
         result = prime * result + ((dateFormatter == null) ? 0 : dateFormatter.hashCode());
         return result;
     }
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

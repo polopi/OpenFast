@@ -97,7 +97,8 @@ public class XMLMessageTemplateLoader implements MessageTemplateLoader {
      * @param source
      *            The inputStream object to load
      */
-    public MessageTemplate[] load(InputStream source) {
+    @Override
+	public MessageTemplate[] load(InputStream source) {
         Document document = parseXml(source);
 
         if (document == null) {
@@ -154,15 +155,18 @@ public class XMLMessageTemplateLoader implements MessageTemplateLoader {
      */
     private Document parseXml(InputStream templateStream) {
         org.xml.sax.ErrorHandler errorHandler = new org.xml.sax.ErrorHandler() {
-            public void error(SAXParseException exception) throws SAXException {
+            @Override
+			public void error(SAXParseException exception) throws SAXException {
                 initialContext.getErrorHandler().error(XML_PARSING_ERROR, "ERROR: " + exception.getMessage(), exception);
             }
 
-            public void fatalError(SAXParseException exception) throws SAXException {
+            @Override
+			public void fatalError(SAXParseException exception) throws SAXException {
                 initialContext.getErrorHandler().error(XML_PARSING_ERROR, "FATAL: " + exception.getMessage(), exception);
             }
 
-            public void warning(SAXParseException exception) throws SAXException {
+            @Override
+			public void warning(SAXParseException exception) throws SAXException {
                 initialContext.getErrorHandler().error(XML_PARSING_ERROR, "WARNING: " + exception.getMessage(), exception);
             }
         };
@@ -196,11 +200,13 @@ public class XMLMessageTemplateLoader implements MessageTemplateLoader {
         initialContext.setErrorHandler(errorHandler);
     }
 
-    public void setTemplateRegistry(TemplateRegistry templateRegistry) {
+    @Override
+	public void setTemplateRegistry(TemplateRegistry templateRegistry) {
         initialContext.setTemplateRegistry(templateRegistry);
     }
 
-    public TemplateRegistry getTemplateRegistry() {
+    @Override
+	public TemplateRegistry getTemplateRegistry() {
         return initialContext.getTemplateRegistry();
     }
 

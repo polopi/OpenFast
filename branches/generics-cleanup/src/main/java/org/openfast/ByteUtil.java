@@ -47,13 +47,13 @@ public class ByteUtil {
     }
 
     public static byte[] convertHexStringToByteArray(String hexString) {
-        if (hexString == null) {
+		if (hexString == null) {
             return new byte[0];
         }
-        hexString = hexString.replaceAll(" ", "");
-        byte[] bytes = new byte[hexString.length() / 2];
-        for (int i = 0; i < hexString.length(); i += 2) {
-            bytes[i / 2] = (byte) Integer.parseInt(hexString.substring(i, i + 2), 16);
+		String hexStringReplaced = hexString.replaceAll(" ", "");
+        byte[] bytes = new byte[hexStringReplaced.length() / 2];
+        for (int i = 0; i < hexStringReplaced.length(); i += 2) {
+            bytes[i / 2] = (byte) Integer.parseInt(hexStringReplaced.substring(i, i + 2), 16);
         }
         return bytes;
     }

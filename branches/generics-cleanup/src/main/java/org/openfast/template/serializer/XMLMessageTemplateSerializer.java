@@ -30,7 +30,8 @@ public class XMLMessageTemplateSerializer implements MessageTemplateSerializer {
         SerializingContext context = SerializingContext.createInitialContext(registry);
         return context;
     }
-    public void serialize(MessageTemplate[] templates, OutputStream destination) {
+    @Override
+	public void serialize(MessageTemplate[] templates, OutputStream destination) {
         XmlWriter writer = new XmlWriter(destination);
         writer.setEnableProcessingInstructions(true);
         SerializingContext context = new SerializingContext(initialContext);
@@ -51,7 +52,7 @@ public class XMLMessageTemplateSerializer implements MessageTemplateSerializer {
     }
     
     private String whichNamespaceIsUsedMode(MessageTemplate[] templates) {
-        Map<String, Integer> namespaces = new HashMap<String, Integer>();
+        Map<String, Integer> namespaces = new HashMap<>();
         for (MessageTemplate template : templates) {
             tallyNamespaceReferences(template, namespaces);
         }
@@ -88,8 +89,8 @@ public class XMLMessageTemplateSerializer implements MessageTemplateSerializer {
         }
     }
     
-    private String whichTemplateNamespaceIsUsedMost(MessageTemplate[] templates) {
-        Map<String, Integer> namespaces = new HashMap<String, Integer>();
+    private static String whichTemplateNamespaceIsUsedMost(MessageTemplate[] templates) {
+        Map<String, Integer> namespaces = new HashMap<>();
         for (MessageTemplate template : templates) {
             String ns = template.getQName().getNamespace();
             namespaces.put(ns, namespaces.containsKey(ns) ? 

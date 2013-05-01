@@ -263,7 +263,8 @@ public class FastDecoderTest extends TestCase {
 
     public void testDecodeEndOfStream() {
         FastDecoder decoder = new FastDecoder(new Context(), new InputStream() {
-            public int read() throws IOException {
+            @Override
+			public int read() throws IOException {
                 return -1;
             }
         });

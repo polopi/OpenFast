@@ -10,6 +10,7 @@ public class SequenceParserTest extends OpenFastTestCase {
 	private SequenceParser parser;
 	private ParsingContext context;
 
+	@Override
 	public void setUp() {
 		parser = new SequenceParser();
 		context = ParsingContext.NULL;

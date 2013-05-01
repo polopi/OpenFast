@@ -107,7 +107,8 @@ public class Sequence extends Field implements FieldSet {
      * 
      * @return Returns an integer of the number of fields
      */
-    public int getFieldCount() {
+    @Override
+	public int getFieldCount() {
         return group.getFieldCount();
     }
 
@@ -118,7 +119,8 @@ public class Sequence extends Field implements FieldSet {
      *            The field index that is passed
      * @return Returns a Field object of the requested index
      */
-    public Field getField(int index) {
+    @Override
+	public Field getField(int index) {
         return group.getField(index);
     }
 
@@ -135,7 +137,8 @@ public class Sequence extends Field implements FieldSet {
      * 
      * @return True if there is a current MapBit, false otherwise
      */
-    public boolean usesPresenceMapBit() {
+    @Override
+	public boolean usesPresenceMapBit() {
         return length.usesPresenceMapBit();
     }
 
@@ -146,7 +149,8 @@ public class Sequence extends Field implements FieldSet {
      *            FieldValue object
      * @return True if there is a Map Bit set, false otherwise
      */
-    public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
+    @Override
+	public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
         return length.isPresenceMapBitSet(encoding, fieldValue);
     }
 
@@ -161,7 +165,8 @@ public class Sequence extends Field implements FieldSet {
      *            The previous object to keep the data in sync
      * @return Returns the buffer of the byte array
      */
-    public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
+    @Override
+	public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
         if (hasTypeReference())
             context.setCurrentApplicationType(getTypeReference());
         if (value == null) {
@@ -195,7 +200,8 @@ public class Sequence extends Field implements FieldSet {
      * @return If there is nothing to decode - returns null, otherwise returns a
      *         sequenceValue object that has the decoded information stored.
      */
-    public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader pmapReader) {
+    @Override
+	public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader pmapReader) {
         SequenceValue sequenceValue = new SequenceValue(this);
         ScalarValue lengthValue = (ScalarValue) length.decode(in, template, context, pmapReader);
         if ((lengthValue == ScalarValue.NULL) || (lengthValue == null)) {
@@ -210,7 +216,8 @@ public class Sequence extends Field implements FieldSet {
     /**
      * @return Returns the class of the current SequenceValue
      */
-    public Class<? extends FieldValue> getValueType() {
+    @Override
+	public Class<? extends FieldValue> getValueType() {
         return SequenceValue.class;
     }
 
@@ -219,14 +226,16 @@ public class Sequence extends Field implements FieldSet {
      *            String of the new SequenceValue to create
      * @return Returns a new SequenceValue with the specified value
      */
-    public FieldValue createValue(String value) {
+    @Override
+	public FieldValue createValue(String value) {
         return new SequenceValue(this);
     }
 
     /**
      * @return Returns the string 'sequence'
      */
-    public String getTypeName() {
+    @Override
+	public String getTypeName() {
         return "sequence";
     }
 
@@ -283,11 +292,13 @@ public class Sequence extends Field implements FieldSet {
         return group.hasTypeReference();
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return name.getName();
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((group == null) ? 0 : group.hashCode());
@@ -295,7 +306,8 @@ public class Sequence extends Field implements FieldSet {
         return result;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null || getClass() != obj.getClass())
@@ -310,11 +322,13 @@ public class Sequence extends Field implements FieldSet {
         return true;
     }
 
-    public boolean hasAttribute(QName attributeName) {
+    @Override
+	public boolean hasAttribute(QName attributeName) {
         return group.hasAttribute(attributeName);
     }
 
-    public String getAttribute(QName name) {
+    @Override
+	public String getAttribute(QName name) {
         return group.getAttribute(name);
     }
 }

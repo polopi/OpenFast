@@ -75,8 +75,8 @@ public abstract class AbstractFieldInstructionConverter implements FieldInstruct
         return TEMPLATE_OPERATOR_MAP.get(group);
     }
 
-    private static final Map<Operator, MessageTemplate> OPERATOR_TEMPLATE_MAP = new HashMap<Operator, MessageTemplate>();
-    private static final Map<MessageTemplate, Operator> TEMPLATE_OPERATOR_MAP = new HashMap<MessageTemplate, Operator>();
+    private static final Map<Operator, MessageTemplate> OPERATOR_TEMPLATE_MAP = new HashMap<>();
+    private static final Map<MessageTemplate, Operator> TEMPLATE_OPERATOR_MAP = new HashMap<>();
     static {
         OPERATOR_TEMPLATE_MAP.put(Operator.CONSTANT, SessionControlProtocol_1_1.CONSTANT_OP);
         OPERATOR_TEMPLATE_MAP.put(Operator.DEFAULT, SessionControlProtocol_1_1.DEFAULT_OP);

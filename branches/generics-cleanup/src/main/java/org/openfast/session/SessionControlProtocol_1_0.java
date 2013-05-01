@@ -37,7 +37,8 @@ class SessionControlProtocol_1_0 extends AbstractSessionControlProtocol {
     static final int FAST_HELLO_TEMPLATE_ID = 16000;
     static final int FAST_ALERT_TEMPLATE_ID = 16001;
 
-    public Session onNewConnection(String serverName, Connection connection) {
+    @Override
+	public Session onNewConnection(String serverName, Connection connection) {
         Session session = new Session(connection, this, TemplateRegistry.NULL, TemplateRegistry.NULL);
         Message message = session.in.readMessage();
         session.out.writeMessage(createHelloMessage(serverName));
@@ -45,7 +46,8 @@ class SessionControlProtocol_1_0 extends AbstractSessionControlProtocol {
         session.setClient(new BasicClient(clientName, "unknown"));
         return session;
     }
-    public Session connect(String senderName, Connection connection, TemplateRegistry inboundRegistry, 
+    @Override
+	public Session connect(String senderName, Connection connection, TemplateRegistry inboundRegistry, 
             TemplateRegistry outboundRegistry, MessageListener messageListener, SessionListener sessionListener) {
         Session session = new Session(connection, this, inboundRegistry, outboundRegistry);
         session.setSessionListener(sessionListener);
@@ -56,15 +58,18 @@ class SessionControlProtocol_1_0 extends AbstractSessionControlProtocol {
         session.setClient(new BasicClient(serverName, "unknown"));
         return session;
     }
-    public void onError(Session session, ErrorCode code, String message) {
+    @Override
+	public void onError(Session session, ErrorCode code, String message) {
         session.out.writeMessage(createFastAlertMessage(code));
     }
-    public void registerSessionTemplates(TemplateRegistry registry) {
+    @Override
+	public void registerSessionTemplates(TemplateRegistry registry) {
         registry.register(FAST_HELLO_TEMPLATE_ID, FAST_HELLO_TEMPLATE);
         registry.register(FAST_ALERT_TEMPLATE_ID, FAST_ALERT_TEMPLATE);
         registry.register(FAST_RESET_TEMPLATE_ID, FAST_RESET_TEMPLATE);
     }
-    public void configureSession(Session session) {
+    @Override
+	public void configureSession(Session session) {
         registerSessionTemplates(session.in.getTemplateRegistry());
         registerSessionTemplates(session.out.getTemplateRegistry());
         session.in.addMessageHandler(FAST_RESET_TEMPLATE, RESET_HANDLER);
@@ -91,12 +96,14 @@ class SessionControlProtocol_1_0 extends AbstractSessionControlProtocol {
     public final static MessageTemplate FAST_HELLO_TEMPLATE = new MessageTemplate("", new Field[] { new Scalar("SenderName",
             Type.ASCII, Operator.NONE, ScalarValue.UNDEFINED, false) });
     private static final MessageHandler RESET_HANDLER = new MessageHandler() {
-        public void handleMessage(Message readMessage, Context context, Coder coder) {
+        @Override
+		public void handleMessage(Message readMessage, Context context, Coder coder) {
             coder.reset();
         }
     };
 
-    public void handleMessage(Session session, Message message) {
+    @Override
+	public void handleMessage(Session session, Message message) {
         if (message.getTemplate().equals(FAST_ALERT_TEMPLATE)) {
             ErrorCode alertCode = ErrorCode.getAlertCode(message);
             if (alertCode.equals(SessionConstants.CLOSE)) {
@@ -106,25 +113,31 @@ class SessionControlProtocol_1_0 extends AbstractSessionControlProtocol {
             }
         }
     }
-    public boolean isProtocolMessage(Message message) {
+    @Override
+	public boolean isProtocolMessage(Message message) {
         if (message == null)
             return false;
         return (message.getTemplate().equals(FAST_ALERT_TEMPLATE)) || (message.getTemplate().equals(FAST_HELLO_TEMPLATE))
                 || (message.getTemplate().equals(FAST_RESET_TEMPLATE));
     }
-    public boolean supportsTemplateExchange() {
+    @Override
+	public boolean supportsTemplateExchange() {
         return false;
     }
-    public Message createTemplateDeclarationMessage(MessageTemplate messageTemplate, int templateId) {
+    @Override
+	public Message createTemplateDeclarationMessage(MessageTemplate messageTemplate, int templateId) {
         throw new UnsupportedOperationException();
     }
-    public Message createTemplateDefinitionMessage(MessageTemplate messageTemplate) {
+    @Override
+	public Message createTemplateDefinitionMessage(MessageTemplate messageTemplate) {
         throw new UnsupportedOperationException();
     }
-    public Message getCloseMessage() {
+    @Override
+	public Message getCloseMessage() {
         return createFastAlertMessage(SessionConstants.CLOSE);
     }
-    public MessageTemplate createTemplateFromMessage(Message templateDef, TemplateRegistry registry) {
+    @Override
+	public MessageTemplate createTemplateFromMessage(Message templateDef, TemplateRegistry registry) {
         throw new UnsupportedOperationException();
     }
 }

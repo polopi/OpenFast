@@ -48,19 +48,20 @@ public class SequenceValue implements FieldValue {
 
     public void add(GroupValue value) {
         if (elements == Collections.EMPTY_LIST) {
-            elements = new ArrayList<GroupValue>();
+            elements = new ArrayList<>();
         }
         elements.add(value);
     }
 
     public void add(FieldValue[] values) {
         if (elements == Collections.EMPTY_LIST) {
-            elements = new ArrayList<GroupValue>();
+            elements = new ArrayList<>();
         }
         elements.add(new GroupValue(sequence.getGroup(), values));
     }
 
-    public boolean equals(Object other) {
+    @Override
+	public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
@@ -82,11 +83,13 @@ public class SequenceValue implements FieldValue {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return elements.hashCode() * 37 + sequence.hashCode();
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         StringBuilder builder = new StringBuilder(4 + elements.size() * 24);
         Iterator<GroupValue> iter = elements.iterator();
         builder.append("[ ");
@@ -110,7 +113,8 @@ public class SequenceValue implements FieldValue {
         return this.elements.toArray(new GroupValue[elements.size()]);
     }
 
-    public FieldValue copy() {
+    @Override
+	public FieldValue copy() {
         SequenceValue value = new SequenceValue(this.sequence);
         for (GroupValue element : elements) {
             value.add((GroupValue) element.copy());

@@ -42,16 +42,20 @@ public class DictionaryTest extends TestCase {
     private Session session;
     private ByteArrayOutputStream out;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         out = new ByteArrayOutputStream();
         session = new Session(new Connection() {
-            public InputStream getInputStream() throws IOException {
+            @Override
+			public InputStream getInputStream() throws IOException {
                 return null;
             }
-            public OutputStream getOutputStream() throws IOException {
+            @Override
+			public OutputStream getOutputStream() throws IOException {
                 return out;
             }
-            public void close() {
+            @Override
+			public void close() {
                 try {
                     out.close();
                 } catch (IOException e) {}

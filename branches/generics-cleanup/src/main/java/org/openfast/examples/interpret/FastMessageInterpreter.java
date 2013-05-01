@@ -42,7 +42,8 @@ public class FastMessageInterpreter implements FastMessageConsumer {
      *
      * @param message A decoded FAST message
      */
-    public void accept(Message message) {
+    @Override
+	public void accept(Message message) {
 //        outputStream.println(message.toString());
         recordCount += 1;
         StringBuffer line = new StringBuffer(indent + "Record#" + recordCount + " ");
@@ -54,7 +55,8 @@ public class FastMessageInterpreter implements FastMessageConsumer {
      * Display additional information related to the message.
      * @param message the annotation.
      */
-    public void annotate(String message) {
+    @Override
+	public void annotate(String message) {
         outputStream.println(message);
     }
 

@@ -41,7 +41,8 @@ public class ScalarParser extends AbstractFieldParser {
         super(new String[] {});
     }
 
-    public boolean canParse(Element element, ParsingContext context) {
+    @Override
+	public boolean canParse(Element element, ParsingContext context) {
         return context.getTypeMap().containsKey(getTypeName(element));
     }
     
@@ -49,7 +50,8 @@ public class ScalarParser extends AbstractFieldParser {
         return field instanceof Scalar;
     }
     
-    public Field parse(Element fieldNode, boolean optional, ParsingContext context) {
+    @Override
+	public Field parse(Element fieldNode, boolean optional, ParsingContext context) {
         Operator operator = Operator.NONE;
         String defaultValue = null;
         String key = null;

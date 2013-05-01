@@ -16,7 +16,8 @@ public class SerializingContext {
     
     public static SerializingContext createInitialContext(final SerializerRegistry registry) {
         return new SerializingContext(null) {
-            public SerializerRegistry getSerializerRegistry() {
+            @Override
+			public SerializerRegistry getSerializerRegistry() {
                 return registry;
             }
         };

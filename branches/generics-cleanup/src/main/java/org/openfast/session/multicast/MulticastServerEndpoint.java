@@ -35,7 +35,8 @@ public class MulticastServerEndpoint extends MulticastEndpoint {
     	super(port, group, ifaddr);
     }
     
-    public Connection connect() throws FastConnectionException {
+    @Override
+	public Connection connect() throws FastConnectionException {
         try {
             return new MulticastConnection(createSocket(), port, InetAddress.getByName(group));
         }

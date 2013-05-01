@@ -9,10 +9,10 @@ public class Loggers {
     
     public FastMessageLogger getLogger(Class<?> clazz, String identifier) {
         if (loggers.isEmpty())
-            loggers = new HashMap<Class<?>, Map<String, FastMessageLogger>>();
+            loggers = new HashMap<>();
         Map<String, FastMessageLogger> loggerIdentifierMap = loggers.get(clazz);
         if (loggerIdentifierMap.isEmpty()) {
-            loggerIdentifierMap = new HashMap<String, FastMessageLogger>();
+            loggerIdentifierMap = new HashMap<>();
             loggers.put(clazz, loggerIdentifierMap);
         }
         return null;

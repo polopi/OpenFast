@@ -28,19 +28,23 @@ import org.openfast.template.Group;
 import org.openfast.template.TemplateRegistry;
 
 public class DynamicTemplateReferenceConverter implements FieldInstructionConverter {
-    public Field convert(GroupValue groupValue, TemplateRegistry templateRegistry, ConversionContext context) {
+    @Override
+	public Field convert(GroupValue groupValue, TemplateRegistry templateRegistry, ConversionContext context) {
         return DynamicTemplateReference.INSTANCE;
     }
 
-    public GroupValue convert(Field field, ConversionContext context) {
+    @Override
+	public GroupValue convert(Field field, ConversionContext context) {
         return SessionControlProtocol_1_1.DYN_TEMP_REF_MESSAGE;
     }
 
-    public boolean shouldConvert(Field field) {
+    @Override
+	public boolean shouldConvert(Field field) {
         return field.getClass().equals(DynamicTemplateReference.class);
     }
 
-    public Group[] getTemplateExchangeTemplates() {
+    @Override
+	public Group[] getTemplateExchangeTemplates() {
         return new Group[] { SessionControlProtocol_1_1.DYN_TEMP_REF_INSTR };
     }
 }

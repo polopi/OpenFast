@@ -69,7 +69,8 @@ public class ScpMessageProducer implements MessageListener {
         this.clientName = clientName;
     }
 
-    public void onMessage(Session session, Message message) {
+    @Override
+	public void onMessage(Session session, Message message) {
         System.out.println("IN: " + message.toString());
     }
 }

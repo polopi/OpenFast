@@ -70,15 +70,11 @@ public class Main extends OpenFastExample {
         
         try {
             consumer.start();
-        } catch (FastConnectionException e) {
+        } catch (FastConnectionException | IOException e) {
             if (showStacktrace)
                 e.printStackTrace();
-            System.out.println("Unable to connect to endpoint: " + e.getMessage());
-            System.exit(1);
-        } catch (IOException e) {
-            if (showStacktrace)
-                e.printStackTrace();
-            System.out.println("An IO error occurred while consuming messages: " + e.getMessage());
+            String message = e instanceof FastConnectionException ? "Unable to connect to endpoint: " : "An IO error occurred while consuming messages: ";
+            System.out.println(message + e.getMessage());
             System.exit(1);
         }
     }

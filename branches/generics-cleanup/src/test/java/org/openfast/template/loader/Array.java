@@ -18,34 +18,42 @@ public class Array extends Field {
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	public FieldValue createValue(String value) {
 		return null;
 	}
 
+	@Override
 	public FieldValue decode(InputStream in, Group template, Context context, BitVectorReader presenceMapReader) {
 		return null;
 	}
 
+	@Override
 	public byte[] encode(FieldValue value, Group template, Context context, BitVectorBuilder presenceMapBuilder) {
 		return null;
 	}
 
+	@Override
 	public String getTypeName() {
 		return null;
 	}
 
+	@Override
 	public Class<? extends FieldValue> getValueType() {
 		return null;
 	}
 
+	@Override
 	public boolean isPresenceMapBitSet(byte[] encoding, FieldValue fieldValue) {
 		return false;
 	}
 
+	@Override
 	public boolean usesPresenceMapBit() {
 		return false;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		return name.equals(((Array) obj).name);
 	}

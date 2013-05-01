@@ -39,7 +39,8 @@ public final class NullableSignedInteger extends IntegerCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue value) {
+    @Override
+	public byte[] encodeValue(ScalarValue value) {
         if (value.isNull()) {
             return TypeCodec.NULL_VALUE_ENCODING;
         }
@@ -59,7 +60,8 @@ public final class NullableSignedInteger extends IntegerCodec {
      *            The InputStream to be decoded
      * @return Returns a new numericValue object
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         NumericValue numericValue = ((NumericValue) TypeCodec.INTEGER.decode(in));
         long value = numericValue.toLong();
         if (value == 0) {
@@ -74,11 +76,13 @@ public final class NullableSignedInteger extends IntegerCodec {
     /**
      * @return Returns true
      */
-    public boolean isNullable() {
+    @Override
+	public boolean isNullable() {
         return true;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

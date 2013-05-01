@@ -28,7 +28,8 @@ import org.openfast.template.TemplateRegistry;
 import org.w3c.dom.Element;
 
 public class TemplateRefParser implements FieldParser {
-    public Field parse(Element element, ParsingContext context) {
+    @Override
+	public Field parse(Element element, ParsingContext context) {
         if (element.hasAttribute("name")) {
             QName templateName = new QName(element.getAttribute("name"), element.hasAttribute("templateNs") ?
                 		element.getAttribute("templateNs") : context.getTemplateNamespace());
@@ -44,7 +45,8 @@ public class TemplateRefParser implements FieldParser {
         }
     }
 
-    public boolean canParse(Element element, ParsingContext context) {
+    @Override
+	public boolean canParse(Element element, ParsingContext context) {
         return "templateRef".equals(element.getNodeName());
     }
 }

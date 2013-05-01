@@ -29,7 +29,7 @@ public class TemplateExchangeDefinitionDecoder {
         context.setTemplateRegistry(registry);
         FastDecoder decoder = new FastDecoder(context, fastIn);
         Message message = null;
-        List<MessageTemplate> templates = new ArrayList<MessageTemplate>();
+        List<MessageTemplate> templates = new ArrayList<>();
         do {
             message = decoder.readMessage();
             if (message != null) {

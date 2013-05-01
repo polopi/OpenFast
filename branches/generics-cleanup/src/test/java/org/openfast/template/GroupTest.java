@@ -46,7 +46,8 @@ public class GroupTest extends OpenFastTestCase {
 
     private Context context;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         template = new MessageTemplate("", new Field[] {});
         context = new Context();
     }

@@ -13,7 +13,8 @@ public class TemplateTest extends OpenFastTestCase {
     private static final String EXT_NS = "http://www.openfast.org/ext";
     private MessageTemplateLoader loader;
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         loader = new XMLMessageTemplateLoader(true);
         loader.load(resource("components.xml"));
         loader.load(resource("preTrade.xml"));

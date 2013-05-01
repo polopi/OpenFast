@@ -96,16 +96,20 @@ public class Session implements ErrorHandler {
         return client;
     }
 
-    public void error(ErrorCode code, String message) {
-        if (code.equals(FastConstants.D9_TEMPLATE_NOT_REGISTERED)) {
-            code = SessionConstants.TEMPLATE_NOT_SUPPORTED;
-            message = "Template Not Supported: " + message;
+    @Override
+	public void error(ErrorCode code, String message) {
+    	ErrorCode codeValue = code;
+    	String messageValue = message;
+        if (FastConstants.D9_TEMPLATE_NOT_REGISTERED.equals(code)) {
+        	codeValue = SessionConstants.TEMPLATE_NOT_SUPPORTED;
+        	messageValue = "Template Not Supported: " + message;
         }
-        protocol.onError(this, code, message);
-        errorHandler.error(code, message);
+        protocol.onError(this, codeValue, messageValue);
+        errorHandler.error(codeValue, messageValue);
     }
 
-    public void error(ErrorCode code, String message, Throwable t) {
+    @Override
+	public void error(ErrorCode code, String message, Throwable t) {
         protocol.onError(this, code, message);
         errorHandler.error(code, message, t);
     }
@@ -139,7 +143,8 @@ public class Session implements ErrorHandler {
     private void listenForMessages() {
         if (listeningThread == null) {
             Runnable messageReader = new Runnable() {
-                public void run() {
+                @Override
+				public void run() {
                     while (listening) {
                         try {
                             Message message = in.readMessage();

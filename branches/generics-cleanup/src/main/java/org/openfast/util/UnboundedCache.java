@@ -6,14 +6,16 @@ import org.openfast.FieldValue;
 
 public class UnboundedCache implements Cache {
     private int nextIndex = 1;
-    private final Map<Integer, FieldValue> indexToValueMap = new HashMap<Integer, FieldValue>();
-    private final Map<FieldValue, Integer> valueToIndexMap = new HashMap<FieldValue, Integer>();
+    private final Map<Integer, FieldValue> indexToValueMap = new HashMap<>();
+    private final Map<FieldValue, Integer> valueToIndexMap = new HashMap<>();
 
-    public int getIndex(FieldValue value) {
+    @Override
+	public int getIndex(FieldValue value) {
         return valueToIndexMap.get(value).intValue();
     }
 
-    public int store(FieldValue value) {
+    @Override
+	public int store(FieldValue value) {
         Integer next = new Integer(nextIndex);
         indexToValueMap.put(next, value);
         valueToIndexMap.put(value, next);
@@ -21,17 +23,20 @@ public class UnboundedCache implements Cache {
         return next.intValue();
     }
 
-    public void store(int index, FieldValue value) {
+    @Override
+	public void store(int index, FieldValue value) {
         Integer indexVal = new Integer(index);
         indexToValueMap.put(indexVal, value);
         valueToIndexMap.put(value, indexVal);
     }
 
-    public boolean containsValue(FieldValue value) {
+    @Override
+	public boolean containsValue(FieldValue value) {
         return valueToIndexMap.containsKey(value);
     }
 
-    public FieldValue lookup(int index) {
+    @Override
+	public FieldValue lookup(int index) {
         return indexToValueMap.get(new Integer(index));
     }
 }

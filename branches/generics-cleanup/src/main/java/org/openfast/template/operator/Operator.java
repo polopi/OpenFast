@@ -33,18 +33,20 @@ import org.openfast.template.type.Type;
 public class Operator implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private static final Map<String, Operator> OPERATOR_NAME_MAP = new HashMap<String, Operator>();
+    private static final Map<String, Operator> OPERATOR_NAME_MAP = new HashMap<>();
 
     private final String name;
 
     public static final Operator NONE = new Operator("none") {
         private static final long serialVersionUID = 2L;
 
-        public boolean usesDictionary() {
+        @Override
+		public boolean usesDictionary() {
             return false;
         }
 
-        public boolean shouldStoreValue(ScalarValue value) {
+        @Override
+		public boolean shouldStoreValue(ScalarValue value) {
             return false;
         }
     };
@@ -52,17 +54,20 @@ public class Operator implements Serializable {
     public static final Operator CONSTANT = new Operator("constant") {
         private static final long serialVersionUID = 1L;
 
-        public void validate(Scalar scalar) {
+        @Override
+		public void validate(Scalar scalar) {
             if (scalar.getDefaultValue().isUndefined())
                 Global.handleError(FastConstants.S4_NO_INITIAL_VALUE_FOR_CONST, "The field " + scalar
                         + " must have a default value defined.");
         }
 
-        public boolean shouldStoreValue(ScalarValue value) {
+        @Override
+		public boolean shouldStoreValue(ScalarValue value) {
             return false;
         }
 
-        public boolean usesDictionary() {
+        @Override
+		public boolean usesDictionary() {
             return false;
         }
     };
@@ -70,13 +75,15 @@ public class Operator implements Serializable {
     public static final Operator DEFAULT = new Operator("default") {
         private static final long serialVersionUID = 1L;
 
-        public void validate(Scalar scalar) {
+        @Override
+		public void validate(Scalar scalar) {
             if (!scalar.isOptional() && scalar.getDefaultValue().isUndefined())
                 Global.handleError(FastConstants.S5_NO_INITVAL_MNDTRY_DFALT, "The field " + scalar
                         + " must have a default value defined.");
         }
 
-        public boolean shouldStoreValue(ScalarValue value) {
+        @Override
+		public boolean shouldStoreValue(ScalarValue value) {
             return value != null;
         }
     };
@@ -84,7 +91,8 @@ public class Operator implements Serializable {
     public static final Operator COPY = new Operator("copy") {
         private static final long serialVersionUID = 1L;
 
-        public OperatorCodec getCodec(Type type) {
+        @Override
+		public OperatorCodec getCodec(Type type) {
             return OperatorCodec.COPY_ALL;
         }
     };
@@ -94,7 +102,8 @@ public class Operator implements Serializable {
     public static final Operator DELTA = new Operator("delta") {
         private static final long serialVersionUID = 1L;
 
-        public boolean shouldStoreValue(ScalarValue value) {
+        @Override
+		public boolean shouldStoreValue(ScalarValue value) {
             return value != null;
         }
     };
@@ -116,7 +125,8 @@ public class Operator implements Serializable {
         return OperatorCodec.getCodec(this, type);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return name;
     }
 
@@ -131,7 +141,8 @@ public class Operator implements Serializable {
     public void validate(Scalar scalar) {
     }
 
-    public boolean equals(Object other) {
+    @Override
+	public boolean equals(Object other) {
         if (other == this)
             return true;
         if (other == null || !(other instanceof Operator))
@@ -143,7 +154,8 @@ public class Operator implements Serializable {
         return name.equals(other.name);
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return name.hashCode();
     }
 

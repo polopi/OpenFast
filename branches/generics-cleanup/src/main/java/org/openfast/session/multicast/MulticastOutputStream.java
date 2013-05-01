@@ -42,6 +42,7 @@ public class MulticastOutputStream extends OutputStream {
 		writeBuffer.clear();
     }
 
+	@Override
 	public void flush() {
 		writeBuffer.flip();
 		if(writeBuffer.hasRemaining()) {
@@ -57,15 +58,18 @@ public class MulticastOutputStream extends OutputStream {
 		writeBuffer.clear();
 	}   
     
+	@Override
 	public void write(byte[] b, int off, int len) {
 		writeBuffer.put(b, off, len);
 	}
 
-    public void write(byte[] b) {
+    @Override
+	public void write(byte[] b) {
         write(b, 0, b.length);
     }
 
-    public void write(int b) {
+    @Override
+	public void write(int b) {
         writeBuffer.put((byte)b);
     }
 }

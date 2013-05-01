@@ -22,16 +22,19 @@ package org.openfast;
 
 public class BitVectorReader {
     public static final BitVectorReader NULL = new BitVectorReader(null) {
-        public boolean read() {
+        @Override
+		public boolean read() {
             throw new IllegalStateException();
         }
 
-        public boolean hasMoreBitsSet() {
+        @Override
+		public boolean hasMoreBitsSet() {
             return false;
         }
     };
     public static final BitVectorReader INFINITE_TRUE = new BitVectorReader(null) {
-        public boolean read() {
+        @Override
+		public boolean read() {
             return true;
         }
     };
@@ -54,7 +57,8 @@ public class BitVectorReader {
         return vector.indexOfLastSet() > index;
     }
 
-    public String toString() {
+	@Override
+	public String toString() {
         return vector.toString();
     }
 

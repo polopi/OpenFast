@@ -37,7 +37,8 @@ final class DeltaDecimalOperatorCodec extends AlwaysPresentOperatorCodec {
         super(Operator.DELTA, new Type[] { Type.DECIMAL });
     }
 
-    public ScalarValue getValueToEncode(ScalarValue val, ScalarValue priorVal, Scalar field) {
+    @Override
+	public ScalarValue getValueToEncode(ScalarValue val, ScalarValue priorVal, Scalar field) {
         if (priorVal == null) {
             Global.handleError(FastConstants.D6_MNDTRY_FIELD_NOT_PRESENT, "The field " + field + " must have a priorValue defined.");
             return null;
@@ -58,7 +59,8 @@ final class DeltaDecimalOperatorCodec extends AlwaysPresentOperatorCodec {
         return new DecimalValue(value.mantissa - priorValue.mantissa, value.exponent - priorValue.exponent);
     }
 
-    public ScalarValue decodeValue(ScalarValue val, ScalarValue priorVal, Scalar field) {
+    @Override
+	public ScalarValue decodeValue(ScalarValue val, ScalarValue priorVal, Scalar field) {
         if (priorVal == null) {
             Global.handleError(FastConstants.D6_MNDTRY_FIELD_NOT_PRESENT, "The field " + field + " must have a priorValue defined.");
             return null;
@@ -74,7 +76,8 @@ final class DeltaDecimalOperatorCodec extends AlwaysPresentOperatorCodec {
         return new DecimalValue(value.mantissa + priorValue.mantissa, value.exponent + priorValue.exponent);
     }
 
-    public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
+    @Override
+	public ScalarValue decodeEmptyValue(ScalarValue previousValue, Scalar field) {
         if (field.getDefaultValue().isUndefined()) {
             if (field.isOptional()) {
                 return ScalarValue.NULL;
@@ -88,7 +91,8 @@ final class DeltaDecimalOperatorCodec extends AlwaysPresentOperatorCodec {
         }
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

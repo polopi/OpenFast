@@ -30,7 +30,8 @@ public class MulticastFastMessageProducer extends FastMessageProducer {
         out.setBlockWriter(messageBlockWriterFactory.create());
 	}
 
-    protected void publish(List<Message> messages, List<MessageOutputStream> msgOutputStreams) {
+    @Override
+	protected void publish(List<Message> messages, List<MessageOutputStream> msgOutputStreams) {
         if(out == null) {
             return;
         }
@@ -42,10 +43,12 @@ public class MulticastFastMessageProducer extends FastMessageProducer {
         }
     }
 
-    public void start() {
+    @Override
+	public void start() {
         System.out.println("Publishing on " + endpoint);
     }
 
-    public void onConnect(Connection connection) { }
+    @Override
+	public void onConnect(Connection connection) { }
 }
 

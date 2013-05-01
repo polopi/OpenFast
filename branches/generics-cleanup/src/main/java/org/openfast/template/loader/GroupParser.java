@@ -44,7 +44,8 @@ public class GroupParser extends AbstractFieldParser {
      *            Determines if the Field is required or not for the data
      * @return Returns a newly created Group object
      */
-    protected Field parse(Element groupElement, boolean optional, ParsingContext context) {
+    @Override
+	protected Field parse(Element groupElement, boolean optional, ParsingContext context) {
         Group group = new Group(context.getName(), parseFields(groupElement, context), optional);
         parseMore(groupElement, group, context);
         return group;
@@ -67,8 +68,8 @@ public class GroupParser extends AbstractFieldParser {
      */
     protected static Field[] parseFields(Element template, ParsingContext context) {
         NodeList childNodes = template.getChildNodes();
-        List<Field> fields = new ArrayList<Field>();
-        // TODO: The NodeList is not of type Iterable so it cannot be easily traversed in a foreach loop.
+        List<Field> fields = new ArrayList<>();
+        // TODO: The NodeList is not of type Iterable so it cannot be easily traversed in a for-each loop.
         for (int i = 0; i < childNodes.getLength(); ++i) {
             Node item = childNodes.item(i);
             if (isElement(item)) {

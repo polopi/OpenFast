@@ -46,7 +46,8 @@ final class NullableSingleFieldDecimal extends TypeCodec {
      *            The ScalarValue to be encoded
      * @return Returns a byte array of the passed object
      */
-    public byte[] encodeValue(ScalarValue v) {
+    @Override
+	public byte[] encodeValue(ScalarValue v) {
         if (v == ScalarValue.NULL) {
             return TypeCodec.NULL_VALUE_ENCODING;
         }
@@ -71,7 +72,8 @@ final class NullableSingleFieldDecimal extends TypeCodec {
      *            The InputStream to be decoded
      * @return Returns a decimalValue object with the data stream
      */
-    public ScalarValue decode(InputStream in) {
+    @Override
+	public ScalarValue decode(InputStream in) {
         ScalarValue exp = TypeCodec.NULLABLE_INTEGER.decode(in);
         if ((exp == null) || exp.isNull()) {
             return null;
@@ -90,7 +92,7 @@ final class NullableSingleFieldDecimal extends TypeCodec {
      *            The value as a string to be converted
      * @return Returns a new DecimalValue object
      */
-    public ScalarValue fromString(String value) {
+    public static ScalarValue fromString(String value) {
         return new DecimalValue(Double.parseDouble(value));
     }
 
@@ -98,18 +100,20 @@ final class NullableSingleFieldDecimal extends TypeCodec {
      * 
      * @return Returns a new DecimalValue object with a default value
      */
-    public ScalarValue getDefaultValue() {
+    public static ScalarValue getDefaultValue() {
         return new DecimalValue(0.0);
     }
 
     /**
      * @return Returns true
      */
-    public boolean isNullable() {
+    @Override
+	public boolean isNullable() {
         return true;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

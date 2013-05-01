@@ -46,7 +46,8 @@ public class CopyOperatorCodec extends OptionallyPresentOperatorCodec {
      *         ScalarValue object equals the defaultValue object or priorValue
      *         object, otherwise returns the ScalarValue object
      */
-    protected ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, ScalarValue defaultValue) {
+    @Override
+	protected ScalarValue getValueToEncode(ScalarValue value, ScalarValue priorValue, ScalarValue defaultValue) {
         if ((priorValue == ScalarValue.UNDEFINED) && value.equals(defaultValue)) {
             return null;
         }
@@ -62,7 +63,8 @@ public class CopyOperatorCodec extends OptionallyPresentOperatorCodec {
      * @return Returns the default value of the passed Scalar object if the
      *         object is defined, otherwise returns null
      */
-    protected ScalarValue getInitialValue(Scalar field) {
+    @Override
+	protected ScalarValue getInitialValue(Scalar field) {
     	ScalarValue defaultValue = field.getDefaultValue();
         if (!defaultValue.isUndefined()) {
             return defaultValue;
@@ -76,18 +78,21 @@ public class CopyOperatorCodec extends OptionallyPresentOperatorCodec {
     /**
      * @return Returns the variable priorValue
      */
-    protected ScalarValue getEmptyValue(ScalarValue priorValue) {
+    @Override
+	protected ScalarValue getEmptyValue(ScalarValue priorValue) {
         return priorValue;
     }
 
     /**
      * @return newValue
      */
-    public ScalarValue decodeValue(ScalarValue newValue, ScalarValue priorValue, Scalar field) {
+    @Override
+	public ScalarValue decodeValue(ScalarValue newValue, ScalarValue priorValue, Scalar field) {
         return newValue;
     }
 
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj != null && obj.getClass() == getClass();
     }
 }

@@ -35,13 +35,16 @@ class TcpConnection implements Connection {
             throw new NullPointerException();
         this.socket = socket;
     }
-    public InputStream getInputStream() throws IOException {
+    @Override
+	public InputStream getInputStream() throws IOException {
         return socket.getInputStream();
     }
-    public OutputStream getOutputStream() throws IOException {
+    @Override
+	public OutputStream getOutputStream() throws IOException {
         return socket.getOutputStream();
     }
-    public void close() {
+    @Override
+	public void close() {
         try {
             socket.close();
         } catch (IOException e) {}

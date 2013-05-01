@@ -85,7 +85,8 @@ public class MessageInputStream implements MessageStream {
         context.registerTemplate(templateId, template);
     }
 
-    public void close() {
+    @Override
+	public void close() {
         try {
             in.close();
         } catch (IOException e) {
@@ -97,16 +98,18 @@ public class MessageInputStream implements MessageStream {
         return in;
     }
 
-    public void addMessageHandler(MessageTemplate template, MessageHandler handler) {
+    @Override
+	public void addMessageHandler(MessageTemplate template, MessageHandler handler) {
         if (templateHandlers == Collections.EMPTY_MAP) {
-            templateHandlers = new HashMap<MessageTemplate, MessageHandler>();
+            templateHandlers = new HashMap<>();
         }
         templateHandlers.put(template, handler);
     }
 
-    public void addMessageHandler(MessageHandler handler) {
+    @Override
+	public void addMessageHandler(MessageHandler handler) {
         if (handlers == Collections.EMPTY_LIST) {
-            handlers = new ArrayList<MessageHandler>(4);
+            handlers = new ArrayList<>(4);
         }
         handlers.add(handler);
     }
@@ -115,7 +118,8 @@ public class MessageInputStream implements MessageStream {
         context.setTemplateRegistry(registry);
     }
 
-    public TemplateRegistry getTemplateRegistry() {
+    @Override
+	public TemplateRegistry getTemplateRegistry() {
         return context.getTemplateRegistry();
     }
 

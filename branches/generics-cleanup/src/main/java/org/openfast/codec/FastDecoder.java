@@ -102,7 +102,8 @@ public class FastDecoder implements Coder {
     /**
      * Reset the FAST dictionary.
      */
-    public void reset() {
+    @Override
+	public void reset() {
         context.reset();
     }
 }
