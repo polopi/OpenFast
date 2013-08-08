@@ -21,6 +21,7 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 package org.openfast;
 
 import java.math.BigDecimal;
+
 import org.openfast.error.FastConstants;
 
 public class StringValue extends ScalarValue {

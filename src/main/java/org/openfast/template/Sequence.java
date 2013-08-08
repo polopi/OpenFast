@@ -24,14 +24,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import org.openfast.BitVectorReader;
-import org.openfast.QName;
+
 import org.openfast.BitVectorBuilder;
+import org.openfast.BitVectorReader;
 import org.openfast.Context;
 import org.openfast.FieldValue;
 import org.openfast.Global;
 import org.openfast.GroupValue;
 import org.openfast.IntegerValue;
+import org.openfast.QName;
 import org.openfast.ScalarValue;
 import org.openfast.SequenceValue;
 import org.openfast.error.FastConstants;

@@ -20,11 +20,11 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 */
 package org.openfast;
 
-import org.openfast.template.Group;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.openfast.template.Group;
 
 
 public class TemplateDictionary implements Dictionary {

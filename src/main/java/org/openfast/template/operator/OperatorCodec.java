@@ -23,6 +23,7 @@ package org.openfast.template.operator;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.openfast.BitVectorBuilder;
 import org.openfast.FieldValue;
 import org.openfast.Global;

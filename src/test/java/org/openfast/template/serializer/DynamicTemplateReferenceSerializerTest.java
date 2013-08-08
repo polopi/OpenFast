@@ -2,6 +2,7 @@ package org.openfast.template.serializer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+
 import org.openfast.template.DynamicTemplateReference;
 import org.openfast.test.OpenFastTestCase;
 import org.openfast.util.XmlWriter;

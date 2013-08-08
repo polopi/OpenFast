@@ -2,6 +2,7 @@ package org.openfast.examples.scp10;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.openfast.examples.Assert;

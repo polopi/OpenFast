@@ -2,6 +2,7 @@ package org.openfast.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+
 import org.openfast.test.OpenFastTestCase;
 
 public class XmlWriterTest extends OpenFastTestCase {

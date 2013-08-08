@@ -1,5 +1,7 @@
 package org.openfast.session.template.exchange;
 
+import junit.framework.TestCase;
+
 import org.openfast.GroupValue;
 import org.openfast.QName;
 import org.openfast.ScalarValue;
@@ -10,8 +12,6 @@ import org.openfast.template.LongValue;
 import org.openfast.template.TemplateRegistry;
 import org.openfast.template.operator.Operator;
 import org.openfast.util.Util;
-
-import junit.framework.TestCase;
 
 public class ComposedDecimalConverterTest extends TestCase {
 

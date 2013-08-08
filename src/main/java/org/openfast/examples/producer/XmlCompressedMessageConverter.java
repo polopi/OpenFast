@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.openfast.FieldValue;
 import org.openfast.GroupValue;
 import org.openfast.Message;
@@ -16,6 +17,7 @@ import org.openfast.template.Group;
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.Sequence;
 import org.openfast.template.TemplateRegistry;
+
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamDriver;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;

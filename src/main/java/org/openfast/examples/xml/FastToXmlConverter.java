@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Iterator;
+
 import org.openfast.Context;
 import org.openfast.GroupValue;
 import org.openfast.Message;
@@ -14,6 +15,7 @@ import org.openfast.template.MessageTemplate;
 import org.openfast.template.Sequence;
 import org.openfast.template.TemplateRegistry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
+
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 

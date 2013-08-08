@@ -23,6 +23,7 @@ package org.openfast;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+
 import org.openfast.error.FastConstants;
 import org.openfast.error.FastException;
 import org.openfast.test.OpenFastTestCase;

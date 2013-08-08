@@ -26,6 +26,7 @@ package org.openfast.template.type.codec;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.openfast.DecimalValue;
 import org.openfast.Global;
 import org.openfast.IntegerValue;

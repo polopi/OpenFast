@@ -22,10 +22,10 @@ package org.openfast.session.multicast;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.nio.ByteBuffer;
 
 public class MulticastOutputStream extends OutputStream {
 	public final static int BUFFER_SIZE = 2048;

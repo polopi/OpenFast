@@ -25,6 +25,7 @@ package org.openfast.template.type.codec;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+
 import org.openfast.ByteVectorValue;
 import org.openfast.ScalarValue;
 import org.openfast.StringValue;

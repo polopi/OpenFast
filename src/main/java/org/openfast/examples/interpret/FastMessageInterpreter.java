@@ -3,6 +3,9 @@
  */
 package org.openfast.examples.interpret;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 import org.openfast.FieldValue;
 import org.openfast.GroupValue;
 import org.openfast.Message;
@@ -12,9 +15,6 @@ import org.openfast.template.Field;
 import org.openfast.template.Group;
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.Sequence;
-
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 /**
  * Accept incoming, decoded FAST messages and display them on an outputStream.

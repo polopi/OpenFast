@@ -23,12 +23,13 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 package org.openfast.session.multicast;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.DatagramPacket;
+import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
+
 import junit.framework.TestCase;
 
 public class MulticastOutputStreamTest extends TestCase {

@@ -22,6 +22,7 @@ package org.openfast.template.type.codec;
 
 import java.io.InputStream;
 import java.util.Date;
+
 import org.openfast.DateValue;
 import org.openfast.ScalarValue;
 import org.openfast.template.LongValue;

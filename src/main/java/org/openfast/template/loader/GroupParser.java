@@ -22,6 +22,7 @@ package org.openfast.template.loader;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.openfast.QName;
 import org.openfast.error.FastConstants;
 import org.openfast.template.Field;

@@ -1,6 +1,7 @@
 package org.openfast.template.serializer;
 
 import java.util.List;
+
 import org.openfast.Node;
 import org.openfast.QName;
 import org.openfast.ScalarValue;

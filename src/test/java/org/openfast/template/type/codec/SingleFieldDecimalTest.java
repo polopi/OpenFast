@@ -25,8 +25,6 @@ package org.openfast.template.type.codec;
 import org.openfast.DecimalValue;
 import org.openfast.error.FastConstants;
 import org.openfast.error.FastException;
-
-import org.openfast.template.type.codec.TypeCodec;
 import org.openfast.test.OpenFastTestCase;
 
 

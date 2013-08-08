@@ -23,7 +23,6 @@ package org.openfast.session.tcp;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import org.openfast.session.Connection;
 import org.openfast.session.ConnectionListener;

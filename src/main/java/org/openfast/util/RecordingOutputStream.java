@@ -20,9 +20,10 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.util;
 
-import org.openfast.ByteUtil;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import org.openfast.ByteUtil;
 
 public class RecordingOutputStream extends OutputStream {
     private byte[] buffer = new byte[1024];

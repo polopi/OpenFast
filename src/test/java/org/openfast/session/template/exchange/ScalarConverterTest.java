@@ -1,5 +1,7 @@
 package org.openfast.session.template.exchange;
 
+import junit.framework.TestCase;
+
 import org.openfast.GroupValue;
 import org.openfast.IntegerValue;
 import org.openfast.session.SessionControlProtocol_1_1;
@@ -8,7 +10,6 @@ import org.openfast.template.Scalar;
 import org.openfast.template.TemplateRegistry;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
-import junit.framework.TestCase;
 
 public class ScalarConverterTest extends TestCase {
     private ScalarConverter converter;

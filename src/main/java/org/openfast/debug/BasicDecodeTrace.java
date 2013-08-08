@@ -21,6 +21,7 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 package org.openfast.debug;
 
 import java.io.PrintWriter;
+
 import org.openfast.ByteUtil;
 import org.openfast.FieldValue;
 import org.openfast.template.Field;

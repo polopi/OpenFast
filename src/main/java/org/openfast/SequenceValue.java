@@ -20,11 +20,12 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast;
 
-import org.openfast.template.Sequence;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import org.openfast.template.Sequence;
 
 public class SequenceValue implements FieldValue {
     private static final long serialVersionUID = 1L;

@@ -2,6 +2,7 @@ package org.openfast.template.serializer;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.openfast.template.Field;
 
 public class SerializerRegistry {

@@ -1,6 +1,7 @@
 package org.openfast.template.serializer;
 
 import java.io.ByteArrayOutputStream;
+
 import org.openfast.template.Field;
 import org.openfast.template.MessageTemplate;
 import org.openfast.test.OpenFastTestCase;

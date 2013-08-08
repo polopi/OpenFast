@@ -1,6 +1,7 @@
 package org.openfast.submitted;
 
 import java.io.InputStream;
+
 import org.openfast.Context;
 import org.openfast.Dictionary;
 import org.openfast.Message;

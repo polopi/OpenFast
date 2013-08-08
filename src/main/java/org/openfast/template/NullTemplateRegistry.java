@@ -22,6 +22,7 @@ package org.openfast.template;
 
 import java.util.Collections;
 import java.util.Iterator;
+
 import org.openfast.QName;
 
 final class NullTemplateRegistry implements TemplateRegistry {
