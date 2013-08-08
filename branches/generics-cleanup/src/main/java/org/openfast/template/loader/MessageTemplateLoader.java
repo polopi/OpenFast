@@ -21,6 +21,7 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 package org.openfast.template.loader;
 
 import java.io.InputStream;
+
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.TemplateRegistry;
 

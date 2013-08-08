@@ -1,11 +1,13 @@
 package org.openfast.examples;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
 import org.openfast.Message;
 import org.openfast.MessageBlockReader;
 import org.openfast.examples.OpenFastExample.Variant;
-import org.openfast.impl.*;
+import org.openfast.impl.CmeMessageBlockReader;
+import org.openfast.impl.CmeTcpReplayMessageBlockReader;
 
 public class MessageBlockReaderFactory {
 	final Variant variant;

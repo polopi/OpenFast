@@ -20,10 +20,10 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 */
 package org.openfast.util;
 
-import org.openfast.ByteUtil;
-
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.openfast.ByteUtil;
 
 
 public class RecordingInputStream extends InputStream {

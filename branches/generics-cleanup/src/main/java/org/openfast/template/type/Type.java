@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import org.openfast.ScalarValue;
 import org.openfast.StringValue;
 import org.openfast.template.operator.Operator;

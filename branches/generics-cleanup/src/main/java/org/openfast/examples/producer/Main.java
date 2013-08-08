@@ -2,15 +2,16 @@ package org.openfast.examples.producer;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.openfast.examples.Assert;
-import org.openfast.examples.OpenFastExample;
 import org.openfast.examples.MessageBlockWriterFactory;
-import org.openfast.session.FastConnectionException;
+import org.openfast.examples.OpenFastExample;
 import org.openfast.session.Endpoint;
-import org.openfast.session.tcp.TcpEndpoint;
+import org.openfast.session.FastConnectionException;
 import org.openfast.session.multicast.MulticastServerEndpoint;
+import org.openfast.session.tcp.TcpEndpoint;
 
 public class Main extends OpenFastExample {
     private static Options options = new Options();

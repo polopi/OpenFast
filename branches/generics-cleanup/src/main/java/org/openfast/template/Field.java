@@ -22,6 +22,7 @@ package org.openfast.template;
 
 import java.io.InputStream;
 import java.io.Serializable;
+
 import org.openfast.BitVectorBuilder;
 import org.openfast.BitVectorReader;
 import org.openfast.Context;

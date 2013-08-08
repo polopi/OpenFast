@@ -1,6 +1,7 @@
 package org.openfast.extensions;
 
 import java.io.InputStream;
+
 import org.openfast.BitVectorBuilder;
 import org.openfast.BitVectorReader;
 import org.openfast.ByteUtil;

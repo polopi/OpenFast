@@ -1,7 +1,9 @@
 package org.openfast.session.template.exchange;
 
 import java.util.List;
+
 import junit.framework.TestCase;
+
 import org.openfast.GroupValue;
 import org.openfast.Node;
 import org.openfast.QName;

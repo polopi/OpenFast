@@ -2,6 +2,7 @@ package org.openfast.template.type.codec;
 
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
+
 import org.openfast.ScalarValue;
 import org.openfast.StringValue;
 import org.openfast.test.OpenFastTestCase;

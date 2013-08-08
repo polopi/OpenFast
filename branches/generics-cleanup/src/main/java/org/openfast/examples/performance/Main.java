@@ -1,6 +1,7 @@
 package org.openfast.examples.performance;
 
 import java.io.File;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.openfast.examples.Assert;

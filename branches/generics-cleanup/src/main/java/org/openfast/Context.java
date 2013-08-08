@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.openfast.debug.BasicDecodeTrace;
 import org.openfast.debug.BasicEncodeTrace;
 import org.openfast.debug.Trace;

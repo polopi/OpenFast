@@ -1,6 +1,7 @@
 package org.openfast;
 
 import junit.framework.TestCase;
+
 import org.openfast.test.ObjectMother;
 
 public class GroupValueTest extends TestCase {

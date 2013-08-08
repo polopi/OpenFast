@@ -21,6 +21,7 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 package org.openfast.template;
 
 import java.io.Serializable;
+
 import org.openfast.FieldValue;
 
 public interface ComposedValueConverter extends Serializable {

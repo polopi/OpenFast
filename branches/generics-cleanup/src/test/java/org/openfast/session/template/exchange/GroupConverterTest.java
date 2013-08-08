@@ -1,6 +1,7 @@
 package org.openfast.session.template.exchange;
 
 import junit.framework.TestCase;
+
 import org.openfast.GroupValue;
 import org.openfast.QName;
 import org.openfast.session.SessionControlProtocol_1_1;

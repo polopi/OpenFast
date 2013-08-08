@@ -22,9 +22,9 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 
 package org.openfast;
 
-import org.openfast.test.TestUtil;
-
 import junit.framework.TestCase;
+
+import org.openfast.test.TestUtil;
 
 
 public class BitVectorTest extends TestCase {

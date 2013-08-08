@@ -1,5 +1,7 @@
 package org.openfast.session.template.exchange;
 
+import junit.framework.TestCase;
+
 import org.openfast.GroupValue;
 import org.openfast.IntegerValue;
 import org.openfast.QName;
@@ -11,7 +13,6 @@ import org.openfast.template.Sequence;
 import org.openfast.template.TemplateRegistry;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
-import junit.framework.TestCase;
 
 public class SequenceConverterTest extends TestCase {
     private SequenceConverter converter;

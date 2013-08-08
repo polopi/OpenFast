@@ -22,6 +22,7 @@ package org.openfast.error;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.openfast.Message;
 
 public class ErrorCode {

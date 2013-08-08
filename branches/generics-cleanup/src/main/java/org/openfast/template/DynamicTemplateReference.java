@@ -21,6 +21,7 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 package org.openfast.template;
 
 import java.io.InputStream;
+
 import org.openfast.BitVectorBuilder;
 import org.openfast.BitVectorReader;
 import org.openfast.Context;

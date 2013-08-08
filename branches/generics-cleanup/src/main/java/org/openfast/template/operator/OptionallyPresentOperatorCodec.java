@@ -22,9 +22,7 @@ package org.openfast.template.operator;
 
 import org.openfast.Global;
 import org.openfast.ScalarValue;
-
 import org.openfast.error.FastConstants;
-
 import org.openfast.template.Scalar;
 import org.openfast.template.type.Type;
 

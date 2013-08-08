@@ -2,6 +2,7 @@ package org.openfast.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.openfast.Message;
 import org.openfast.MessageBlockReader;
 

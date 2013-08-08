@@ -3,6 +3,7 @@ package org.openfast.examples.decoder;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.openfast.Message;

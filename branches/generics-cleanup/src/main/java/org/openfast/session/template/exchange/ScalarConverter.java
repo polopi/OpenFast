@@ -22,6 +22,7 @@ package org.openfast.session.template.exchange;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.openfast.FieldValue;
 import org.openfast.GroupValue;
 import org.openfast.Message;

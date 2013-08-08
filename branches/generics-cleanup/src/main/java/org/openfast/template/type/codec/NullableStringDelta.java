@@ -20,10 +20,11 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.template.type.codec;
 
+import java.io.InputStream;
+
 import org.openfast.ScalarValue;
 import org.openfast.StringValue;
 import org.openfast.template.TwinValue;
-import java.io.InputStream;
 
 public class NullableStringDelta extends TypeCodec {
     private static final long serialVersionUID = 1L;

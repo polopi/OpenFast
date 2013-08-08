@@ -22,7 +22,6 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 
 package org.openfast.template.type.codec;
 
-import org.openfast.template.type.codec.TypeCodec;
 import org.openfast.test.OpenFastTestCase;
 
 

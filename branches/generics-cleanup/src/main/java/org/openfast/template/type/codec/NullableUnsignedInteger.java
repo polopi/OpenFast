@@ -24,6 +24,7 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 package org.openfast.template.type.codec;
 
 import java.io.InputStream;
+
 import org.openfast.NumericValue;
 import org.openfast.ScalarValue;
 

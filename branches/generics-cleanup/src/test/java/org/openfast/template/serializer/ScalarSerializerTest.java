@@ -2,6 +2,7 @@ package org.openfast.template.serializer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+
 import org.openfast.Dictionary;
 import org.openfast.IntegerValue;
 import org.openfast.QName;
