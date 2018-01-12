@@ -7,8 +7,9 @@ import junit.framework.TestCase;
 import org.openfast.Message;
 import org.openfast.error.ErrorCode;
 import org.openfast.error.ErrorHandler;
-import org.openfast.template.BasicTemplateRegistry;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.BasicRegistry;
+import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 import org.openfast.test.ObjectMother;
 import org.openfast.util.RecordingOutputStream;
 
@@ -124,7 +125,7 @@ public class SCP_1_1_Test extends TestCase {
         server.setSessionHandler(new SessionHandler() {
             public void newSession(Session session) {
                 session.setListening(true);
-                TemplateRegistry registry = new BasicTemplateRegistry();
+                Registry<MessageTemplate> registry = new BasicRegistry<MessageTemplate>();
                 registry.register(24, ObjectMother.quoteTemplate());
                 // Exchange quote template and send a quote with the newly
                 // exchanged template.

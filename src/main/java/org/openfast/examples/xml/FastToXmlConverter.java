@@ -1,24 +1,25 @@
 package org.openfast.examples.xml;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Iterator;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 import org.openfast.Context;
 import org.openfast.GroupValue;
 import org.openfast.Message;
 import org.openfast.SequenceValue;
 import org.openfast.codec.FastDecoder;
-import org.openfast.extensions.MapFieldParser;
+import org.openfast.extensions.MapInstructionParser;
 import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 import org.openfast.template.Sequence;
-import org.openfast.template.TemplateRegistry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
-import com.thoughtworks.xstream.io.xml.XppDriver;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Iterator;
 
 public class FastToXmlConverter {
-    private final TemplateRegistry templateRegistry;
+    private final Registry<MessageTemplate> templateRegistry;
     private final MessageTemplate elementTemplate;
     private final int nodeNameIdx;
     private final int attributesIdx;
@@ -30,7 +31,7 @@ public class FastToXmlConverter {
     public FastToXmlConverter() {
         XMLMessageTemplateLoader xmlTemplateLoader = new XMLMessageTemplateLoader();
         xmlTemplateLoader.setLoadTemplateIdFromAuxId(true);
-        xmlTemplateLoader.addFieldParser(new MapFieldParser());
+        xmlTemplateLoader.addFieldParser(new MapInstructionParser());
         xmlTemplateLoader.load(this.getClass().getResourceAsStream("xmlOverFastTemplates.xml"));
         this.templateRegistry = xmlTemplateLoader.getTemplateRegistry();
         this.elementTemplate = templateRegistry.get("element");

@@ -1,30 +1,26 @@
 package org.openfast.examples.producer;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.openfast.Context;
 import org.openfast.Global;
 import org.openfast.Message;
-import org.openfast.MessageBlockWriter;
 import org.openfast.MessageOutputStream;
 import org.openfast.error.ErrorHandler;
+import org.openfast.examples.MessageBlockWriterFactory;
 import org.openfast.session.Connection;
 import org.openfast.session.ConnectionListener;
 import org.openfast.session.Endpoint;
 import org.openfast.session.FastConnectionException;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
-import org.openfast.examples.MessageBlockWriterFactory;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FastMessageProducer implements ConnectionListener {
     protected final Endpoint endpoint;
-    protected final TemplateRegistry templateRegistry;
+    protected final Registry<MessageTemplate> templateRegistry;
     protected Thread acceptThread;
     protected List connections = new ArrayList();
     protected XmlCompressedMessageConverter converter = new XmlCompressedMessageConverter();

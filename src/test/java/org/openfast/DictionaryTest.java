@@ -32,8 +32,9 @@ import org.openfast.session.Session;
 import org.openfast.session.SessionConstants;
 import org.openfast.template.Field;
 import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 import org.openfast.template.Scalar;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
 import org.openfast.test.TestUtil;
@@ -56,7 +57,7 @@ public class DictionaryTest extends TestCase {
                     out.close();
                 } catch (IOException e) {}
             }
-        }, SessionConstants.SCP_1_0, TemplateRegistry.NULL, TemplateRegistry.NULL);
+        }, SessionConstants.SCP_1_0, Registry.NULL, Registry.NULL);
     }
     public void testMultipleDictionaryTypes() throws Exception {
         Scalar bid = new Scalar("bid", Type.DECIMAL, Operator.COPY, ScalarValue.UNDEFINED, false);

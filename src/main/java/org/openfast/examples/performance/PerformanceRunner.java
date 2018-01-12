@@ -1,23 +1,16 @@
 package org.openfast.examples.performance;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import org.openfast.Context;
 import org.openfast.Message;
 import org.openfast.codec.FastDecoder;
 import org.openfast.error.ErrorCode;
 import org.openfast.error.ErrorHandler;
 import org.openfast.examples.Assert;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
+
+import java.io.*;
 
 public class PerformanceRunner implements ErrorHandler {
 
@@ -28,7 +21,7 @@ public class PerformanceRunner implements ErrorHandler {
     private boolean preloadData;
     private String format;
     private ByteArrayInputStream byteIn;
-    private TemplateRegistry templateRegistry;
+    private Registry<MessageTemplate> templateRegistry;
     
     public PerformanceRunner(File templatesFile, File dataFile) {
         this.templatesFile = templatesFile;

@@ -5,13 +5,15 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
+
 import org.openfast.ByteUtil;
 import org.openfast.Context;
 import org.openfast.Message;
 import org.openfast.codec.FastDecoder;
 import org.openfast.codec.FastEncoder;
 import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
 import org.openfast.test.OpenFastTestCase;
 
@@ -20,17 +22,17 @@ public class EncodingDecodingAcceptanceTest extends OpenFastTestCase {
         XMLMessageTemplateLoader loader = new XMLMessageTemplateLoader(true);
         loader.setLoadTemplateIdFromAuxId(true);
         loader.load(getAcceptanceTestTemplates());
-        TemplateRegistry registry = loader.getTemplateRegistry();
-        MessageTemplate[] templates = registry.getTemplates();
-        for (int i=0; i<templates.length; i++) {
-            InputStream dataForTemplate = getDataForTemplate(templates[i]);
+        Registry<MessageTemplate> registry = loader.getTemplateRegistry();
+        List<MessageTemplate> templates = registry.getAll();
+        for (MessageTemplate template : templates) {
+            InputStream dataForTemplate = getDataForTemplate(template);
             if (dataForTemplate != null) {
-                encode(registry, templates[i], dataForTemplate);
+                encode(registry, template, dataForTemplate);
             }
         }
     }
 
-    private void encode(TemplateRegistry registry, MessageTemplate template, InputStream dataForTemplate) throws IOException {
+    private void encode(Registry<MessageTemplate>registry, MessageTemplate template, InputStream dataForTemplate) throws IOException {
         Context encodingContext = new Context();
         Context decodingContext = new Context();
         encodingContext.setTemplateRegistry(registry);

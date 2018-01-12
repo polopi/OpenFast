@@ -20,23 +20,15 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.session.template.exchange;
 
-import org.openfast.Global;
-import org.openfast.GroupValue;
-import org.openfast.Message;
-import org.openfast.QName;
-import org.openfast.ScalarValue;
+import org.openfast.*;
 import org.openfast.error.FastConstants;
 import org.openfast.session.SessionControlProtocol_1_1;
-import org.openfast.template.Field;
-import org.openfast.template.Group;
-import org.openfast.template.Scalar;
-import org.openfast.template.Sequence;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.*;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
 
 public class SequenceConverter extends AbstractFieldInstructionConverter {
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    public Field convert(GroupValue fieldDef, Registry<MessageTemplate> templateRegistry, ConversionContext context) {
         String name = fieldDef.getString("Name");
         String ns = fieldDef.getString("Ns");
         QName qname = new QName(name, ns);

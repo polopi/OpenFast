@@ -20,20 +20,13 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.session.template.exchange;
 
-import org.openfast.FieldValue;
-import org.openfast.GroupValue;
-import org.openfast.Message;
-import org.openfast.QName;
-import org.openfast.SequenceValue;
+import org.openfast.*;
 import org.openfast.error.FastConstants;
 import org.openfast.session.SessionControlProtocol_1_1;
-import org.openfast.template.Field;
-import org.openfast.template.Group;
-import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.*;
 
 public class GroupConverter extends AbstractFieldInstructionConverter {
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    public Field convert(GroupValue fieldDef, Registry<MessageTemplate> templateRegistry, ConversionContext context) {
         String name = fieldDef.getString("Name");
         String namespace = "";
         if (fieldDef.isDefined("Ns"))
@@ -92,7 +85,7 @@ public class GroupConverter extends AbstractFieldInstructionConverter {
         return groupMsg;
     }
 
-    public static Field[] parseFieldInstructions(GroupValue groupDef, TemplateRegistry registry, ConversionContext context) {
+    public static Field[] parseFieldInstructions(GroupValue groupDef, Registry<MessageTemplate> registry, ConversionContext context) {
         SequenceValue instructions = groupDef.getSequence("Instructions");
         Field[] fields = new Field[instructions.getLength()];
         for (int i = 0; i < fields.length; i++) {

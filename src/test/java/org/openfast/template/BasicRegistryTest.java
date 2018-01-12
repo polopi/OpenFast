@@ -22,18 +22,18 @@
 
 package org.openfast.template;
 
-import java.util.Arrays;
-import java.util.List;
 import org.openfast.test.OpenFastTestCase;
 
+import java.util.List;
 
-public class BasicTemplateRegistryTest extends OpenFastTestCase {
+
+public class BasicRegistryTest extends OpenFastTestCase {
 
     // A defined template should be in the Registry
 
     public void testDefine() {
         MessageTemplate mt = new MessageTemplate("Logon", new Field[0]);
-        TemplateRegistry registry = new BasicTemplateRegistry();
+        Registry<MessageTemplate> registry = new BasicRegistry<MessageTemplate>();
         registry.define(mt);
 
         assertContains(mt, registry);
@@ -47,7 +47,7 @@ public class BasicTemplateRegistryTest extends OpenFastTestCase {
 
     public void testRegister() {
         MessageTemplate mt = new MessageTemplate("Logon", new Field[0]);
-        TemplateRegistry registry = new BasicTemplateRegistry();
+        Registry<MessageTemplate> registry = new BasicRegistry<MessageTemplate>();
         registry.register(1000, mt);
 
         assertContains(mt, registry);
@@ -57,8 +57,8 @@ public class BasicTemplateRegistryTest extends OpenFastTestCase {
         assertEquals(mt, registry.get("Logon"));
     }
 
-    private void assertContains(MessageTemplate mt, TemplateRegistry registry) {
-        List templates = Arrays.asList(registry.getTemplates());
+    private void assertContains(MessageTemplate mt, Registry<MessageTemplate> registry) {
+        List<MessageTemplate> templates = registry.getAll();
         assertTrue(templates.contains(mt));
     }
 

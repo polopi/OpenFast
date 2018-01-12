@@ -20,15 +20,16 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.session;
 
-import org.openfast.template.BasicTemplateRegistry;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.BasicRegistry;
+import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 
 public class FastClient {
     private final String clientName;
     private final Endpoint endpoint;
     private final SessionProtocol sessionProtocol;
-    private TemplateRegistry inboundRegistry = new BasicTemplateRegistry();
-    private TemplateRegistry outboundRegistry = new BasicTemplateRegistry();
+    private Registry<MessageTemplate> inboundRegistry = new BasicRegistry<MessageTemplate>();
+    private Registry<MessageTemplate> outboundRegistry = new BasicRegistry<MessageTemplate>();
     private MessageListener messageListener = MessageListener.NULL;
     private SessionListener sessionListener = SessionListener.NULL;
 
@@ -43,19 +44,19 @@ public class FastClient {
         this.sessionListener = sessionListener;
     }
     
-    public void setInboundTemplateRegistry(TemplateRegistry registry) {
+    public void setInboundTemplateRegistry(Registry<MessageTemplate> registry) {
         this.inboundRegistry = registry;
     }
     
-    public TemplateRegistry getInboundTemplateRegistry() {
+    public Registry<MessageTemplate> getInboundTemplateRegistry() {
         return this.inboundRegistry;
     }
     
-    public void setOutboundTemplateRegistry(TemplateRegistry registry) {
+    public void setOutboundTemplateRegistry(Registry<MessageTemplate> registry) {
         this.outboundRegistry = registry;
     }
     
-    public TemplateRegistry getOutboundTemplateRegistry() {
+    public Registry<MessageTemplate> getOutboundTemplateRegistry() {
         return this.outboundRegistry;
     }
     

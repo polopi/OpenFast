@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class GroupParser extends AbstractFieldParser {
+public class GroupParser extends AbstractInstructionParser {
     public GroupParser() {
         super("group");
     }
@@ -38,9 +38,9 @@ public class GroupParser extends AbstractFieldParser {
     /**
      * Creates a Group object from the dom group element
      * 
-     * @param group
+     * @param groupElement
      *            The dom element object
-     * @param isOptional
+     * @param optional
      *            Determines if the Field is required or not for the data
      * @return Returns a newly created Group object
      */
@@ -74,7 +74,7 @@ public class GroupParser extends AbstractFieldParser {
                 if ("typeRef".equals(item.getNodeName()) || "length".equals(item.getNodeName()))
                     continue;
                 Element element = (Element) item;
-                FieldParser fieldParser = context.getFieldParser(element);
+                InstructionParser fieldParser = context.getFieldParser(element);
                 if (fieldParser == null)
                     context.getErrorHandler().error(FastConstants.PARSE_ERROR, "No parser registered for " + element.getNodeName());
                 fields.add(fieldParser.parse(element, context));

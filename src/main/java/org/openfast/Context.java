@@ -20,24 +20,17 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import org.openfast.debug.BasicDecodeTrace;
 import org.openfast.debug.BasicEncodeTrace;
 import org.openfast.debug.Trace;
 import org.openfast.error.ErrorHandler;
 import org.openfast.error.FastConstants;
 import org.openfast.logging.FastMessageLogger;
-import org.openfast.template.BasicTemplateRegistry;
-import org.openfast.template.Group;
-import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegisteredListener;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.*;
 import org.openfast.util.Cache;
 import org.openfast.util.UnboundedCache;
+
+import java.util.*;
 
 /**
  * Manages current state of an encoding or decoding process.  Each encoder/decoder should have a separate context
@@ -45,7 +38,8 @@ import org.openfast.util.UnboundedCache;
  * @author Jacob Northey
  */
 public class Context implements OpenFastContext {
-    private TemplateRegistry templateRegistry = new BasicTemplateRegistry();
+    private Registry<MessageTemplate> templateRegistry = new BasicRegistry();
+    private Registry<Define> defineRegistry = new BasicRegistry();
     private int lastTemplateId;
     private final Map dictionaries = new HashMap();
     private ErrorHandler errorHandler = ErrorHandler.DEFAULT;
@@ -125,10 +119,10 @@ public class Context implements OpenFastContext {
     public void setCurrentApplicationType(QName name) {
         currentApplicationType = name;
     }
-    public TemplateRegistry getTemplateRegistry() {
+    public Registry<MessageTemplate> getTemplateRegistry() {
         return templateRegistry;
     }
-    public void setTemplateRegistry(TemplateRegistry registry) {
+    public void setTemplateRegistry(Registry<MessageTemplate> registry) {
         this.templateRegistry = registry;
     }
     public boolean isTraceEnabled() {
@@ -180,5 +174,13 @@ public class Context implements OpenFastContext {
 
     public void setLogger(FastMessageLogger logger) {
         this.logger = logger;
+    }
+
+    public Registry<Define> getDefineRegistry() {
+        return defineRegistry;
+    }
+
+    public void setDefineRegistry(Registry<Define> defineRegistry) {
+        this.defineRegistry = defineRegistry;
     }
 }

@@ -22,13 +22,10 @@ package org.openfast.session.template.exchange;
 
 import org.openfast.GroupValue;
 import org.openfast.session.SessionControlProtocol_1_1;
-import org.openfast.template.DynamicTemplateReference;
-import org.openfast.template.Field;
-import org.openfast.template.Group;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.*;
 
 public class DynamicTemplateReferenceConverter implements FieldInstructionConverter {
-    public Field convert(GroupValue groupValue, TemplateRegistry templateRegistry, ConversionContext context) {
+    public Field convert(GroupValue groupValue, Registry<MessageTemplate> templateRegistry, ConversionContext context) {
         return DynamicTemplateReference.INSTANCE;
     }
 

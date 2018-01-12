@@ -20,50 +20,51 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.template;
 
-import java.util.Iterator;
-
 import org.openfast.QName;
 
-public interface TemplateRegistry {
-    TemplateRegistry NULL = new NullTemplateRegistry();
+import java.util.Iterator;
+import java.util.List;
 
-    void registerAll(TemplateRegistry registry);
-    void register(int id, MessageTemplate template);
+public interface Registry<T extends Field> {
+    Registry NULL = new NullRegistry();
+
+    void registerAll(Registry<T> registry);
+    void register(int id, T element);
     void register(int id, String name);
     void register(int id, QName name);
-    void define(MessageTemplate template);
+    void define(T element);
     void remove(String name);
     void remove(QName name);
-    void remove(MessageTemplate template);
+    void remove(T template);
     void remove(int id);
-    MessageTemplate get(int id);
-    MessageTemplate get(String name);
-    MessageTemplate get(QName name);
-    MessageTemplate[] getTemplates();
+    T get(int id);
+    T get(String name);
+    T get(QName name);
+    List<T> getAll();
     int getId(String name);
     int getId(QName name);
-    int getId(MessageTemplate template);
+    int getId(T element);
     boolean isRegistered(String name);
     boolean isRegistered(QName name);
     boolean isRegistered(int id);
-    boolean isRegistered(MessageTemplate template);
+    boolean isRegistered(T element);
     boolean isDefined(String name);
     boolean isDefined(QName name);
-    void addTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener);
-    void removeTemplateRegisteredListener(TemplateRegisteredListener templateRegisteredListener);
+    void addRegisteredListener(RegisteredListener<T> registeredListener);
+    void removeRegisteredListener(RegisteredListener<T> registeredListener);
     /**
-     * Iterator over the names of each template (defined or registered) in this
+     * Iterator over the names of each element (defined or registered) in this
      * registry
      * 
      * @return an iterator over the qualified names each item is of type QName
      */
-    Iterator/* <QName> */nameIterator();
+    Iterator<QName> nameIterator();
     /**
-     * Iterator over the set of templates (defined or registered) in this
+     * Iterator over the set of element (defined or registered) in this
      * registry
      * 
      * @return an iterator over the set of templates each item is an instance of
      *         MessageTemplate
      */
-    Iterator/* <MessageTemplate> */iterator();
+    Iterator<T> iterator();
 }

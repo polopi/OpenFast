@@ -40,15 +40,7 @@ import org.openfast.ScalarValue;
 import org.openfast.StringValue;
 import org.openfast.codec.FastDecoder;
 import org.openfast.codec.FastEncoder;
-import org.openfast.template.ComposedScalar;
-import org.openfast.template.Field;
-import org.openfast.template.FieldSet;
-import org.openfast.template.Group;
-import org.openfast.template.LongValue;
-import org.openfast.template.MessageTemplate;
-import org.openfast.template.Scalar;
-import org.openfast.template.Sequence;
-import org.openfast.template.TwinValue;
+import org.openfast.template.*;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.operator.OperatorCodec;
@@ -217,6 +209,11 @@ public abstract class OpenFastTestCase extends TestCase {
 
     protected void assertGroup(MessageTemplate messageTemplate, int fieldIndex, String name) {
         Group currentGroup = (Group) messageTemplate.getField(fieldIndex);
+        assertEquals(name, currentGroup.getName());
+    }
+
+    protected void assertGroup(Define define, int fieldIndex, String name) {
+        Group currentGroup = (Group) define.getField(fieldIndex);
         assertEquals(name, currentGroup.getName());
     }
 

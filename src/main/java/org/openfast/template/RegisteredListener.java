@@ -17,15 +17,9 @@ are Copyright (C) The LaSalle Technology Group, LLC. All Rights Reserved.
 
 Contributor(s): Jacob Northey <jacob@lasalletech.com>
                 Craig Otis <cotis@lasalletech.com>
-*/
-package org.openfast;
+ */
+package org.openfast.template;
 
-import org.openfast.template.MessageTemplate;
-import org.openfast.template.Registry;
-
-public interface MessageStream {
-    void addMessageHandler(MessageTemplate template, MessageHandler handler);
-    void addMessageHandler(MessageHandler handler);
-    void close();
-    Registry<MessageTemplate> getTemplateRegistry();
+public interface RegisteredListener<T> {
+    public void registered(T template, int id);
 }

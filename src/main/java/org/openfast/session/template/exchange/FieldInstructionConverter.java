@@ -23,14 +23,15 @@ package org.openfast.session.template.exchange;
 import org.openfast.GroupValue;
 import org.openfast.template.Field;
 import org.openfast.template.Group;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 
 public interface FieldInstructionConverter {
     boolean shouldConvert(Field field);
 
     Group[] getTemplateExchangeTemplates();
 
-    Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context);
+    Field convert(GroupValue fieldDef, Registry<MessageTemplate> templateRegistry, ConversionContext context);
 
     GroupValue convert(Field field, ConversionContext context);
 }

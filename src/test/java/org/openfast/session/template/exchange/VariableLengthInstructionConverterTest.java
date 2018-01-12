@@ -1,6 +1,5 @@
 package org.openfast.session.template.exchange;
 
-import java.util.List;
 import junit.framework.TestCase;
 import org.openfast.GroupValue;
 import org.openfast.Node;
@@ -8,11 +7,13 @@ import org.openfast.QName;
 import org.openfast.ScalarValue;
 import org.openfast.error.FastConstants;
 import org.openfast.session.SessionControlProtocol_1_1;
+import org.openfast.template.Registry;
 import org.openfast.template.Scalar;
-import org.openfast.template.TemplateRegistry;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
 import org.openfast.util.Util;
+
+import java.util.List;
 
 public class VariableLengthInstructionConverterTest extends TestCase {
     private VariableLengthInstructionConverter converter;
@@ -28,7 +29,7 @@ public class VariableLengthInstructionConverterTest extends TestCase {
         assertTrue(converter.shouldConvert(bytes));
         bytes.addNode(Util.createLength(new QName("numBytes"), null));
         GroupValue fieldDef = converter.convert(bytes, context);
-        Scalar converted = (Scalar) converter.convert(fieldDef, TemplateRegistry.NULL, context);
+        Scalar converted = (Scalar) converter.convert(fieldDef, Registry.NULL, context);
         assertEquals(bytes, converted);
         List children = converted.getChildren(FastConstants.LENGTH_FIELD);
         assertEquals(1, children.size());
@@ -41,7 +42,7 @@ public class VariableLengthInstructionConverterTest extends TestCase {
         assertTrue(converter.shouldConvert(message));
         message.addNode(Util.createLength(new QName("messageLength"), null));
         GroupValue fieldDef = converter.convert(message, context);
-        Scalar converted = (Scalar) converter.convert(fieldDef, TemplateRegistry.NULL, context);
+        Scalar converted = (Scalar) converter.convert(fieldDef, Registry.NULL, context);
         assertEquals(message, converted);
         List children = converted.getChildren(FastConstants.LENGTH_FIELD);
         assertEquals(1, children.size());

@@ -5,20 +5,19 @@ package org.openfast.examples.util;
 
 import org.openfast.Context;
 import org.openfast.Message;
-import org.openfast.examples.util.FastMessageConsumer;
 import org.openfast.codec.FastDecoder;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
 
-import java.io.InputStream;
-import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * An object to decode incoming FAST messages and pas them to a FastMessageConsumer.
  */
 public class FastMessageReader {
-    private final TemplateRegistry templateRegistry;
+    private final Registry<MessageTemplate> templateRegistry;
     private final InputStream messageIn;
     private final FastMessageConsumer messageOut;
     private final int readOffset;

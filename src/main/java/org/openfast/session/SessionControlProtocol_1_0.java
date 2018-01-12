@@ -28,8 +28,8 @@ import org.openfast.codec.Coder;
 import org.openfast.error.ErrorCode;
 import org.openfast.template.Field;
 import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 import org.openfast.template.Scalar;
-import org.openfast.template.TemplateRegistry;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
 
@@ -38,15 +38,15 @@ class SessionControlProtocol_1_0 extends AbstractSessionControlProtocol {
     static final int FAST_ALERT_TEMPLATE_ID = 16001;
 
     public Session onNewConnection(String serverName, Connection connection) {
-        Session session = new Session(connection, this, TemplateRegistry.NULL, TemplateRegistry.NULL);
+        Session session = new Session(connection, this, Registry.NULL, Registry.NULL);
         Message message = session.in.readMessage();
         session.out.writeMessage(createHelloMessage(serverName));
         String clientName = message.getString(1);
         session.setClient(new BasicClient(clientName, "unknown"));
         return session;
     }
-    public Session connect(String senderName, Connection connection, TemplateRegistry inboundRegistry, 
-            TemplateRegistry outboundRegistry, MessageListener messageListener, SessionListener sessionListener) {
+    public Session connect(String senderName, Connection connection, Registry<MessageTemplate> inboundRegistry,
+                           Registry<MessageTemplate> outboundRegistry, MessageListener messageListener, SessionListener sessionListener) {
         Session session = new Session(connection, this, inboundRegistry, outboundRegistry);
         session.setSessionListener(sessionListener);
         session.out.writeMessage(createHelloMessage(senderName));
@@ -59,7 +59,7 @@ class SessionControlProtocol_1_0 extends AbstractSessionControlProtocol {
     public void onError(Session session, ErrorCode code, String message) {
         session.out.writeMessage(createFastAlertMessage(code));
     }
-    public void registerSessionTemplates(TemplateRegistry registry) {
+    public void registerSessionTemplates(Registry<MessageTemplate> registry) {
         registry.register(FAST_HELLO_TEMPLATE_ID, FAST_HELLO_TEMPLATE);
         registry.register(FAST_ALERT_TEMPLATE_ID, FAST_ALERT_TEMPLATE);
         registry.register(FAST_RESET_TEMPLATE_ID, FAST_RESET_TEMPLATE);
@@ -124,7 +124,7 @@ class SessionControlProtocol_1_0 extends AbstractSessionControlProtocol {
     public Message getCloseMessage() {
         return createFastAlertMessage(SessionConstants.CLOSE);
     }
-    public MessageTemplate createTemplateFromMessage(Message templateDef, TemplateRegistry registry) {
+    public MessageTemplate createTemplateFromMessage(Message templateDef, Registry<MessageTemplate> registry) {
         throw new UnsupportedOperationException();
     }
 }

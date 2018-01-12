@@ -9,7 +9,7 @@ import org.openfast.Context;
 import org.openfast.Message;
 import org.openfast.codec.FastDecoder;
 import org.openfast.session.SessionConstants;
-import org.openfast.template.BasicTemplateRegistry;
+import org.openfast.template.BasicRegistry;
 import org.openfast.template.MessageTemplate;
 import org.openfast.template.serializer.XMLMessageTemplateSerializer;
 
@@ -24,7 +24,7 @@ public class TemplateExchangeDefinitionDecoder {
 
     public void start() throws IOException {
         Context context = new Context();
-        BasicTemplateRegistry registry = new BasicTemplateRegistry();
+        BasicRegistry registry = new BasicRegistry();
         SessionConstants.SCP_1_1.registerSessionTemplates(registry);
         context.setTemplateRegistry(registry);
         FastDecoder decoder = new FastDecoder(context, fastIn);

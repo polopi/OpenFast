@@ -47,9 +47,9 @@ public class Group extends Field {
     private QName typeReference = null;
     protected String childNamespace = "";
     protected final Field[] fields;
-    protected final Map fieldIndexMap;
-    protected final Map fieldIdMap;
-    protected final Map fieldNameMap;
+    protected final Map<Field, Integer> fieldIndexMap;
+    protected final Map<String, Field> fieldIdMap;
+    protected final Map<QName, Field> fieldNameMap;
     protected final boolean usesPresenceMap;
     protected final StaticTemplateReference[] staticTemplateReferences;
     protected final Field[] fieldDefinitions;
@@ -61,11 +61,11 @@ public class Group extends Field {
 
     public Group(QName name, Field[] fields, boolean optional) {
         super(name, optional);
-        List expandedFields = new ArrayList();
-        List staticTemplateReferences = new ArrayList();
+        List<Field> expandedFields = new ArrayList<Field>();
+        List<Field> staticTemplateReferences = new ArrayList<Field>();
         for (int i = 0; i < fields.length; i++) {
             if (fields[i] instanceof StaticTemplateReference) {
-                Field[] referenceFields = ((StaticTemplateReference) fields[i]).getTemplate().getFields();
+                Field[] referenceFields = fields[i].getTemplate().getFields();
                 for (int j = 1; j < referenceFields.length; j++)
                     expandedFields.add(referenceFields[j]);
                 staticTemplateReferences.add(fields[i]);
@@ -73,14 +73,14 @@ public class Group extends Field {
                 expandedFields.add(fields[i]);
             }
         }
-        this.fields = (Field[]) expandedFields.toArray(new Field[expandedFields.size()]);
+        this.fields = expandedFields.toArray(new Field[expandedFields.size()]);
         this.fieldDefinitions = fields;
         this.fieldIndexMap = constructFieldIndexMap(this.fields);
         this.fieldNameMap = constructFieldNameMap(this.fields);
         this.fieldIdMap = constructFieldIdMap(this.fields);
         this.introspectiveFieldMap = constructInstrospectiveFields(this.fields);
         this.usesPresenceMap = determinePresenceMapUsage(this.fields);
-        this.staticTemplateReferences = (StaticTemplateReference[]) staticTemplateReferences
+        this.staticTemplateReferences = staticTemplateReferences
                 .toArray(new StaticTemplateReference[staticTemplateReferences.size()]);
     }
 
@@ -373,11 +373,11 @@ public class Group extends Field {
      * @return Returns the field object of the passed field name
      */
     public Field getField(String fieldName) {
-        return (Field) fieldNameMap.get(new QName(fieldName, childNamespace));
+        return fieldNameMap.get(new QName(fieldName, childNamespace));
     }
 
     public Field getField(QName name) {
-        return (Field) fieldNameMap.get(name);
+        return fieldNameMap.get(name);
     }
 
     /**
@@ -389,15 +389,15 @@ public class Group extends Field {
      *            new map object
      * @return Returns a map object of the field array passed to it
      */
-    private static Map constructFieldNameMap(Field[] fields) {
-        Map map = new HashMap();
+    private static Map<QName, Field> constructFieldNameMap(Field[] fields) {
+        Map<QName, Field> map = new HashMap<QName, Field>();
         for (int i = 0; i < fields.length; i++)
             map.put(fields[i].getQName(), fields[i]);
         return map;
     }
 
-    private static Map constructFieldIdMap(Field[] fields) {
-        Map map = new HashMap();
+    private static Map<String, Field> constructFieldIdMap(Field[] fields) {
+        Map<String, Field> map = new HashMap<String, Field>();
         for (int i = 0; i < fields.length; i++)
             map.put(fields[i].getId(), fields[i]);
         return map;
@@ -412,8 +412,8 @@ public class Group extends Field {
      *            new map object
      * @return Returns a map object of the field array passed to it
      */
-    private static Map constructFieldIndexMap(Field[] fields) {
-        Map map = new HashMap();
+    private static Map<Field, Integer> constructFieldIndexMap(Field[] fields) {
+        Map<Field, Integer> map = new HashMap<Field, Integer>();
         for (int i = 0; i < fields.length; i++)
             map.put(fields[i], new Integer(i));
         return map;
@@ -427,11 +427,11 @@ public class Group extends Field {
      * @return Returns an integer of the field index of the specified field name
      */
     public int getFieldIndex(String fieldName) {
-        return ((Integer) fieldIndexMap.get(getField(fieldName))).intValue();
+        return (fieldIndexMap.get(getField(fieldName))).intValue();
     }
 
     public int getFieldIndex(Field field) {
-        return ((Integer) fieldIndexMap.get(field)).intValue();
+        return (fieldIndexMap.get(field)).intValue();
     }
 
     /**
@@ -565,7 +565,7 @@ public class Group extends Field {
     }
 
     public Field getFieldById(String id) {
-        return (Field) fieldIdMap.get(id);
+        return fieldIdMap.get(id);
     }
 
     public String getChildNamespace() {

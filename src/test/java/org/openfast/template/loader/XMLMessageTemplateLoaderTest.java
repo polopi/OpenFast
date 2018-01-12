@@ -332,7 +332,7 @@ public class XMLMessageTemplateLoaderTest extends OpenFastTestCase {
     		assertEquals("No parser registered for array", e.getMessage());
     		assertEquals(FastConstants.PARSE_ERROR, e.getCode());
     	}
-    	loader.addFieldParser(new FieldParser() {
+    	loader.addFieldParser(new InstructionParser() {
 
 			public boolean canParse(Element element, ParsingContext context) {
 				return element.getNodeName().equals("array");

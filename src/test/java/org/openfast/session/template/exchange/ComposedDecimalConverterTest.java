@@ -1,5 +1,6 @@
 package org.openfast.session.template.exchange;
 
+import junit.framework.TestCase;
 import org.openfast.GroupValue;
 import org.openfast.QName;
 import org.openfast.ScalarValue;
@@ -7,11 +8,9 @@ import org.openfast.session.SessionControlProtocol_1_1;
 import org.openfast.template.ComposedScalar;
 import org.openfast.template.Field;
 import org.openfast.template.LongValue;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
 import org.openfast.template.operator.Operator;
 import org.openfast.util.Util;
-
-import junit.framework.TestCase;
 
 public class ComposedDecimalConverterTest extends TestCase {
 
@@ -27,7 +26,7 @@ public class ComposedDecimalConverterTest extends TestCase {
 	
 	public void testConvertGroupValueTemplateRegistryConversionContext() {
 		GroupValue fieldDef = converter.convert(decimal, context);
-		Field composedDecimal = converter.convert(fieldDef, TemplateRegistry.NULL, context);
+		Field composedDecimal = converter.convert(fieldDef, Registry.NULL, context);
 		assertEquals(composedDecimal, decimal);
 	}
 }

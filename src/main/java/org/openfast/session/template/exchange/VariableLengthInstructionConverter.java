@@ -25,15 +25,12 @@ import org.openfast.Node;
 import org.openfast.QName;
 import org.openfast.error.FastConstants;
 import org.openfast.session.SessionControlProtocol_1_1;
-import org.openfast.template.Field;
-import org.openfast.template.Group;
-import org.openfast.template.Scalar;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.*;
 import org.openfast.template.type.Type;
 import org.openfast.util.Util;
 
 public class VariableLengthInstructionConverter extends ScalarConverter {
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    public Field convert(GroupValue fieldDef, Registry<MessageTemplate> templateRegistry, ConversionContext context) {
         Scalar scalar = (Scalar) super.convert(fieldDef, templateRegistry, context);
         if (fieldDef.isDefined("Length")) {
             GroupValue lengthDef = fieldDef.getGroup("Length");

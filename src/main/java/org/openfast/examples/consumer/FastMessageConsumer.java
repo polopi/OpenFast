@@ -1,25 +1,26 @@
 package org.openfast.examples.consumer;
 
+import org.openfast.Context;
+import org.openfast.Message;
+import org.openfast.MessageBlockReader;
+import org.openfast.MessageInputStream;
+import org.openfast.error.FastException;
+import org.openfast.examples.MessageBlockReaderFactory;
+import org.openfast.session.Connection;
+import org.openfast.session.Endpoint;
+import org.openfast.session.FastConnectionException;
+import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
+import org.openfast.template.loader.XMLMessageTemplateLoader;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.openfast.Context;
-import org.openfast.Message;
-import org.openfast.MessageInputStream;
-import org.openfast.MessageBlockReader;
-import org.openfast.error.FastException;
-import org.openfast.codec.FastDecoder;
-import org.openfast.session.Connection;
-import org.openfast.session.Endpoint;
-import org.openfast.session.FastConnectionException;
-import org.openfast.template.TemplateRegistry;
-import org.openfast.template.loader.XMLMessageTemplateLoader;
-import org.openfast.examples.MessageBlockReaderFactory;
 
 public class FastMessageConsumer {
     private final Endpoint endpoint;
-    private final TemplateRegistry templateRegistry;
+    private final Registry<MessageTemplate> templateRegistry;
     protected final MessageBlockReaderFactory messageBlockReaderFactory;
     protected final boolean shouldResetOnEveryMessage;
 

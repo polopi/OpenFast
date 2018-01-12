@@ -20,23 +20,14 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.session.template.exchange;
 
-import org.openfast.GroupValue;
-import org.openfast.IntegerValue;
-import org.openfast.Message;
-import org.openfast.QName;
-import org.openfast.ScalarValue;
+import org.openfast.*;
 import org.openfast.session.SessionControlProtocol_1_1;
-import org.openfast.template.ComposedScalar;
-import org.openfast.template.Field;
-import org.openfast.template.Group;
-import org.openfast.template.LongValue;
-import org.openfast.template.Scalar;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.*;
 import org.openfast.template.operator.Operator;
 import org.openfast.util.Util;
 
 public class ComposedDecimalConverter extends AbstractFieldInstructionConverter {
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    public Field convert(GroupValue fieldDef, Registry<MessageTemplate> templateRegistry, ConversionContext context) {
         QName name = new QName(fieldDef.getString("Name"), fieldDef.getString("Ns"));
         boolean optional = fieldDef.getBool("Optional");
         Operator exponentOperator = Operator.NONE;

@@ -20,21 +20,17 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.session;
 
-import java.io.IOException;
-import java.net.SocketException;
-
-import org.openfast.Context;
-import org.openfast.Message;
-import org.openfast.MessageInputStream;
-import org.openfast.MessageOutputStream;
-import org.openfast.OpenFastContext;
-import org.openfast.QName;
+import org.openfast.*;
 import org.openfast.error.ErrorCode;
 import org.openfast.error.ErrorHandler;
 import org.openfast.error.FastConstants;
 import org.openfast.error.FastException;
 import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
+
+import java.io.IOException;
+import java.net.SocketException;
+import java.util.List;
 
 public class Session implements ErrorHandler {
     public final MessageInputStream in;
@@ -49,8 +45,8 @@ public class Session implements ErrorHandler {
     private SessionListener sessionListener = SessionListener.NULL;
     private OpenFastContext context;
 
-    public Session(Connection connection, SessionProtocol protocol, TemplateRegistry inboundRegistry,
-            TemplateRegistry outboundRegistry) {
+    public Session(Connection connection, SessionProtocol protocol, Registry<MessageTemplate> inboundRegistry,
+                   Registry<MessageTemplate> outboundRegistry) {
         this.context = new BasicOpenFastContext();
         Context inContext = new Context(context);
         inContext.getTemplateRegistry().registerAll(inboundRegistry);
@@ -195,13 +191,12 @@ public class Session implements ErrorHandler {
         return errorHandler;
     }
 
-    public void sendTemplates(TemplateRegistry registry) {
+    public void sendTemplates(Registry<MessageTemplate> registry) {
         if (!protocol.supportsTemplateExchange()) {
             throw new UnsupportedOperationException("The procotol " + protocol + " does not support template exchange.");
         }
-        MessageTemplate[] templates = registry.getTemplates();
-        for (int i = 0; i < templates.length; i++) {
-            MessageTemplate template = templates[i];
+        List<MessageTemplate> templates = registry.getAll();
+        for (MessageTemplate template : templates) {
             out.writeMessage(protocol.createTemplateDefinitionMessage(template));
             out.writeMessage(protocol.createTemplateDeclarationMessage(template, registry.getId(template)));
             if (!out.getTemplateRegistry().isRegistered(template))

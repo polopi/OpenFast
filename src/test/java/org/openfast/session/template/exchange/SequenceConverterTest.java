@@ -8,7 +8,7 @@ import org.openfast.session.SessionControlProtocol_1_1;
 import org.openfast.template.Field;
 import org.openfast.template.Scalar;
 import org.openfast.template.Sequence;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
 import junit.framework.TestCase;
@@ -28,7 +28,7 @@ public class SequenceConverterTest extends TestCase {
                 Operator.DELTA, ScalarValue.UNDEFINED, false) }, false);
         assertTrue(converter.shouldConvert(sequence));
         GroupValue fieldDef = converter.convert(sequence, context);
-        Sequence converted = (Sequence) converter.convert(fieldDef, TemplateRegistry.NULL, context);
+        Sequence converted = (Sequence) converter.convert(fieldDef, Registry.NULL, context);
         assertEquals(sequence, converted);
     }
 }

@@ -31,7 +31,7 @@ import org.openfast.template.type.Type;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class SequenceParser extends AbstractFieldParser {
+public class SequenceParser extends AbstractInstructionParser {
     private ScalarParser sequenceLengthParser = new ScalarParser("length") {
         protected Type getType(Element fieldNode, ParsingContext context) {
             return Type.U32;

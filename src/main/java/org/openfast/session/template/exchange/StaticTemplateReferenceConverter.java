@@ -24,13 +24,10 @@ import org.openfast.GroupValue;
 import org.openfast.Message;
 import org.openfast.QName;
 import org.openfast.session.SessionControlProtocol_1_1;
-import org.openfast.template.Field;
-import org.openfast.template.Group;
-import org.openfast.template.StaticTemplateReference;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.*;
 
 public class StaticTemplateReferenceConverter extends AbstractFieldInstructionConverter {
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    public Field convert(GroupValue fieldDef, Registry<MessageTemplate> templateRegistry, ConversionContext context) {
         QName name = new QName(fieldDef.getString("Name"), fieldDef.getString("Ns"));
         if (!templateRegistry.isDefined(name))
             throw new IllegalStateException("Referenced template " + name + " not defined.");

@@ -2,8 +2,9 @@ package org.openfast;
 
 import org.openfast.error.ErrorHandler;
 import org.openfast.logging.FastMessageLogger;
+import org.openfast.template.Define;
 import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
 
 public class NullOpenFastContext implements OpenFastContext {
 
@@ -15,7 +16,11 @@ public class NullOpenFastContext implements OpenFastContext {
         return 0;
     }
 
-    public TemplateRegistry getTemplateRegistry() {
+    public Registry<MessageTemplate> getTemplateRegistry() {
+        return null;
+    }
+
+    public Registry<Define> getDefineRegistry() {
         return null;
     }
 
@@ -25,7 +30,11 @@ public class NullOpenFastContext implements OpenFastContext {
     public void setErrorHandler(ErrorHandler errorHandler) {
     }
 
-    public void setTemplateRegistry(TemplateRegistry registry) {
+    public void setTemplateRegistry(Registry<MessageTemplate> registry) {
+    }
+
+    public void setDefineRegistry(Registry<Define> registry) {
+
     }
 
     public FastMessageLogger getLogger() {

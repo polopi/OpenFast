@@ -23,13 +23,13 @@ package org.openfast.session;
 import org.openfast.Message;
 import org.openfast.error.ErrorCode;
 import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
 
 public interface SessionProtocol {
     public void configureSession(Session session);
 
-    public Session connect(String senderName, Connection connection, TemplateRegistry inboundRegistry,
-            TemplateRegistry outboundRegistry, MessageListener messageListener, SessionListener sessionListener);
+    public Session connect(String senderName, Connection connection, Registry<MessageTemplate> inboundRegistry,
+                           Registry<MessageTemplate> outboundRegistry, MessageListener messageListener, SessionListener sessionListener);
 
     public Session onNewConnection(String serverName, Connection connection);
 
@@ -50,7 +50,7 @@ public interface SessionProtocol {
 
     public Message getCloseMessage();
     
-    void registerSessionTemplates(TemplateRegistry registry);
+    void registerSessionTemplates(Registry<MessageTemplate> registry);
     
-    MessageTemplate createTemplateFromMessage(Message templateDef, TemplateRegistry registry);
+    MessageTemplate createTemplateFromMessage(Message templateDef, Registry<MessageTemplate> registry);
 }

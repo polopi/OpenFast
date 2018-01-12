@@ -1,30 +1,22 @@
 package org.openfast.examples.producer;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import org.openfast.FieldValue;
-import org.openfast.GroupValue;
-import org.openfast.Message;
-import org.openfast.QName;
-import org.openfast.SequenceValue;
-import org.openfast.template.BasicTemplateRegistry;
-import org.openfast.template.Field;
-import org.openfast.template.Group;
-import org.openfast.template.MessageTemplate;
-import org.openfast.template.Sequence;
-import org.openfast.template.TemplateRegistry;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamDriver;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
+import org.openfast.*;
+import org.openfast.template.*;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class XmlCompressedMessageConverter {
     private static final QName INSTANCE_NAME = new QName("instanceName", "http://www.lasalletech.com/fast/ext/1.0");
-    protected TemplateRegistry templateRegistry = new BasicTemplateRegistry();
+    protected Registry<MessageTemplate> templateRegistry = new BasicRegistry<MessageTemplate>();
 
     private final HierarchicalStreamDriver driver;
 
@@ -149,11 +141,11 @@ public class XmlCompressedMessageConverter {
         return clazz.equals(Message.class);
     }
 
-    protected TemplateRegistry getTemplateRegistry() {
+    protected Registry<MessageTemplate> getTemplateRegistry() {
         return templateRegistry;
     }
 
-    public void setTemplateRegistry(TemplateRegistry templateRegistry) {
+    public void setTemplateRegistry(Registry<MessageTemplate> templateRegistry) {
         this.templateRegistry = templateRegistry;
     }
 }

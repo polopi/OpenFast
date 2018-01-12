@@ -12,7 +12,7 @@ import org.w3c.dom.Element;
 
 public class ComposedDecimalParserTest extends OpenFastTestCase {
 
-    private FieldParser parser;
+    private InstructionParser parser;
     private ParsingContext context;
 
     protected void setUp() throws Exception {

@@ -20,16 +20,7 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.template;
 
-import java.io.InputStream;
-
-import org.openfast.BitVectorBuilder;
-import org.openfast.BitVectorReader;
-import org.openfast.Context;
-import org.openfast.Dictionary;
-import org.openfast.FieldValue;
-import org.openfast.Global;
-import org.openfast.QName;
-import org.openfast.ScalarValue;
+import org.openfast.*;
 import org.openfast.error.FastConstants;
 import org.openfast.error.FastException;
 import org.openfast.template.operator.Operator;
@@ -37,6 +28,8 @@ import org.openfast.template.operator.OperatorCodec;
 import org.openfast.template.type.Type;
 import org.openfast.template.type.codec.TypeCodec;
 import org.openfast.util.RecordingInputStream;
+
+import java.io.InputStream;
 
 public class Scalar extends Field {
     private static final long serialVersionUID = 1L;
@@ -287,7 +280,7 @@ public class Scalar extends Field {
      * @return Returns the string 'Scalar [name=X, operator=X, dictionary=X]'
      */
     public String toString() {
-        return "Scalar [name=" + name.getName() + ", operator=" + operator + ", type=" + type + ", dictionary=" + dictionary + "]";
+        return "Scalar [name=" + name + ", operator=" + operator + ", type=" + type + ", dictionary=" + dictionary + "]";
     }
     /**
      * @return Returns the class of the current ScalarValue
@@ -353,7 +346,11 @@ public class Scalar extends Field {
         return o.equals(o2);
     }
     public int hashCode() {
-        return name.hashCode() + type.hashCode() + typeCodec.hashCode() + operator.hashCode() + operatorCodec.hashCode()
-                + initialValue.hashCode() + dictionary.hashCode();
+        return hashCodeForNull(name) + hashCodeForNull(type) + hashCodeForNull(typeCodec) + hashCodeForNull(operator)
+        + hashCodeForNull(operatorCodec) + hashCodeForNull(initialValue) + hashCodeForNull(dictionary);
+    }
+
+    private int hashCodeForNull(Object obj) {
+        return obj != null ? obj.hashCode() : 0;
     }
 }

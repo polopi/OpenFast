@@ -1,21 +1,15 @@
 package org.openfast.examples.decoder;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import org.openfast.Context;
-import org.openfast.Global;
-import org.openfast.Message;
-import org.openfast.MessageBlockReader;
-import org.openfast.MessageInputStream;
+import org.openfast.*;
 import org.openfast.error.FastConstants;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
 
+import java.io.*;
+
 public class FastMessageDecoder {
-    private final TemplateRegistry templateRegistry;
+    private final Registry<MessageTemplate> templateRegistry;
     private final File fastDataFile;
     private final int readOffset;
     private boolean trace;

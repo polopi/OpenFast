@@ -17,15 +17,14 @@ are Copyright (C) The LaSalle Technology Group, LLC. All Rights Reserved.
 
 Contributor(s): Jacob Northey <jacob@lasalletech.com>
                 Craig Otis <cotis@lasalletech.com>
-*/
-package org.openfast;
+ */
+package org.openfast.template.loader;
 
-import org.openfast.template.MessageTemplate;
-import org.openfast.template.Registry;
+import org.openfast.template.Field;
+import org.w3c.dom.Element;
 
-public interface MessageStream {
-    void addMessageHandler(MessageTemplate template, MessageHandler handler);
-    void addMessageHandler(MessageHandler handler);
-    void close();
-    Registry<MessageTemplate> getTemplateRegistry();
+public interface InstructionParser {
+    Field parse(Element fieldNode, ParsingContext context);
+
+    boolean canParse(Element element, ParsingContext context);
 }

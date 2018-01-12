@@ -20,18 +20,15 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.openfast.codec.FastEncoder;
 import org.openfast.error.FastConstants;
 import org.openfast.logging.FastMessageLogger.Direction;
 import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.*;
 
 public class MessageOutputStream implements MessageStream {
     private final OutputStream out;
@@ -119,7 +116,7 @@ public class MessageOutputStream implements MessageStream {
         handlers.add(handler);
     }
 
-    public void setTemplateRegistry(TemplateRegistry registry) {
+    public void setTemplateRegistry(Registry<MessageTemplate> registry) {
         context.setTemplateRegistry(registry);
     }
 
@@ -133,7 +130,7 @@ public class MessageOutputStream implements MessageStream {
         this.blockWriter = blockWriter;
     }
 
-    public TemplateRegistry getTemplateRegistry() {
+    public Registry<MessageTemplate> getTemplateRegistry() {
         return context.getTemplateRegistry();
     }
 

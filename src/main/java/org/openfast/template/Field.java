@@ -91,7 +91,7 @@ public abstract class Field extends SimpleNode implements Serializable {
      * @return Returns the name of the Field as a string
      */
     public String getName() {
-        return name.getName();
+        return name != null ? name.getName() : null;
     }
 
     public QName getQName() {

@@ -3,8 +3,9 @@ package org.openfast.session;
 import org.openfast.OpenFastContext;
 import org.openfast.error.ErrorHandler;
 import org.openfast.logging.FastMessageLogger;
+import org.openfast.template.Define;
 import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
 
 public class BasicOpenFastContext implements OpenFastContext {
 
@@ -18,7 +19,11 @@ public class BasicOpenFastContext implements OpenFastContext {
         return 0;
     }
 
-    public TemplateRegistry getTemplateRegistry() {
+    public Registry<MessageTemplate> getTemplateRegistry() {
+        return null;
+    }
+
+    public Registry<Define> getDefineRegistry() {
         return null;
     }
 
@@ -30,7 +35,11 @@ public class BasicOpenFastContext implements OpenFastContext {
 
     }
 
-    public void setTemplateRegistry(TemplateRegistry registry) {
+    public void setTemplateRegistry(Registry<MessageTemplate> registry) {
+
+    }
+
+    public void setDefineRegistry(Registry<Define> registry) {
 
     }
 

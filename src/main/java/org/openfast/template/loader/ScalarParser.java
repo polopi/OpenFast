@@ -28,7 +28,7 @@ import org.openfast.template.type.Type;
 import org.openfast.util.Util;
 import org.w3c.dom.Element;
 
-public class ScalarParser extends AbstractFieldParser {
+public class ScalarParser extends AbstractInstructionParser {
     public ScalarParser(String[] nodeNames) {
         super(nodeNames);
     }

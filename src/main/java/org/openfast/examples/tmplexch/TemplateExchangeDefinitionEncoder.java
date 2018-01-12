@@ -1,21 +1,19 @@
 package org.openfast.examples.tmplexch;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
 import org.openfast.Context;
 import org.openfast.Message;
 import org.openfast.codec.FastEncoder;
 import org.openfast.session.SessionConstants;
-import org.openfast.template.BasicTemplateRegistry;
+import org.openfast.template.BasicRegistry;
 import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
 import org.openfast.template.loader.XMLMessageTemplateLoader;
 
+import java.io.*;
+import java.util.List;
+
 public class TemplateExchangeDefinitionEncoder {
-    private final TemplateRegistry templateRegistry;
+    private final Registry<MessageTemplate> templateRegistry;
     private final OutputStream out;
 
     public TemplateExchangeDefinitionEncoder(File templatesFile, boolean namespaceAware) {
@@ -35,14 +33,14 @@ public class TemplateExchangeDefinitionEncoder {
 
     public void start() throws IOException {
         Context context = new Context();
-        BasicTemplateRegistry registry = new BasicTemplateRegistry();
+        BasicRegistry registry = new BasicRegistry<MessageTemplate>();
         SessionConstants.SCP_1_1.registerSessionTemplates(registry);
         registry.registerAll(templateRegistry);
         context.setTemplateRegistry(registry);
         FastEncoder encoder = new FastEncoder(context);
-        MessageTemplate[] templates = templateRegistry.getTemplates();
-        for (int i=0; i<templates.length; i++) {
-            Message message = SessionConstants.SCP_1_1.createTemplateDefinitionMessage(templates[i]);
+        List<MessageTemplate> templates = templateRegistry.getAll();
+        for (MessageTemplate template : templates) {
+            Message message = SessionConstants.SCP_1_1.createTemplateDefinitionMessage(template);
             out.write(encoder.encode(message));
         }
     }

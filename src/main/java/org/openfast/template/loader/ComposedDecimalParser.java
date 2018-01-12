@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ComposedDecimalParser extends AbstractFieldParser {
+public class ComposedDecimalParser extends AbstractInstructionParser {
     public ComposedDecimalParser() {
         super("decimal");
     }

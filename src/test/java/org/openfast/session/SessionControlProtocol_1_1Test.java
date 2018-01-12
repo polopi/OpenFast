@@ -2,9 +2,9 @@ package org.openfast.session;
 
 import org.openfast.Message;
 import org.openfast.SequenceValue;
-import org.openfast.template.BasicTemplateRegistry;
+import org.openfast.template.BasicRegistry;
 import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
 import org.openfast.test.ObjectMother;
 import org.openfast.test.OpenFastTestCase;
 
@@ -25,7 +25,7 @@ public class SessionControlProtocol_1_1Test extends OpenFastTestCase {
 
     public void testSimpleCreateTemplateFromMessage() {
         Message templateDef = SCP_1_1.createTemplateDefinitionMessage(ObjectMother.quoteTemplate());
-        MessageTemplate template = SCP_1_1.createTemplateFromMessage(templateDef, TemplateRegistry.NULL);
+        MessageTemplate template = SCP_1_1.createTemplateFromMessage(templateDef, Registry.NULL);
         assertEquals(ObjectMother.quoteTemplate(), template);
     }
 
@@ -36,7 +36,7 @@ public class SessionControlProtocol_1_1Test extends OpenFastTestCase {
 
     public void testComplexCreateTemplateFromMessage() {
         Message templateDef = SCP_1_1.createTemplateDefinitionMessage(ObjectMother.allocationInstruction());
-        MessageTemplate template = SCP_1_1.createTemplateFromMessage(templateDef, TemplateRegistry.NULL);
+        MessageTemplate template = SCP_1_1.createTemplateFromMessage(templateDef, Registry.NULL);
         assertEquals(ObjectMother.allocationInstruction(), template);
     }
 
@@ -51,7 +51,7 @@ public class SessionControlProtocol_1_1Test extends OpenFastTestCase {
         assertEquals("Header", templateDef.getSequence("Instructions").get(0).getGroup(0).getString("Name"));
         assertEquals(SessionControlProtocol_1_1.DYN_TEMP_REF_MESSAGE, templateDef.getSequence("Instructions").get(1).getGroup(0)
                 .getSequence("Instructions").get(0).getGroup(0));
-        BasicTemplateRegistry registry = new BasicTemplateRegistry();
+        BasicRegistry registry = new BasicRegistry();
         registry.register(24, ObjectMother.headerTemplate());
         assertEquals(ObjectMother.batchTemplate(), SCP_1_1.createTemplateFromMessage(templateDef, registry));
     }

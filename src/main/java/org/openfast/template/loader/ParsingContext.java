@@ -20,12 +20,15 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.template.loader;
 
-import java.util.List;
-import java.util.Map;
 import org.openfast.QName;
 import org.openfast.error.ErrorHandler;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Define;
+import org.openfast.template.MessageTemplate;
+import org.openfast.template.Registry;
 import org.w3c.dom.Element;
+
+import java.util.List;
+import java.util.Map;
 
 public class ParsingContext {
     static final ParsingContext NULL = new ParsingContext();
@@ -39,7 +42,8 @@ public class ParsingContext {
     private String namespace = null;
     private String dictionary = null;
     private ErrorHandler errorHandler;
-    private TemplateRegistry templateRegistry;
+    private Registry<MessageTemplate> templateRegistry;
+    private Registry<Define> defineRegistry;
     private Map typeMap;
     private List fieldParsers;
     private QName name;
@@ -108,14 +112,24 @@ public class ParsingContext {
         return errorHandler;
     }
 
-    public TemplateRegistry getTemplateRegistry() {
+    public Registry<MessageTemplate> getTemplateRegistry() {
         if (templateRegistry == null)
             return parent.getTemplateRegistry();
         return templateRegistry;
     }
 
-    public void setTemplateRegistry(TemplateRegistry templateRegistry) {
+    public void setTemplateRegistry(Registry<MessageTemplate> templateRegistry) {
         this.templateRegistry = templateRegistry;
+    }
+
+    public Registry<Define> getDefineRegistry() {
+        if (defineRegistry == null)
+            return parent.getDefineRegistry();
+        return defineRegistry;
+    }
+
+    public void setDefineRegistry(Registry<Define> defineRegistry) {
+        this.defineRegistry = defineRegistry;
     }
 
     public void setTypeMap(Map typeMap) {
@@ -138,10 +152,10 @@ public class ParsingContext {
         this.fieldParsers = list;
     }
 
-    public FieldParser getFieldParser(Element element) {
+    public InstructionParser getFieldParser(Element element) {
         List parsers = getFieldParsers();
         for (int i = parsers.size() - 1; i >= 0; i--) {
-            FieldParser fieldParser = ((FieldParser) parsers.get(i));
+            InstructionParser fieldParser = ((InstructionParser) parsers.get(i));
             if (fieldParser.canParse(element, this))
                 return fieldParser;
         }
@@ -156,7 +170,7 @@ public class ParsingContext {
         return name;
     }
 
-    public void addFieldParser(FieldParser parser) {
+    public void addFieldParser(InstructionParser parser) {
         getFieldParsers().add(parser);
     }
 }

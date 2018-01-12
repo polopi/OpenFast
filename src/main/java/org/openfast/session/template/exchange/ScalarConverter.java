@@ -20,21 +20,14 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.session.template.exchange;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.openfast.FieldValue;
-import org.openfast.GroupValue;
-import org.openfast.Message;
-import org.openfast.QName;
-import org.openfast.ScalarValue;
+import org.openfast.*;
 import org.openfast.session.SessionControlProtocol_1_1;
-import org.openfast.template.Field;
-import org.openfast.template.Group;
-import org.openfast.template.MessageTemplate;
-import org.openfast.template.Scalar;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.*;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScalarConverter extends AbstractFieldInstructionConverter {
     private final Map/* <Type, MessageTemplate> */TYPE_TEMPLATE_MAP = new HashMap();
@@ -60,7 +53,7 @@ public class ScalarConverter extends AbstractFieldInstructionConverter {
         TEMPLATE_TYPE_MAP.put(SessionControlProtocol_1_1.BYTE_VECTOR_INSTR, Type.BYTE_VECTOR);
     }
 
-    public Field convert(GroupValue fieldDef, TemplateRegistry templateRegistry, ConversionContext context) {
+    public Field convert(GroupValue fieldDef, Registry<MessageTemplate> templateRegistry, ConversionContext context) {
         Type type = (Type) TEMPLATE_TYPE_MAP.get(fieldDef.getGroup());
         boolean optional = fieldDef.getBool("Optional");
         ScalarValue initialValue = ScalarValue.UNDEFINED;

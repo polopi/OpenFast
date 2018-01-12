@@ -26,7 +26,7 @@ import org.openfast.template.Field;
 import org.openfast.template.StaticTemplateReference;
 import org.w3c.dom.Element;
 
-public class TemplateRefParser implements FieldParser {
+public class TemplateRefParser implements InstructionParser {
     public Field parse(Element element, ParsingContext context) {
         if (element.hasAttribute("name")) {
             QName templateName;

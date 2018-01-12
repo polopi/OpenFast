@@ -20,9 +20,10 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
  */
 package org.openfast.template.loader;
 
-import java.io.InputStream;
 import org.openfast.template.MessageTemplate;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.template.Registry;
+
+import java.io.InputStream;
 
 /*
  * An interface for the message template loader, loads the input stream.
@@ -30,7 +31,7 @@ import org.openfast.template.TemplateRegistry;
 public interface MessageTemplateLoader {
     MessageTemplate[] load(InputStream source);
 
-    void setTemplateRegistry(TemplateRegistry templateRegistry);
+    void setTemplateRegistry(Registry<MessageTemplate> templateRegistry);
 
-    TemplateRegistry getTemplateRegistry();
+    Registry<MessageTemplate> getTemplateRegistry();
 }

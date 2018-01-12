@@ -20,38 +20,18 @@ Contributor(s): Jacob Northey <jacob@lasalletech.com>
 */
 package org.openfast.session;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.openfast.Context;
-import org.openfast.Dictionary;
-import org.openfast.FieldValue;
-import org.openfast.GroupValue;
-import org.openfast.Message;
-import org.openfast.MessageHandler;
-import org.openfast.QName;
-import org.openfast.ScalarValue;
+import org.openfast.*;
 import org.openfast.codec.Coder;
 import org.openfast.error.ErrorCode;
-import org.openfast.session.template.exchange.AbstractFieldInstructionConverter;
-import org.openfast.session.template.exchange.ComposedDecimalConverter;
-import org.openfast.session.template.exchange.ConversionContext;
-import org.openfast.session.template.exchange.DynamicTemplateReferenceConverter;
-import org.openfast.session.template.exchange.GroupConverter;
-import org.openfast.session.template.exchange.ScalarConverter;
-import org.openfast.session.template.exchange.SequenceConverter;
-import org.openfast.session.template.exchange.StaticTemplateReferenceConverter;
-import org.openfast.session.template.exchange.VariableLengthInstructionConverter;
-import org.openfast.template.BasicTemplateRegistry;
-import org.openfast.template.DynamicTemplateReference;
-import org.openfast.template.Field;
-import org.openfast.template.Group;
-import org.openfast.template.MessageTemplate;
-import org.openfast.template.Scalar;
-import org.openfast.template.Sequence;
-import org.openfast.template.StaticTemplateReference;
-import org.openfast.template.TemplateRegistry;
+import org.openfast.session.template.exchange.*;
+import org.openfast.template.*;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
     public static final String NAMESPACE = "http://www.fixprotocol.org/ns/fast/scp/1.1";
@@ -97,11 +77,11 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
         session.in.addMessageHandler(FAST_RESET_TEMPLATE, RESET_HANDLER);
         session.out.addMessageHandler(FAST_RESET_TEMPLATE, RESET_HANDLER);
     }
-    public void registerSessionTemplates(TemplateRegistry registry) {
+    public void registerSessionTemplates(Registry<MessageTemplate> registry) {
         registry.registerAll(TEMPLATE_REGISTRY);
     }
-    public Session connect(String senderName, Connection connection, TemplateRegistry inboundRegistry,
-            TemplateRegistry outboundRegistry, MessageListener messageListener, SessionListener sessionListener) {
+    public Session connect(String senderName, Connection connection, Registry<MessageTemplate> inboundRegistry,
+                           Registry<MessageTemplate> outboundRegistry, MessageListener messageListener, SessionListener sessionListener) {
         Session session = new Session(connection, this, inboundRegistry, outboundRegistry);
         configureSession(session);
         session.out.writeMessage(createHelloMessage(senderName));
@@ -119,7 +99,7 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
         session.out.writeMessage(createFastAlertMessage(code));
     }
     public Session onNewConnection(String serverName, Connection connection) {
-        Session session = new Session(connection, this, TemplateRegistry.NULL, TemplateRegistry.NULL);
+        Session session = new Session(connection, this, Registry.NULL, Registry.NULL);
         Message message = session.in.readMessage();
         String clientName = message.getString(1);
         String vendorId = message.isDefined(2) ? message.getString(2) : "unknown";
@@ -166,7 +146,7 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
         return templateDefinition;
     }
 
-    public MessageTemplate createTemplateFromMessage(Message templateDef, TemplateRegistry registry) {
+    public MessageTemplate createTemplateFromMessage(Message templateDef, Registry<MessageTemplate> registry) {
         String name = templateDef.getString("Name");
         String namespace = "";
         if (templateDef.isDefined("Ns"))
@@ -380,7 +360,7 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
         return new Scalar(qualify(name), Type.U32, Operator.NONE, null, true);
     }
 
-    private static final TemplateRegistry TEMPLATE_REGISTRY = new BasicTemplateRegistry();
+    private static final Registry<MessageTemplate> TEMPLATE_REGISTRY = new BasicRegistry<MessageTemplate>();
     static {
         TEMPLATE_REGISTRY.register(FAST_HELLO_TEMPLATE_ID, FAST_HELLO_TEMPLATE);
         TEMPLATE_REGISTRY.register(FAST_ALERT_TEMPLATE_ID, FAST_ALERT_TEMPLATE);
@@ -409,9 +389,9 @@ public class SessionControlProtocol_1_1 extends AbstractSessionControlProtocol {
         TEMPLATE_REGISTRY.register(FOREIGN_INSTR_ID, FOREIGN_INSTR);
         TEMPLATE_REGISTRY.register(ELEMENT_ID, ELEMENT);
         TEMPLATE_REGISTRY.register(TEXT_ID, TEXT);
-        MessageTemplate[] templates = TEMPLATE_REGISTRY.getTemplates();
-        for (int i = 0; i < templates.length; i++) {
-            setNamespace(templates[i]);
+        List<MessageTemplate> templates = TEMPLATE_REGISTRY.getAll();
+        for (MessageTemplate template: templates) {
+            setNamespace(template);
         }
     }
 
