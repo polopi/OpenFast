@@ -122,9 +122,10 @@ public abstract class Type implements Serializable {
     };
     public final static Type BYTE_VECTOR = new ByteVectorType();
     public final static Type DECIMAL = new DecimalType();
+    public final static Type ENUM = new EnumType("enum", 4294967295L);
     public static final Type[] ALL_TYPES = new Type[] { U8, U16, U32, U64, I8, I16, I32, I64, STRING, ASCII, UNICODE, BYTE_VECTOR,
-            DECIMAL };
-    public static final Type[] INTEGER_TYPES = new Type[] { U8, U16, U32, U64, I8, I16, I32, I64 };
+            DECIMAL, ENUM };
+    public static final Type[] INTEGER_TYPES = new Type[] { U8, U16, U32, U64, I8, I16, I32, I64, ENUM };
 
     public static Map getRegisteredTypeMap() {
         return TYPE_NAME_MAP;

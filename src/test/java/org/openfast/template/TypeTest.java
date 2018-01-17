@@ -33,7 +33,7 @@ public class TypeTest extends OpenFastTestCase {
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals(
-                    "The type named u32 does not exist.  Existing types are {uInt8,uInt16,uInt32,uInt64,int8,int16,int32,int64,string,ascii,unicode,byteVector,decimal}",
+                    "The type named u32 does not exist.  Existing types are {uInt8,uInt16,uInt32,uInt64,int8,int16,int32,int64,string,ascii,unicode,byteVector,decimal,enum}",
                     e.getMessage());
         }
     }
