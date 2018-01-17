@@ -34,16 +34,7 @@ public class DefineParser extends GroupParser {
     private Define createDefine(Element element, ParsingContext context, QName defineName, Field[] fields) {
         Define define = new Define(defineName, fields);
         parseMore(element, define, context);
-        if (element.hasAttribute("id")) {
-            try {
-                int defineId = Integer.parseInt(element.getAttribute("id"));
-                context.getDefineRegistry().register(defineId, define);
-            } catch (NumberFormatException e) {
-                context.getDefineRegistry().define(define);
-            }
-        } else {
-            context.getDefineRegistry().define(define);
-        }
+        context.getDefineRegistry().define(define);
         return define;
     }
 

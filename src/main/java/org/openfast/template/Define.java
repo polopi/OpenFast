@@ -122,17 +122,6 @@ public class Define extends Group implements FieldSet {
         return fields;
     }
 
-    /**
-     * Returns a field array of the current stored fields
-     *
-     * @return Returns a field array
-     */
-    public Field[] getDefineFields() {
-        Field[] f = new Field[fields.length - 1];
-        System.arraycopy(fields, 1, f, 0, fields.length - 1);
-        return f;
-    }
-
     public boolean equals(Object obj) {
         if (obj == this)
             return true;

@@ -70,6 +70,9 @@ public class Scalar extends Field {
         this.initialValue = ((defaultValue == null) || defaultValue.isUndefined()) ? this.type.getDefaultValue() : defaultValue;
         operator.validate(this);
     }
+    public Scalar(QName name, Scalar source) {
+        this(name, source.type, source.operator, source.defaultValue, source.optional);
+    }
     /**
      * Scalar constructor - sets the dictionary as global and validates the
      * entries
