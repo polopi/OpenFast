@@ -28,6 +28,9 @@ import org.openfast.template.type.Type;
 import org.openfast.util.Util;
 import org.w3c.dom.Element;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ScalarParser extends AbstractInstructionParser {
     public ScalarParser(String[] nodeNames) {
         super(nodeNames);
@@ -50,6 +53,15 @@ public class ScalarParser extends AbstractInstructionParser {
     }
     
     public Field parse(Element fieldNode, boolean optional, ParsingContext context) {
+        Scalar scalar = getScalar(fieldNode, optional, context);
+        if (fieldNode.hasAttribute("id"))
+            scalar.setId(fieldNode.getAttribute("id"));
+        scalar.setDictionary(context.getDictionary());
+        parseExternalAttributes(fieldNode, scalar);
+        return scalar;
+    }
+
+    protected Scalar getScalar(Element fieldNode, boolean optional, ParsingContext context) {
         Operator operator = Operator.NONE;
         String defaultValue = null;
         String key = null;
@@ -68,12 +80,8 @@ public class ScalarParser extends AbstractInstructionParser {
         }
         Type type = getType(fieldNode, context);
         Scalar scalar = new Scalar(getName(fieldNode, context), type, operator, type.getValue(defaultValue), optional);
-        if (fieldNode.hasAttribute("id"))
-            scalar.setId(fieldNode.getAttribute("id"));
         if (key != null)
             scalar.setKey(new QName(key, ns));
-        scalar.setDictionary(context.getDictionary());
-        parseExternalAttributes(fieldNode, scalar);
         return scalar;
     }
 
@@ -98,5 +106,14 @@ public class ScalarParser extends AbstractInstructionParser {
 
     protected Element getOperatorElement(Element fieldNode) {
         return getElement(fieldNode, 1);
+    }
+
+    private String [] getEnumValues(Element fieldNode) {
+        int i = 1;
+        List<String> enumValues = new ArrayList<String>();
+        for (Element element = getElement(fieldNode, i); element != null && "element".equals(element.getNodeName()) ; i++) {
+            enumValues.add(element.getAttribute("name"));
+        }
+        return enumValues.toArray(new String[enumValues.size()]);
     }
 }

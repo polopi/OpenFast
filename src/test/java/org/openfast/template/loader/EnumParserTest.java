@@ -2,8 +2,7 @@ package org.openfast.template.loader;
 
 import org.openfast.Dictionary;
 import org.openfast.ScalarValue;
-import org.openfast.template.Define;
-import org.openfast.template.Scalar;
+import org.openfast.template.EnumScalar;
 import org.openfast.template.operator.Operator;
 import org.openfast.template.type.Type;
 import org.openfast.test.OpenFastTestCase;
@@ -22,7 +21,8 @@ public class EnumParserTest extends OpenFastTestCase {
 	public void testParseDefineString() throws Exception {
 		Element enumString = document("<enum name=\"someEnum\"><element name=\"ONE\"/><element name=\"TWO\"/><copy/></enum>").getDocumentElement();
 		assertTrue(parser.canParse(enumString, context));
-		Scalar uint = (Scalar) parser.parse(enumString, context);
-		assertScalarField(uint, Type.ENUM, "someEnum", null, "", Dictionary.GLOBAL, "someEnum", Operator.COPY, ScalarValue.UNDEFINED, false);
+		EnumScalar enumScalar = (EnumScalar) parser.parse(enumString, context);
+		assertScalarField(enumScalar, Type.ENUM, "someEnum", null, "", Dictionary.GLOBAL, "someEnum", Operator.COPY, ScalarValue.UNDEFINED, false);
+		assertEquals(2, enumScalar.getEnumValues().length);
 	}
 }
