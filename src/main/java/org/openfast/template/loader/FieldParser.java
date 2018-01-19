@@ -14,7 +14,7 @@ public class FieldParser extends ScalarParser {
     }
 
     @Override
-    public Field parse(Element fieldNode, boolean optional, ParsingContext context) {
+    protected Scalar getScalar(Element fieldNode, boolean optional, ParsingContext context) {
         final QName name = getName(fieldNode, context);
         final String typeName = getTypeName(fieldNode);
         final Scalar template;
@@ -26,13 +26,7 @@ public class FieldParser extends ScalarParser {
         } else {
             template = (Scalar) context.getFieldParser(operatorElement).parse(operatorElement, context);
         }
-        final Scalar scalar = new Scalar(name, template);
-        if (fieldNode.hasAttribute("id")) {
-            scalar.setId(fieldNode.getAttribute("id"));
-        }
-        scalar.setDictionary(context.getDictionary());
-        parseExternalAttributes(fieldNode, scalar);
-        return scalar;
+        return new Scalar(name, template);
     }
 
     @Override
